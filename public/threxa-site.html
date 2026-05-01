@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Threxa — Beyond Limits</title>
+<meta name="description" content="Workflow automation infrastructure for Indian D2C brands. Stop doing data entry. Start counting the money." />
+<meta property="og:title" content="Threxa — Beyond Limits" />
+<meta property="og:description" content="Workflow automation infrastructure for Indian D2C brands." />
+<link rel="icon" type="image/png" href="/threxa-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400;500&family=Saira:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    background: #FAFAF7;
+    color: #0A0A0F;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+    overflow-x: hidden;
+  }
+  ::selection { background: #0A0A0F; color: #FAFAF7; }
+
+  /* TYPOGRAPHY */
+  .display {
+    font-family: 'Fraunces', serif;
+    font-weight: 350;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* CONTAINERS */
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+  .container-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+  .container-wide { max-width: 1480px; margin: 0 auto; padding: 0 32px; }
+
+  /* NAV — minimal, sticky, blur on scroll */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 14px 0;
+    background: rgba(12, 10, 20, 0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: padding 0.3s ease;
+  }
+  .nav-inner {
+    max-width: 1320px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-mark {
+    display: flex; align-items: center;
+    text-decoration: none;
+  }
+  .logo-card {
+    background: #0A0A0F;
+    border-radius: 14px;
+    padding: 12px 22px 12px 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px -10px rgba(10, 10, 15, 0.25);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(123, 77, 246, 0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .logo-card-img {
+    height: 44px; width: auto;
+    display: block;
+    position: relative; z-index: 1;
+  }
+  .logo-mark:hover .logo-card {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px -8px rgba(123, 77, 246, 0.35);
+  }
+  .logo-card-footer {
+    padding: 16px 28px 16px 22px;
+    border-radius: 18px;
+  }
+  .logo-card-footer .logo-card-img {
+    height: 56px;
+  }
+  @media (max-width: 600px) {
+    .logo-card { padding: 10px 16px 10px 14px; }
+    .logo-card-img { height: 36px; }
+  }
+
+  /* NAV MENU — refined links + CTA */
+  .nav-menu {
+    display: flex; align-items: center; gap: 36px;
+  }
+  .nav-menu a {
+    color: rgba(255,255,255,0.78);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: color 0.2s ease;
+  }
+  .nav-menu a:hover { color: #fff; }
+  .nav-menu a.nav-cta {
+    background: #fff;
+    color: #0A0A0F;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin-left: 8px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .nav-menu a.nav-cta:hover {
+    background: #7B4DF6;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* HERO — Apple-grand, full-bleed, dramatic */
+  .hero {
+    padding: 200px 0 120px;
+    position: relative;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 500;
+    color: rgba(10, 10, 15, 0.6);
+    letter-spacing: 0.04em;
+    margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+  }
+  .hero-eyebrow-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #7B4DF6; animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 0.4 } 50% { opacity: 1 } }
+
+  .hero h1 {
+    font-size: clamp(56px, 11vw, 156px);
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 1s 0.25s forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, #7B4DF6 0%, #A47AFF 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    max-width: 620px; margin: 0 auto 56px;
+    font-size: clamp(18px, 1.6vw, 22px);
+    color: rgba(10, 10, 15, 0.62);
+    font-weight: 400; line-height: 1.45;
+    opacity: 0; animation: fadeUp 1s 0.4s forwards;
+  }
+  .hero-ctas {
+    display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    opacity: 0; animation: fadeUp 1s 0.55s forwards;
+  }
+  .btn-primary {
+    background: #0A0A0F; color: #FAFAF7;
+    padding: 17px 32px; border-radius: 999px;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s ease;
+  }
+  .btn-primary:hover { background: #2A2540; transform: translateY(-2px); box-shadow: 0 12px 30px -10px rgba(10,10,15,0.3); }
+  .btn-primary .arrow { transition: transform 0.3s; }
+  .btn-primary:hover .arrow { transform: translateX(3px); }
+  .btn-secondary {
+    background: transparent; color: #0A0A0F;
+    padding: 17px 32px; border-radius: 999px;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    border: 1px solid rgba(10, 10, 15, 0.15);
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s ease;
+  }
+  .btn-secondary:hover { border-color: #0A0A0F; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* HERO SHOWCASE — the hero image / product moment */
+  .hero-showcase {
+    margin-top: 100px;
+    padding: 0 32px;
+    opacity: 0; animation: fadeUp 1.2s 0.7s forwards;
+  }
+  .showcase-frame {
+    max-width: 1280px; margin: 0 auto;
+    background: linear-gradient(180deg, #1A1628 0%, #0F0B1F 100%);
+    border-radius: 32px;
+    padding: 56px;
+    box-shadow: 0 60px 120px -40px rgba(123, 77, 246, 0.15),
+                0 30px 60px -20px rgba(10, 10, 15, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .showcase-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 0%, rgba(123, 77, 246, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 100%, rgba(164, 122, 255, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .showcase-grid {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    align-items: stretch;
+  }
+  .showcase-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 32px;
+    color: #FAFAF7;
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 280px;
+  }
+  .showcase-card-tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #A47AFF;
+    margin-bottom: 14px;
+  }
+  .showcase-card-headline {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: 38px; line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .showcase-card-body {
+    font-size: 14px; color: rgba(250,250,247,0.6); line-height: 1.5;
+  }
+  .showcase-card-stats {
+    display: flex; gap: 32px; margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-mini { font-size: 13px; }
+  .stat-mini-num { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 400; color: #FAFAF7; line-height: 1; }
+  .stat-mini-lbl { color: rgba(250,250,247,0.55); font-size: 11px; margin-top: 4px; letter-spacing: 0.04em; }
+
+  .live-flow {
+    background: linear-gradient(135deg, rgba(123,77,246,0.1) 0%, rgba(164,122,255,0.05) 100%);
+    border: 1px solid rgba(123,77,246,0.2);
+    border-radius: 20px;
+    padding: 28px;
+    color: #FAFAF7;
+    position: relative;
+  }
+  .flow-status {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .flow-status-left { display: flex; align-items: center; gap: 8px; }
+  .flow-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #A47AFF;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(164,122,255,0.6);
+  }
+  .flow-status-text { font-size: 11px; letter-spacing: 0.12em; color: rgba(250,250,247,0.7); }
+  .flow-time { font-size: 11px; color: rgba(250,250,247,0.5); }
+
+  .flow-node {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.3s;
+  }
+  .flow-node-active { border-color: rgba(164,122,255,0.4); background: rgba(123,77,246,0.08); }
+  .flow-node-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #7B4DF6, #A47AFF);
+    display: flex; align-items: center; justify-content: center;
+    color: #FAFAF7; font-size: 13px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .flow-node-text { flex: 1; }
+  .flow-node-name { font-size: 13px; font-weight: 500; color: #FAFAF7; }
+  .flow-node-status { font-size: 11px; color: rgba(250,250,247,0.5); margin-top: 2px; }
+  .flow-connector { width: 1px; height: 12px; background: rgba(164,122,255,0.3); margin: 0 0 0 32px; }
+
+  /* SECTIONS — generous Apple breathing */
+  section { padding: 180px 0; position: relative; }
+
+  /* Section labels */
+  .label-row {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 32px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.18em;
+    color: #7B4DF6; text-transform: uppercase;
+  }
+  .label-row::before {
+    content: ''; width: 28px; height: 1px; background: #7B4DF6;
+  }
+
+  /* Big Statement Section */
+  .statement { text-align: center; padding: 200px 0; }
+  .statement h2 {
+    font-size: clamp(40px, 7vw, 96px);
+    max-width: 1100px; margin: 0 auto 48px;
+  }
+  .statement h2 em { color: #7B4DF6; font-style: italic; }
+  .statement-sub {
+    max-width: 620px; margin: 0 auto;
+    font-size: clamp(17px, 1.4vw, 19px);
+    color: rgba(10,10,15,0.62);
+  }
+
+  /* The Problem Section — 3 visual moments */
+  .problems { padding: 180px 0; background: #F2F1ED; }
+  .problems-header { text-align: center; margin-bottom: 100px; }
+  .problems-header h2 {
+    font-size: clamp(40px, 6.5vw, 84px);
+    max-width: 1000px; margin: 0 auto 32px;
+  }
+  .problems-header em { color: #7B4DF6; font-style: italic; }
+  .problems-header p { color: rgba(10,10,15,0.6); max-width: 580px; margin: 0 auto; font-size: 18px; }
+
+  .problems-stack { display: flex; flex-direction: column; gap: 120px; }
+  .problem-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .problem-row:nth-child(even) { direction: rtl; }
+  .problem-row:nth-child(even) > * { direction: ltr; }
+
+  .problem-text-num {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 96px; line-height: 1; color: rgba(123,77,246,0.18);
+    margin-bottom: 24px;
+  }
+  .problem-text h3 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05; letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+  .problem-text p {
+    font-size: 18px; color: rgba(10,10,15,0.62); line-height: 1.55;
+    max-width: 480px; margin-bottom: 36px;
+  }
+  .problem-impact {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 12px 22px; border-radius: 999px;
+    background: rgba(123,77,246,0.08);
+    border: 1px solid rgba(123,77,246,0.18);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: #5734D8;
+    font-weight: 500;
+  }
+
+  .problem-visual {
+    aspect-ratio: 1.1/1;
+    border-radius: 28px;
+    background: #FFFFFF;
+    border: 1px solid rgba(10,10,15,0.06);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -30px rgba(10,10,15,0.12);
+    padding: 48px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .visual-overload {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F5F3FF 100%);
+  }
+  .visual-cart {
+    background: linear-gradient(135deg, #1A1628 0%, #2A2540 100%);
+    color: #FAFAF7;
+  }
+  .visual-reviews {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF5F0 100%);
+  }
+
+  /* Tab stack visual for problem 1 */
+  .tab-stack { position: relative; height: 100%; }
+  .tab-item {
+    position: absolute; left: 0; right: 0;
+    background: #fff; border: 1px solid rgba(10,10,15,0.08);
+    border-radius: 12px; padding: 14px 18px;
+    box-shadow: 0 8px 20px -8px rgba(10,10,15,0.08);
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px;
+    transition: transform 0.5s;
+  }
+  .tab-item:hover { transform: translateX(8px); }
+  .tab-icon {
+    width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #fff;
+  }
+  .tab-item-1 { top: 0; transform: rotate(-2deg); }
+  .tab-item-2 { top: 50px; transform: rotate(1deg); }
+  .tab-item-3 { top: 100px; transform: rotate(-1.5deg); }
+  .tab-item-4 { top: 150px; transform: rotate(2deg); }
+  .tab-item-5 { top: 200px; transform: rotate(-0.5deg); }
+
+  /* Cart escape visual */
+  .cart-escape { position: relative; height: 100%; }
+  .cart-icon {
+    position: absolute; font-size: 36px;
+    animation: drift 8s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate(0,0); opacity: 0.7; }
+    50% { transform: translate(40px,-30px); opacity: 0.3; }
+  }
+  .cart-1 { top: 20%; left: 15%; }
+  .cart-2 { top: 35%; right: 20%; animation-delay: -2s; }
+  .cart-3 { bottom: 40%; left: 35%; animation-delay: -4s; }
+  .cart-4 { bottom: 20%; right: 30%; animation-delay: -6s; }
+
+  .cart-counter {
+    text-align: center; position: relative; z-index: 2;
+  }
+  .cart-counter-num {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: 96px; line-height: 1; letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #A47AFF 0%, #7B4DF6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cart-counter-label {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(250,250,247,0.5); margin-top: 16px;
+  }
+
+  /* Reviews visual */
+  .review-bubbles { display: flex; flex-direction: column; gap: 14px; }
+  .review-bubble {
+    background: #fff; border: 1px solid rgba(10,10,15,0.06);
+    border-radius: 14px; padding: 16px 20px;
+    display: flex; align-items: flex-start; gap: 14px;
+    box-shadow: 0 4px 12px -4px rgba(10,10,15,0.04);
+  }
+  .review-bubble-empty {
+    background: rgba(10,10,15,0.02);
+    border: 1px dashed rgba(10,10,15,0.15);
+    color: rgba(10,10,15,0.4);
+    font-style: italic;
+    text-align: center; padding: 14px;
+    font-size: 13px;
+  }
+  .review-stars { color: #FFB800; font-size: 14px; }
+  .review-stars-faded { color: rgba(10,10,15,0.15); font-size: 14px; }
+  .review-text { font-size: 13px; line-height: 1.5; color: rgba(10,10,15,0.7); }
+  .review-name { font-size: 11px; color: rgba(10,10,15,0.5); margin-top: 4px; font-weight: 500; }
+
+  /* SOLUTION SECTION */
+  .solution-hero { text-align: center; padding: 0 0 80px; }
+  .solution-hero h2 {
+    font-size: clamp(48px, 8vw, 112px);
+    max-width: 1200px; margin: 0 auto 40px;
+  }
+  .solution-hero em { color: #7B4DF6; font-style: italic; }
+
+  .solutions { display: flex; flex-direction: column; gap: 0; margin-top: 0; }
+  .solution-row {
+    padding: 140px 0;
+    border-top: 1px solid rgba(10,10,15,0.08);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .solution-row:nth-child(even) { direction: rtl; }
+  .solution-row:nth-child(even) > * { direction: ltr; }
+
+  .solution-meta-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: #7B4DF6; letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .solution-meta h3 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(40px, 5vw, 64px); line-height: 1.0; letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  .solution-meta h3 em { color: #7B4DF6; font-style: italic; }
+  .solution-meta-desc {
+    font-size: 18px; color: rgba(10,10,15,0.62); line-height: 1.55;
+    max-width: 480px; margin-bottom: 36px;
+  }
+  .tool-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool-pill {
+    padding: 7px 14px; border-radius: 999px;
+    background: rgba(10,10,15,0.04);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: rgba(10,10,15,0.7);
+    letter-spacing: 0.04em;
+  }
+
+  .solution-visual {
+    aspect-ratio: 1.1/1;
+    border-radius: 28px;
+    background: linear-gradient(180deg, #1A1628 0%, #0F0B1F 100%);
+    box-shadow: 0 30px 80px -30px rgba(10,10,15,0.2);
+    padding: 40px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .solution-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(123,77,246,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* PRICING — clean Apple cards */
+  .pricing { padding: 180px 0; background: #F2F1ED; }
+  .pricing-header { text-align: center; margin-bottom: 100px; }
+  .pricing-header h2 {
+    font-size: clamp(48px, 7vw, 96px);
+    max-width: 1000px; margin: 0 auto 32px;
+  }
+  .pricing-header em { color: #7B4DF6; font-style: italic; }
+  .pricing-header p { font-size: 18px; color: rgba(10,10,15,0.6); max-width: 580px; margin: 0 auto; }
+
+  .price-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .price-card {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 48px 40px;
+    border: 1px solid rgba(10,10,15,0.06);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .price-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -20px rgba(10,10,15,0.12);
+  }
+  .price-card.featured {
+    background: linear-gradient(180deg, #1A1628 0%, #0A0A0F 100%);
+    color: #FAFAF7;
+    border-color: transparent;
+    box-shadow: 0 20px 40px -10px rgba(123,77,246,0.2);
+  }
+  .price-card.featured:hover {
+    box-shadow: 0 40px 80px -10px rgba(123,77,246,0.3);
+  }
+  .price-badge {
+    position: absolute; top: -14px; left: 40px;
+    background: #7B4DF6; color: #FFF;
+    padding: 6px 16px; border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .price-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #7B4DF6;
+    margin-bottom: 24px;
+  }
+  .price-card.featured .price-tier { color: #A47AFF; }
+  .price-amount {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: 64px; line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .price-card.featured .price-amount {
+    background: linear-gradient(135deg, #FAFAF7 0%, #C4B8FF 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .price-suffix {
+    font-size: 14px; color: rgba(10,10,15,0.5);
+    font-family: 'DM Sans', sans-serif; font-weight: 400;
+  }
+  .price-card.featured .price-suffix { color: rgba(250,250,247,0.5); }
+  .price-monthly {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; color: #7B4DF6; margin-top: 8px;
+  }
+  .price-card.featured .price-monthly { color: #A47AFF; }
+  .price-tagline {
+    font-style: italic; font-size: 15px;
+    color: rgba(10,10,15,0.55); margin-top: 18px; margin-bottom: 32px;
+  }
+  .price-card.featured .price-tagline { color: rgba(250,250,247,0.6); }
+  .price-feats {
+    list-style: none; padding-top: 32px;
+    border-top: 1px solid rgba(10,10,15,0.08);
+  }
+  .price-card.featured .price-feats { border-color: rgba(250,250,247,0.12); }
+  .price-feats li {
+    display: flex; gap: 12px; padding: 10px 0;
+    font-size: 15px; color: rgba(10,10,15,0.85);
+  }
+  .price-card.featured .price-feats li { color: rgba(250,250,247,0.85); }
+  .price-feats li::before {
+    content: '→'; color: #7B4DF6; flex-shrink: 0;
+  }
+  .price-cta {
+    margin-top: 40px; display: block; text-align: center;
+    padding: 14px; border-radius: 999px;
+    border: 1px solid rgba(10,10,15,0.15);
+    color: #0A0A0F; text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    transition: all 0.25s;
+  }
+  .price-cta:hover {
+    background: #0A0A0F; color: #FAFAF7; border-color: #0A0A0F;
+  }
+  .price-card.featured .price-cta {
+    background: #7B4DF6; border-color: #7B4DF6; color: #FFF;
+  }
+  .price-card.featured .price-cta:hover {
+    background: #5734D8; border-color: #5734D8;
+  }
+  .price-note {
+    text-align: center; margin-top: 56px;
+    font-size: 14px; color: rgba(10,10,15,0.5); font-style: italic;
+  }
+
+  /* CTA + FOUNDER */
+  .cta-final {
+    padding: 220px 0;
+    text-align: center;
+    background: linear-gradient(180deg, #FAFAF7 0%, #F2F1ED 100%);
+  }
+  .cta-final h2 {
+    font-size: clamp(56px, 11vw, 156px);
+    margin-bottom: 40px;
+  }
+  .cta-final h2 em { color: #7B4DF6; font-style: italic; }
+  .cta-final p {
+    max-width: 540px; margin: 0 auto 56px;
+    font-size: 19px; color: rgba(10,10,15,0.62);
+  }
+  .cta-final .btn-primary { padding: 22px 44px; font-size: 16px; }
+
+  .founder {
+    margin-top: 160px; padding-top: 80px;
+    max-width: 720px; margin-left: auto; margin-right: auto;
+    border-top: 1px solid rgba(10,10,15,0.08);
+    text-align: left;
+    display: grid; grid-template-columns: 80px 1fr; gap: 32px;
+    align-items: flex-start;
+  }
+  .founder-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, #7B4DF6, #A47AFF);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 32px; color: #FAFAF7;
+  }
+  .founder-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: rgba(10,10,15,0.5);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .founder-text { font-size: 17px; line-height: 1.65; color: rgba(10,10,15,0.85); }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 0 40px;
+    background: #F2F1ED; color: #0A0A0F;
+    border-top: 1px solid rgba(10,10,15,0.08);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(10,10,15,0.08);
+  }
+  .footer-brand p {
+    margin-top: 24px; font-size: 14px;
+    color: rgba(10,10,15,0.6); max-width: 280px;
+    line-height: 1.6;
+  }
+  .footer-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(10,10,15,0.5);
+    margin-bottom: 18px;
+  }
+  .footer-col a {
+    display: block; padding: 6px 0;
+    color: rgba(10,10,15,0.75); font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: #7B4DF6; }
+  .footer-bottom {
+    padding-top: 32px;
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: rgba(10,10,15,0.5);
+  }
+
+  /* SCROLL REVEALS */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* LEGAL MODAL */
+  .legal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(10,10,15,0.55);
+    backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .legal-overlay.open { display: flex; }
+  .legal-modal {
+    background: #FAFAF7; color: #0A0A0F;
+    width: 100%; max-width: 820px; max-height: 86vh;
+    border-radius: 20px; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  }
+  .legal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px; border-bottom: 1px solid rgba(10,10,15,0.08);
+  }
+  .legal-head h3 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 600; font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .legal-tabs { display: flex; gap: 4px; padding: 12px 20px; border-bottom: 1px solid rgba(10,10,15,0.06); flex-wrap: wrap; }
+  .legal-tab {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    background: transparent; color: rgba(10,10,15,0.6); border: 1px solid transparent;
+  }
+  .legal-tab.active { background: #0A0A0F; color: #FAFAF7; }
+  .legal-body {
+    padding: 24px 28px 32px; overflow-y: auto;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 14.5px; line-height: 1.7;
+    color: rgba(10,10,15,0.82);
+  }
+  .legal-body h4 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 600; font-size: 17px;
+    margin: 4px 0 14px; letter-spacing: -0.01em; color: #0A0A0F;
+  }
+  .legal-body h5 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 600; font-size: 13.5px;
+    letter-spacing: 0; text-transform: none;
+    color: #0A0A0F; margin: 20px 0 6px;
+  }
+  .legal-body p, .legal-body li { color: rgba(10,10,15,0.78); }
+  .legal-body ul { padding-left: 20px; margin: 6px 0 10px; }
+  .legal-body strong { color: #0A0A0F; font-weight: 600; }
+  .legal-close {
+    background: transparent; border: none; cursor: pointer;
+    font-size: 22px; color: rgba(10,10,15,0.6); width: 36px; height: 36px;
+    border-radius: 50%;
+  }
+  .legal-close:hover { background: rgba(10,10,15,0.06); color: #0A0A0F; }
+  .legal-pane { display: none; }
+  .legal-pane.active { display: block; }
+
+  /* CHATBOT */
+  .chatbot-launcher {
+    position: fixed; right: 24px; bottom: 24px; z-index: 900;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: #0A0A0F;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: none;
+    box-shadow: 0 12px 30px rgba(123,77,246,0.35);
+    transition: transform 0.2s ease;
+  }
+  .chatbot-launcher:hover { transform: translateY(-2px) scale(1.04); }
+  .chatbot-launcher img { width: 42px; height: 42px; object-fit: contain; display: block; }
+  .chatbot-panel {
+    position: fixed; right: 24px; bottom: 96px; z-index: 901;
+    width: 340px; max-width: calc(100vw - 32px);
+    background: #FAFAF7; color: #0A0A0F;
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border: 1px solid rgba(10,10,15,0.08);
+    display: none; flex-direction: column;
+    max-height: 70vh;
+  }
+  .chatbot-panel.open { display: flex; }
+  .chatbot-head {
+    background: #0A0A0F; color: #FAFAF7;
+    padding: 16px 18px; display: flex; align-items: center; gap: 12px;
+  }
+  .chatbot-head img { width: 34px; height: 34px; object-fit: contain; }
+  .chatbot-head .ch-title { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -0.005em; }
+  .chatbot-body { padding: 18px; font-size: 14px; line-height: 1.55; overflow-y: auto; }
+  .chatbot-body p { color: rgba(10,10,15,0.78); margin-bottom: 10px; }
+  .chatbot-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .chatbot-actions a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px; border-radius: 12px;
+    background: #0A0A0F; color: #FAFAF7;
+    text-decoration: none; font-size: 13px; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .chatbot-actions a:hover { background: #7B4DF6; }
+  .chatbot-actions a.alt { background: transparent; color: #0A0A0F; border: 1px solid rgba(10,10,15,0.15); }
+  .chatbot-actions a.alt:hover { background: rgba(123,77,246,0.08); border-color: #7B4DF6; color: #7B4DF6; }
+  .chatbot-foot { padding: 10px 18px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(10,10,15,0.4); border-top: 1px solid rgba(10,10,15,0.06); }
+
+  /* RESPONSIVE */
+  @media (max-width: 968px) {
+    .nav-menu a:not(.nav-cta) { display: none; }
+    .logo-mark img { height: 32px !important; }
+    .hero { padding: 140px 0 80px; }
+    section, .problems, .pricing { padding: 100px 0; }
+    .problem-row, .solution-row, .showcase-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+    .problem-row:nth-child(even), .solution-row:nth-child(even) { direction: ltr; }
+    .price-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .showcase-frame { padding: 28px; }
+    .founder { grid-template-columns: 1fr; }
+  }
+
+  /* Small mobile fixes — fix overflow on phones <600px */
+  @media (max-width: 600px) {
+    .container, .container-narrow, .container-wide { padding: 0 20px; }
+    .nav-inner { padding: 0 20px; }
+    .logo-card { padding: 8px 14px 8px 12px; }
+    .logo-card-img { height: 32px; }
+    .nav-menu { gap: 8px; }
+    .nav-menu a.nav-cta { padding: 8px 14px; font-size: 13px; }
+    .hero { padding: 120px 0 60px; }
+    .hero h1 { font-size: clamp(36px, 12vw, 56px) !important; }
+    .hero-sub { font-size: 16px; }
+    .hero-ctas { flex-direction: column; gap: 12px; align-items: stretch; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .showcase-frame { padding: 20px; border-radius: 20px; }
+    .showcase-card-headline { font-size: 24px; }
+    .showcase-card-stats { gap: 16px; }
+    .stat-mini-num { font-size: 22px; }
+    section, .problems, .pricing { padding: 60px 0; }
+    h2.section-title, .statement h2, .problems-header h2, .solution-hero h2, .pricing-header h2, .cta-final h2 {
+      font-size: clamp(32px, 9vw, 48px) !important;
+    }
+    .problem-text-num { font-size: 56px; }
+    .problem-visual, .solution-visual { padding: 24px; aspect-ratio: auto; }
+    .price-card { padding: 28px 22px; }
+    .price-amount { font-size: 40px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    body { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo-mark">
+      <div class="logo-card">
+        <img src="/threxa-logo.png" alt="Threxa — Beyond Limits" class="logo-card-img" />
+      </div>
+    </a>
+    <div class="nav-menu">
+      <a href="#problem">The Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#book" class="nav-cta">Book demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container-narrow">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      <span>Workflow automation for Indian D2C</span>
+    </div>
+    <h1 class="display">Beyond <em>limits.</em></h1>
+    <p class="hero-sub">Threxa builds automation systems for Shopify D2C brands. Order processing, customer messages, cart recovery, reviews — all handled, all running, all the time.</p>
+    <div class="hero-ctas">
+      <a href="#book" class="btn-primary">Book a free audit <span class="arrow">→</span></a>
+      <a href="#solution" class="btn-secondary">See how it works</a>
+    </div>
+  </div>
+
+  <div class="hero-showcase">
+    <div class="showcase-frame">
+      <div class="showcase-grid">
+        <div class="showcase-card">
+          <div>
+            <div class="showcase-card-tag">// Live workflow</div>
+            <div class="showcase-card-headline">Your store. Running itself.</div>
+            <div class="showcase-card-body">An order comes in. Within 3 seconds, it's logged, the customer's notified, the team's alerted, the invoice is generated, the shipping label is printed. Nobody touches a thing.</div>
+          </div>
+          <div class="showcase-card-stats">
+            <div class="stat-mini">
+              <div class="stat-mini-num">3<span style="font-size:18px;color:rgba(250,250,247,0.5);">s</span></div>
+              <div class="stat-mini-lbl">PER ORDER</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-num">12<span style="font-size:18px;color:rgba(250,250,247,0.5);">h</span></div>
+              <div class="stat-mini-lbl">SAVED DAILY</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-num">99.9<span style="font-size:18px;color:rgba(250,250,247,0.5);">%</span></div>
+              <div class="stat-mini-lbl">UPTIME</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-flow">
+          <div class="flow-status">
+            <div class="flow-status-left">
+              <span class="flow-dot"></span>
+              <span class="flow-status-text">FLOW · 001 · LIVE</span>
+            </div>
+            <span class="flow-time">3.2s</span>
+          </div>
+          <div class="flow-node flow-node-active">
+            <div class="flow-node-icon">S</div>
+            <div class="flow-node-text">
+              <div class="flow-node-name">Shopify · Order received</div>
+              <div class="flow-node-status">+ ₹1,499 · Priya M.</div>
+            </div>
+          </div>
+          <div class="flow-connector"></div>
+          <div class="flow-node flow-node-active">
+            <div class="flow-node-icon">G</div>
+            <div class="flow-node-text">
+              <div class="flow-node-name">Sheets · Logged</div>
+              <div class="flow-node-status">Row #247 written</div>
+            </div>
+          </div>
+          <div class="flow-connector"></div>
+          <div class="flow-node flow-node-active">
+            <div class="flow-node-icon">W</div>
+            <div class="flow-node-text">
+              <div class="flow-node-name">WhatsApp · Sent</div>
+              <div class="flow-node-status">Customer notified</div>
+            </div>
+          </div>
+          <div class="flow-connector"></div>
+          <div class="flow-node">
+            <div class="flow-node-icon">T</div>
+            <div class="flow-node-text">
+              <div class="flow-node-name">Tally · Invoice</div>
+              <div class="flow-node-status" style="color:#A47AFF;">running...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG STATEMENT -->
+<section class="statement reveal">
+  <div class="container-narrow">
+    <h2 class="display">An order comes in.<br/>Then <em>silence.</em><br/>That's the goal.</h2>
+    <p class="statement-sub">No team scrambling. No founder copy-pasting at 11 PM. No customer waiting for an update that never comes. Just a quiet store that works while you sleep.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problems" id="problem">
+  <div class="container">
+    <div class="problems-header reveal">
+      <div class="label-row" style="justify-content: center;">The reality</div>
+      <h2 class="display">Most D2C founders<br/>are <em>drowning</em> in work<br/>that should be invisible.</h2>
+      <p>Twelve hours a day on tasks that ask for nothing creative, nothing strategic — just human attention to keep the lights on.</p>
+    </div>
+
+    <div class="problems-stack">
+      <div class="problem-row reveal">
+        <div class="problem-text">
+          <div class="problem-text-num">01</div>
+          <h3>Every order is a fifteen-minute tax.</h3>
+          <p>Log it to Sheets. Copy it to Tally. Generate the Shiprocket label. Send the WhatsApp confirmation. Notify the team. Repeat fifty times today.</p>
+          <div class="problem-impact">TIME LOST · 12+ hrs daily</div>
+        </div>
+        <div class="problem-visual visual-overload">
+          <div class="tab-stack">
+            <div class="tab-item tab-item-1"><div class="tab-icon" style="background:#96BF48;">S</div>Shopify Admin · Orders</div>
+            <div class="tab-item tab-item-2"><div class="tab-icon" style="background:#0F9D58;">G</div>Google Sheets · Tracker</div>
+            <div class="tab-item tab-item-3"><div class="tab-icon" style="background:#25D366;">W</div>WhatsApp Web · 47 unread</div>
+            <div class="tab-item tab-item-4"><div class="tab-icon" style="background:#FF6F00;">T</div>Tally Prime · Invoice #2891</div>
+            <div class="tab-item tab-item-5"><div class="tab-icon" style="background:#7E22CE;">C</div>Shiprocket · Print labels</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-row reveal">
+        <div class="problem-text">
+          <div class="problem-text-num">02</div>
+          <h3>Seven of every ten carts walk away forever.</h3>
+          <p>The customer added the product. They picked the size. They saw the shipping cost. Then a phone call interrupted them. No one ever followed up. The cart cooled into nothing.</p>
+          <div class="problem-impact">REVENUE VANISHED · ₹4–8L/mo</div>
+        </div>
+        <div class="problem-visual visual-cart">
+          <div class="cart-icon cart-1"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="rgba(250,250,247,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+          <div class="cart-icon cart-2"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="rgba(250,250,247,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+          <div class="cart-icon cart-3"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="rgba(250,250,247,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+          <div class="cart-icon cart-4"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="rgba(250,250,247,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+          <div class="cart-counter">
+            <div class="cart-counter-num">70<span style="font-size:48px;color:rgba(250,250,247,0.4);">%</span></div>
+            <div class="cart-counter-label">ABANDONED · NEVER RETURN</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-row reveal">
+        <div class="problem-text">
+          <div class="problem-text-num">03</div>
+          <h3>The reviews you need never arrive.</h3>
+          <p>Eighty percent of D2C purchases happen because of reviews. Yours go uncollected because no one has the bandwidth to ask. Your best customers stay anonymous.</p>
+          <div class="problem-impact">REVIEWS MISSED · 60% gone</div>
+        </div>
+        <div class="problem-visual visual-reviews">
+          <div class="review-bubbles">
+            <div class="review-bubble">
+              <div>
+                <div class="review-stars">★★★★★</div>
+                <div class="review-text">"Loved the product, fast delivery"</div>
+                <div class="review-name">— Aanya R.</div>
+              </div>
+            </div>
+            <div class="review-bubble-empty">— review never collected —</div>
+            <div class="review-bubble-empty">— review never collected —</div>
+            <div class="review-bubble">
+              <div>
+                <div class="review-stars-faded">★★★★★</div>
+                <div class="review-text" style="color: rgba(10,10,15,0.3);">— review never collected —</div>
+              </div>
+            </div>
+            <div class="review-bubble-empty">— review never collected —</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="container">
+    <div class="solution-hero reveal">
+      <div class="label-row" style="justify-content: center;">The work</div>
+      <h2 class="display">Three workflows.<br/>That's the <em>whole product.</em></h2>
+    </div>
+
+    <div class="solutions">
+      <div class="solution-row reveal">
+        <div class="solution-meta">
+          <div class="solution-meta-num">// 01 · ORDER TO EVERYTHING</div>
+          <h3>Three seconds.<br/>Five systems.<br/><em>Zero touch.</em></h3>
+          <p class="solution-meta-desc">A customer hits checkout. Threxa fires across your stack — Sheets, Tally, Shiprocket, WhatsApp, your team's group chat — in the time it takes the page to refresh.</p>
+          <div class="tool-row">
+            <span class="tool-pill">Shopify</span>
+            <span class="tool-pill">Tally</span>
+            <span class="tool-pill">Shiprocket</span>
+            <span class="tool-pill">AiSensy</span>
+            <span class="tool-pill">Sheets</span>
+          </div>
+        </div>
+        <div class="solution-visual">
+          <svg viewBox="0 0 400 360" style="width: 100%;">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#A47AFF" stop-opacity="0.8"/>
+                <stop offset="1" stop-color="#7B4DF6" stop-opacity="0.3"/>
+              </linearGradient>
+            </defs>
+            <line x1="200" y1="55" x2="200" y2="305" stroke="url(#lineGrad)" stroke-width="1.5"/>
+            <g>
+              <circle cx="200" cy="40" r="22" fill="rgba(123,77,246,0.2)" stroke="#A47AFF" stroke-width="1.5"/>
+              <text x="200" y="46" fill="#FAFAF7" font-size="14" text-anchor="middle" font-family="DM Sans" font-weight="500">S</text>
+              <text x="240" y="46" fill="#FAFAF7" font-size="13" font-family="DM Sans">Order placed</text>
+            </g>
+            <g>
+              <circle cx="200" cy="100" r="22" fill="rgba(123,77,246,0.2)" stroke="#A47AFF" stroke-width="1.5"/>
+              <text x="200" y="106" fill="#FAFAF7" font-size="14" text-anchor="middle" font-family="DM Sans" font-weight="500">G</text>
+              <text x="240" y="106" fill="rgba(250,250,247,0.7)" font-size="13" font-family="DM Sans">Sheet logged</text>
+            </g>
+            <g>
+              <circle cx="200" cy="160" r="22" fill="rgba(123,77,246,0.2)" stroke="#A47AFF" stroke-width="1.5"/>
+              <text x="200" y="166" fill="#FAFAF7" font-size="14" text-anchor="middle" font-family="DM Sans" font-weight="500">W</text>
+              <text x="240" y="166" fill="rgba(250,250,247,0.7)" font-size="13" font-family="DM Sans">WhatsApp sent</text>
+            </g>
+            <g>
+              <circle cx="200" cy="220" r="22" fill="rgba(123,77,246,0.2)" stroke="#A47AFF" stroke-width="1.5"/>
+              <text x="200" y="226" fill="#FAFAF7" font-size="14" text-anchor="middle" font-family="DM Sans" font-weight="500">T</text>
+              <text x="240" y="226" fill="rgba(250,250,247,0.7)" font-size="13" font-family="DM Sans">Tally invoice</text>
+            </g>
+            <g>
+              <circle cx="200" cy="290" r="28" fill="#7B4DF6"/>
+              <text x="200" y="296" fill="#FAFAF7" font-size="14" text-anchor="middle" font-family="DM Sans" font-weight="600">SR</text>
+              <text x="240" y="296" fill="#A47AFF" font-size="13" font-family="DM Sans" font-weight="500">Label printed →</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="solution-row reveal">
+        <div class="solution-meta">
+          <div class="solution-meta-num">// 02 · CART RECOVERY</div>
+          <h3>Win back the<br/>seventy percent<br/>that <em>walked away.</em></h3>
+          <p class="solution-meta-desc">Cart abandoned. Sixty minutes pass. Threxa sends a personalised WhatsApp with a one-time code. Twenty-four hours later, an email follow-up. Recovers 5–15% of revenue you'd otherwise lose.</p>
+          <div class="tool-row">
+            <span class="tool-pill">WhatsApp</span>
+            <span class="tool-pill">Email</span>
+            <span class="tool-pill">Razorpay</span>
+            <span class="tool-pill">Shopify</span>
+          </div>
+        </div>
+        <div class="solution-visual">
+          <div style="text-align: center; color: #FAFAF7;">
+            <div style="font-family: 'Fraunces', serif; font-size: 18px; color: rgba(250,250,247,0.5); margin-bottom: 16px;">recovered last month</div>
+            <div style="font-family: 'Fraunces', serif; font-weight: 350; font-size: 88px; line-height: 1; background: linear-gradient(135deg, #FAFAF7, #A47AFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">₹47<span style="font-size:48px;color:rgba(250,250,247,0.5);">,231</span></div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(164,122,255,0.8); margin-top: 24px; letter-spacing: 0.15em;">→ FROM 14 RECOVERED CARTS</div>
+            <div style="display: flex; justify-content: center; gap: 8px; margin-top: 32px;">
+              <div style="width: 6px; height: 24px; background: rgba(164,122,255,0.3); border-radius: 3px;"></div>
+              <div style="width: 6px; height: 36px; background: rgba(164,122,255,0.5); border-radius: 3px;"></div>
+              <div style="width: 6px; height: 28px; background: rgba(164,122,255,0.4); border-radius: 3px;"></div>
+              <div style="width: 6px; height: 48px; background: rgba(164,122,255,0.7); border-radius: 3px;"></div>
+              <div style="width: 6px; height: 56px; background: #A47AFF; border-radius: 3px;"></div>
+              <div style="width: 6px; height: 42px; background: rgba(164,122,255,0.6); border-radius: 3px;"></div>
+              <div style="width: 6px; height: 64px; background: #7B4DF6; border-radius: 3px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solution-row reveal">
+        <div class="solution-meta">
+          <div class="solution-meta-num">// 03 · REVIEWS &amp; RETENTION</div>
+          <h3>Turn one-time<br/>buyers into<br/>a <em>tribe.</em></h3>
+          <p class="solution-meta-desc">Order delivered. Three days pass. A review request goes out. Leave one — get a fifteen percent loyalty code. Thirty days later, "we miss you" with bestsellers. The retention engine that runs itself.</p>
+          <div class="tool-row">
+            <span class="tool-pill">Judge.me</span>
+            <span class="tool-pill">WhatsApp</span>
+            <span class="tool-pill">Shopify</span>
+            <span class="tool-pill">Email</span>
+          </div>
+        </div>
+        <div class="solution-visual">
+          <div style="color: #FAFAF7; padding: 12px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(164,122,255,0.7); letter-spacing: 0.15em; margin-bottom: 24px;">// COLLECTED THIS WEEK</div>
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-bottom: 12px;">
+              <div style="color: #FFB800; font-size: 14px; margin-bottom: 6px;">★★★★★</div>
+              <div style="font-size: 14px; line-height: 1.5; color: rgba(250,250,247,0.9);">"Smelled exactly like the description. Will buy again."</div>
+              <div style="font-size: 11px; color: rgba(250,250,247,0.5); margin-top: 8px;">— Verified · Aanya R.</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-bottom: 12px;">
+              <div style="color: #FFB800; font-size: 14px; margin-bottom: 6px;">★★★★★</div>
+              <div style="font-size: 14px; line-height: 1.5; color: rgba(250,250,247,0.9);">"Used the code from the review request — saved ₹450"</div>
+              <div style="font-size: 11px; color: rgba(250,250,247,0.5); margin-top: 8px;">— Verified · Rohan M.</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px;">
+              <div style="color: #FFB800; font-size: 14px; margin-bottom: 6px;">★★★★★</div>
+              <div style="font-size: 14px; line-height: 1.5; color: rgba(250,250,247,0.9);">"Bought three more after the loyalty discount."</div>
+              <div style="font-size: 11px; color: rgba(250,250,247,0.5); margin-top: 8px;">— Verified · Kiran S.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header reveal">
+      <div class="label-row" style="justify-content: center;">Plans</div>
+      <h2 class="display">Pay for the work.<br/>Pay for the <em>uptime.</em><br/>Nothing in between.</h2>
+      <p>No per-task fees. No surprise overages. One-time setup, monthly to keep it running, monitored, and patched.</p>
+    </div>
+
+    <div class="price-grid reveal">
+      <div class="price-card">
+        <div class="price-tier">Launch</div>
+        <div class="price-amount">₹15,000<span class="price-suffix"> setup</span></div>
+        <div class="price-monthly">+ ₹2,500/month</div>
+        <div class="price-tagline">One key flow. The cleanest start.</div>
+        <ul class="price-feats">
+          <li>Up to 50 orders/day</li>
+          <li>WhatsApp automation (basic)</li>
+          <li>1 key flow — COD or order confirmation</li>
+          <li>We monitor &amp; fix failures automatically</li>
+          <li>Live dashboard + weekly insights</li>
+        </ul>
+        <a href="#book" class="price-cta">Start with Launch</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">Most picked</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-amount">₹35,000<span class="price-suffix" style="color:rgba(250,250,247,0.5);"> setup</span></div>
+        <div class="price-monthly">+ ₹5,000/month</div>
+        <div class="price-tagline">The full D2C engine. Where most brands land.</div>
+        <ul class="price-feats">
+          <li>Up to 200 orders/day</li>
+          <li>COD confirmation + abandoned cart recovery</li>
+          <li>Order &amp; shipping updates on WhatsApp</li>
+          <li>Tally + Shiprocket integrations</li>
+          <li>Instant alerts when orders fail or break</li>
+          <li>Track how much revenue automation generates</li>
+          <li>Done-for-you setup · Priority support</li>
+        </ul>
+        <a href="#book" class="price-cta">Pick Growth</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount">₹75,000<span class="price-suffix"> setup</span></div>
+        <div class="price-monthly">+ ₹12,000/month</div>
+        <div class="price-tagline">Unlimited + multi-store. The full engine.</div>
+        <ul class="price-feats">
+          <li>Unlimited orders</li>
+          <li>Multi-store support</li>
+          <li>Custom automation built for you</li>
+          <li>Smart courier routing + auto-retry on failures</li>
+          <li>Monthly strategy call</li>
+          <li>SLA-backed uptime</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="#book" class="price-cta">Get your first automation live in 48 hours</a>
+      </div>
+    </div>
+
+    <p class="price-note">Done-for-you setup · No tech knowledge needed · First automation built free as proof of concept — pay only when you see it work.</p>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="book">
+  <div class="container-narrow reveal">
+    <div class="label-row" style="justify-content: center;">Final word</div>
+    <h2 class="display">Stop doing<br/><em>data entry.</em></h2>
+    <p>Book a free fifteen-minute audit. I'll look at your current workflow, tell you what to automate first, and build the first one free. No pitch. No contract. Just see if it works.</p>
+    <a href="https://cal.com/threxa" class="btn-primary">Book the audit <span class="arrow">→</span></a>
+
+    <div class="founder">
+      <div class="founder-avatar">S</div>
+      <div>
+        <div class="founder-label">// A note from the founder</div>
+        <div class="founder-text">I've spent years watching exceptional Indian founders build remarkable brands — and then spend half their day doing work that should never require a human. Copy-pasting orders. Chasing reviews. Manually updating Tally at midnight.<br/><br/>I built Threxa because the gap between what's possible with automation and what most Indian D2C brands are actually using is enormous. The tools exist. The integrations exist. What was missing was someone who understood both the technology and the reality of running a brand in India — Shiprocket, Razorpay, Tally, AiSensy — the actual stack.<br/><br/>Every founder I've spoken to has the same story. Different product, same bottleneck. If any part of this resonates, I'd genuinely like to hear about your operation. Book a call. Show me what you're building. Let's find the hours back.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo-mark footer-lockup">
+          <div class="logo-card logo-card-footer">
+            <img src="/threxa-logo.png" alt="Threxa — Beyond Limits" class="logo-card-img" />
+          </div>
+        </a>
+        <p>Automation infrastructure for Indian D2C brands. Beyond Limits.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#solution">Workflows</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#book">Book demo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="https://www.linkedin.com/company/threxa" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:theingredientlist.co@gmail.com">Email</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#" data-legal="privacy">Privacy</a>
+        <a href="#" data-legal="terms">Terms</a>
+        <a href="#" data-legal="refund">Refund Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Threxa Labs · Bengaluru</span>
+      <span>BEYOND LIMITS.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- LEGAL MODAL -->
+<div class="legal-overlay" id="legalOverlay" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="legal-modal">
+    <div class="legal-head">
+      <h3 id="legalTitle">Legal</h3>
+      <button class="legal-close" id="legalClose" aria-label="Close">×</button>
+    </div>
+    <div class="legal-tabs">
+      <button class="legal-tab active" data-tab="terms">Terms of Service</button>
+      <button class="legal-tab" data-tab="refund">Refund Policy</button>
+      <button class="legal-tab" data-tab="privacy">Privacy Policy</button>
+    </div>
+    <div class="legal-body">
+      <div class="legal-pane active" data-pane="terms">
+        <h4>1. Terms of Service</h4>
+        <h5>1.1 Overview</h5>
+        <p>These Terms govern services provided by <strong>The Ingredient List</strong> ("Company", "we", "us"). By purchasing our services, you ("Client") agree to these Terms.</p>
+        <h5>1.2 Scope of Services</h5>
+        <p>We provide automation, integration, and operational workflow setup for eCommerce businesses, including:</p>
+        <ul><li>Store automation</li><li>Messaging workflows (e.g., WhatsApp)</li><li>Order and logistics automation</li><li>Third-party integrations</li></ul>
+        <p>Any work outside agreed scope will be charged additionally.</p>
+        <h5>1.3 Setup &amp; Subscription</h5>
+        <ul><li>Setup fee = one-time implementation cost</li><li>Monthly fee = hosting, monitoring, maintenance, and support</li></ul>
+        <p>All payments are non-transferable.</p>
+        <h5>1.4 Client Responsibilities</h5>
+        <ul><li>Provide correct credentials and timely access</li><li>Maintain active accounts with required platforms</li><li>Ensure lawful use of messaging (especially WhatsApp)</li><li>Not misuse or reverse-engineer systems</li></ul>
+        <h5>1.5 Third-Party Dependencies</h5>
+        <p>Our services rely on Shopify, Shiprocket, Tally, and messaging providers (e.g., WhatsApp APIs). We are not responsible for downtime, API failures, policy changes, or account bans/restrictions.</p>
+        <h5>1.6 Payment Terms</h5>
+        <ul><li>Setup fees: 100% upfront</li><li>Monthly fees: billed in advance</li><li>Late payments may result in suspension without notice</li></ul>
+        <h5>1.7 Chargebacks &amp; Payment Disputes</h5>
+        <p>Any chargeback or payment dispute raised without prior communication will be considered a breach of contract. We reserve the right to suspend all services, deny future service, and recover costs via legal means.</p>
+        <h5>1.8 Termination</h5>
+        <ul><li>Either party may terminate with 7 days' notice</li><li>No refunds for current billing cycle</li><li>Access may be revoked upon termination</li></ul>
+        <h5>1.9 Service Level &amp; Support</h5>
+        <ul><li>No guaranteed uptime</li><li>No real-time support unless agreed</li><li>Standard support response: 24–48 hours</li></ul>
+        <h5>1.10 No Performance Guarantee</h5>
+        <p>We do <strong>not</strong> guarantee revenue increase, ROI, or business outcomes. Results depend on market conditions, customer behavior, and client operations.</p>
+        <h5>1.11 Limitation of Liability</h5>
+        <p>To the fullest extent allowed by law, total liability is limited to fees paid in the last 30 days. We are not liable for loss of profits, business loss, data loss, or indirect damages.</p>
+        <h5>1.12 Indemnification</h5>
+        <p>Client agrees to indemnify and hold us harmless against legal claims, platform violations (e.g., WhatsApp spam), misuse of automation, and regulatory non-compliance.</p>
+        <h5>1.13 Intellectual Property</h5>
+        <p>All systems, automation logic, and frameworks remain our property. Client is granted limited usage rights only.</p>
+        <h5>1.14 Data &amp; Access</h5>
+        <ul><li>Client is responsible for data accuracy</li><li>We are not liable for incorrect data inputs</li><li>Client must revoke access after termination</li></ul>
+        <h5>1.15 Force Majeure</h5>
+        <p>We are not liable for delays or failures due to natural disasters, internet outages, government actions, or platform disruptions.</p>
+        <h5>1.16 Governing Law</h5>
+        <p>These Terms are governed by the laws of India. Jurisdiction shall be exclusively in the courts of Bangalore, Karnataka, India.</p>
+      </div>
+
+      <div class="legal-pane" data-pane="refund">
+        <h4>2. Refund Policy</h4>
+        <h5>2.1 Setup Fees</h5>
+        <p>Non-refundable once work has started.</p>
+        <h5>2.2 Monthly Fees</h5>
+        <p>Non-refundable once billing cycle begins.</p>
+        <h5>2.3 No Partial Refunds</h5>
+        <p>No refunds for unused services or early termination.</p>
+        <h5>2.4 Limited Exception</h5>
+        <p>Refund only if work has not started <em>and</em> the delay is solely from our side (beyond 7 days).</p>
+      </div>
+
+      <div class="legal-pane" data-pane="privacy">
+        <h4>3. Privacy Policy</h4>
+        <h5>3.1 Data Collection</h5>
+        <p>We may collect contact details, business data, system credentials (as required), and usage data.</p>
+        <h5>3.2 Data Usage</h5>
+        <p>We use data to deliver services, improve automation, and provide support.</p>
+        <h5>3.3 Data Sharing</h5>
+        <p>We do not sell data. We may share data with required service providers for operations.</p>
+        <h5>3.4 Data Security</h5>
+        <p>We implement reasonable safeguards, but no system is 100% secure.</p>
+        <h5>3.5 Third-Party Responsibility</h5>
+        <p>Third-party platforms have their own policies. We are not responsible for their handling of your data.</p>
+        <h5>3.6 Data Requests</h5>
+        <p>You may request data access, corrections, or deletion.</p>
+        <h5>3.7 Contact</h5>
+        <p>📧 <a href="mailto:theingredientlist.co@gmail.com">theingredientlist.co@gmail.com</a><br/>🏢 The Ingredient List</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THREXA CHATBOT -->
+<div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="Threxa assistant">
+  <div class="chatbot-head">
+    <img src="/threxa-icon.png" alt="Threxa" />
+    <div>
+      <div class="ch-title">Threxa Assistant</div>
+    </div>
+  </div>
+  <div class="chatbot-body">
+    <p>Hi 👋 Got a question about automation, pricing, or onboarding?</p>
+    <p>Reach out and we'll get back within 24–48 hours.</p>
+    <div class="chatbot-actions">
+      <a href="mailto:theingredientlist.co@gmail.com?subject=Threxa%20enquiry">📧 Email us<span>→</span></a>
+      <a class="alt" href="https://www.linkedin.com/company/threxa" target="_blank" rel="noopener">💼 LinkedIn<span>→</span></a>
+      <a class="alt" href="#book">📅 Book a demo<span>→</span></a>
+    </div>
+  </div>
+  <div class="chatbot-foot">Avg. reply · 24–48h</div>
+</div>
+<button class="chatbot-launcher" id="chatbotLauncher" aria-label="Open Threxa assistant">
+  <img src="/threxa-icon.png" alt="Threxa" />
+</button>
+
+<script>
+  // Scroll reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav padding shrink on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) nav.style.padding = '12px 0';
+    else nav.style.padding = '18px 0';
+  });
+
+  // Legal modal
+  const legalOverlay = document.getElementById('legalOverlay');
+  const legalClose = document.getElementById('legalClose');
+  const legalTabs = document.querySelectorAll('.legal-tab');
+  const legalPanes = document.querySelectorAll('.legal-pane');
+  function openLegal(tab) {
+    legalTabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    legalPanes.forEach(p => p.classList.toggle('active', p.dataset.pane === tab));
+    legalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLegal() {
+    legalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('[data-legal]').forEach(a => {
+    a.addEventListener('click', (e) => { e.preventDefault(); openLegal(a.dataset.legal); });
+  });
+  legalTabs.forEach(t => t.addEventListener('click', () => openLegal(t.dataset.tab)));
+  legalClose.addEventListener('click', closeLegal);
+  legalOverlay.addEventListener('click', (e) => { if (e.target === legalOverlay) closeLegal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLegal(); });
+
+  // Chatbot
+  const chatLauncher = document.getElementById('chatbotLauncher');
+  const chatPanel = document.getElementById('chatbotPanel');
+  chatLauncher.addEventListener('click', (e) => {
+    e.stopPropagation();
+    chatPanel.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!chatPanel.contains(e.target) && !chatLauncher.contains(e.target)) {
+      chatPanel.classList.remove('open');
+    }
+  });
+</script>
+
+</body>
+</html>

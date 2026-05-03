@@ -823,7 +823,8 @@
 
   /* RESPONSIVE */
   @media (max-width: 968px) {
-    .nav-menu a:not(.nav-cta) { display: none; }
+    .nav-menu a:not(.nav-cta):not(.mobile-menu-toggle) { display: none; }
+    .mobile-menu-toggle { display: flex !important; }
     .logo-mark img { height: 32px !important; }
     .hero { padding: 140px 0 80px; }
     section, .problems, .pricing { padding: 100px 0; }
@@ -835,14 +836,81 @@
     .founder { grid-template-columns: 1fr; }
   }
 
+  /* Mobile menu (hamburger) — hidden on desktop, shown <968px */
+  .mobile-menu-toggle {
+    display: none;
+    width: 40px; height: 40px;
+    background: transparent;
+    border: 1px solid rgba(10,10,15,0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0;
+    align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+  @media (max-width: 968px) {
+    .mobile-menu-toggle {
+      display: flex !important;
+    }
+  }
+  .mobile-menu-toggle span {
+    display: block;
+    width: 18px; height: 2px;
+    background: #0A0A0F;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .mobile-menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .mobile-menu-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 72px; left: 0; right: 0;
+    background: rgba(250, 250, 247, 0.98);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(10,10,15,0.08);
+    padding: 24px 20px 32px;
+    z-index: 99;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: #0A0A0F;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 14px 4px;
+    border-bottom: 1px solid rgba(10,10,15,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a::after { content: '→'; color: rgba(10,10,15,0.4); font-size: 16px; }
+  .mobile-menu a.book-cta {
+    background: #0A0A0F;
+    color: #FAFAF7;
+    border-radius: 999px;
+    padding: 16px 22px;
+    margin-top: 16px;
+    border-bottom: none;
+    justify-content: center;
+  }
+  .mobile-menu a.book-cta::after { content: '→'; color: #FAFAF7; }
+
   /* Small mobile fixes — fix overflow on phones <600px */
   @media (max-width: 600px) {
     .container, .container-narrow, .container-wide { padding: 0 20px; }
     .nav-inner { padding: 0 20px; }
-    .logo-card { padding: 8px 14px 8px 12px; }
-    .logo-card-img { height: 32px; }
+    .logo-card { padding: 6px 12px 6px 10px; }
+    .logo-card-img { height: 28px; }
     .nav-menu { gap: 8px; }
-    .nav-menu a.nav-cta { padding: 8px 14px; font-size: 13px; }
+    /* On small mobile, hide the inline Book demo CTA — hamburger has it */
+    .nav-menu a.nav-cta { display: none; }
     .hero { padding: 120px 0 60px; }
     .hero h1 { font-size: clamp(36px, 12vw, 56px) !important; }
     .hero-sub { font-size: 16px; }
@@ -857,7 +925,36 @@
       font-size: clamp(32px, 9vw, 48px) !important;
     }
     .problem-text-num { font-size: 56px; }
-    .problem-visual, .solution-visual { padding: 24px; aspect-ratio: auto; }
+
+    /* CRITICAL: Fix problem/solution visuals breaking on mobile */
+    .problem-visual, .solution-visual {
+      padding: 28px;
+      aspect-ratio: auto;
+      min-height: 280px;
+    }
+
+    /* Problem 1: Tab stack — convert from absolute to flow on mobile */
+    .tab-stack {
+      position: static;
+      height: auto;
+      display: flex; flex-direction: column;
+      gap: 10px;
+    }
+    .tab-stack .tab-item {
+      position: static;
+      transform: none !important;
+      width: 100%;
+    }
+
+    /* Problem 2: Cart escape — center the counter, hide drift carts */
+    .cart-escape { height: 220px; }
+    .cart-icon { font-size: 24px; }
+    .cart-counter-num { font-size: 64px !important; }
+
+    /* Problem 3: Review bubbles — single column flow */
+    .review-bubbles { gap: 10px; }
+    .review-bubble, .review-bubble-empty { padding: 12px 14px; }
+
     .price-card { padding: 28px 22px; }
     .price-amount { font-size: 40px; }
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -878,8 +975,17 @@
       <a href="#problem">The Problem</a>
       <a href="#solution">Solution</a>
       <a href="#pricing">Pricing</a>
-      <a href="#book" class="nav-cta">Book demo</a>
+      <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="nav-cta">Book demo</a>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#problem">The Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#pricing">Pricing</a>
+    <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="book-cta">Book a free demo</a>
   </div>
 </nav>
 
@@ -893,7 +999,7 @@
     <h1 class="display">Beyond <em>limits.</em></h1>
     <p class="hero-sub">Threxa builds automation systems for Shopify D2C brands. Order processing, customer messages, cart recovery, reviews — all handled, all running, all the time.</p>
     <div class="hero-ctas">
-      <a href="#book" class="btn-primary">Book a free audit <span class="arrow">→</span></a>
+      <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="btn-primary">Book a free audit <span class="arrow">→</span></a>
       <a href="#solution" class="btn-secondary">See how it works</a>
     </div>
   </div>
@@ -1204,7 +1310,7 @@
           <li>We monitor &amp; fix failures automatically</li>
           <li>Live dashboard + weekly insights</li>
         </ul>
-        <a href="#book" class="price-cta">Start with Launch</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="price-cta">Start with Launch</a>
       </div>
 
       <div class="price-card featured">
@@ -1222,7 +1328,7 @@
           <li>Track how much revenue automation generates</li>
           <li>Done-for-you setup · Priority support</li>
         </ul>
-        <a href="#book" class="price-cta">Pick Growth</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="price-cta">Pick Growth</a>
       </div>
 
       <div class="price-card">
@@ -1239,7 +1345,7 @@
           <li>SLA-backed uptime</li>
           <li>Dedicated support</li>
         </ul>
-        <a href="#book" class="price-cta">Get your first automation live in 48 hours</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="price-cta">Get your first automation live in 48 hours</a>
       </div>
     </div>
 
@@ -1253,7 +1359,7 @@
     <div class="label-row" style="justify-content: center;">Final word</div>
     <h2 class="display">Stop doing<br/><em>data entry.</em></h2>
     <p>Book a free fifteen-minute audit. I'll look at your current workflow, tell you what to automate first, and build the first one free. No pitch. No contract. Just see if it works.</p>
-    <a href="https://cal.com/threxa" class="btn-primary">Book the audit <span class="arrow">→</span></a>
+    <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener noreferrer" class="btn-primary">Book the audit <span class="arrow">→</span></a>
 
     <div class="founder">
       <div class="founder-avatar">S</div>
@@ -1281,7 +1387,7 @@
         <h4>Product</h4>
         <a href="#solution">Workflows</a>
         <a href="#pricing">Pricing</a>
-        <a href="#book">Book demo</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit">Book demo</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -1402,7 +1508,7 @@
     <div class="chatbot-actions">
       <a href="mailto:theingredientlist.co@gmail.com?subject=Threxa%20enquiry">📧 Email us<span>→</span></a>
       <a class="alt" href="https://www.linkedin.com/company/threxa" target="_blank" rel="noopener">💼 LinkedIn<span>→</span></a>
-      <a class="alt" href="#book">📅 Book a demo<span>→</span></a>
+      <a target="_blank" rel="noopener noreferrer" class="alt" href="https://cal.com/threxa/threxa-free-audit">📅 Book a demo<span>→</span></a>
     </div>
   </div>
   <div class="chatbot-foot">Avg. reply · 24–48h</div>
@@ -1424,6 +1530,23 @@
     if (window.scrollY > 50) nav.style.padding = '12px 0';
     else nav.style.padding = '18px 0';
   });
+
+  // Mobile hamburger menu toggle
+  const mobileToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener('click', () => {
+      mobileToggle.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    // Close menu when any link inside is clicked
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileToggle.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+  }
 
   // Legal modal
   const legalOverlay = document.getElementById('legalOverlay');

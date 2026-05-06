@@ -596,6 +596,7 @@
   .price-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
     max-width: 1280px; margin: 0 auto;
+    align-items: stretch;
   }
   .price-card {
     background: #FFFFFF;
@@ -604,6 +605,8 @@
     border: 1px solid rgba(10,10,15,0.06);
     transition: all 0.3s ease;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
   .price-card:hover {
     transform: translateY(-6px);
@@ -662,6 +665,8 @@
   .price-feats {
     list-style: none; padding-top: 32px;
     border-top: 1px solid rgba(10,10,15,0.08);
+    flex: 1 1 auto;
+    margin-bottom: 32px;
   }
   .price-card.featured .price-feats { border-color: rgba(250,250,247,0.12); }
   .price-feats li {
@@ -673,12 +678,16 @@
     content: '→'; color: #7B4DF6; flex-shrink: 0;
   }
   .price-cta {
-    margin-top: 40px; display: block; text-align: center;
-    padding: 14px; border-radius: 999px;
+    margin-top: auto; display: flex;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 14px 18px; border-radius: 999px;
     border: 1px solid rgba(10,10,15,0.15);
     color: #0A0A0F; text-decoration: none;
     font-size: 14px; font-weight: 500;
     transition: all 0.25s;
+    min-height: 50px;
+    line-height: 1.3;
   }
   .price-cta:hover {
     background: #0A0A0F; color: #FAFAF7; border-color: #0A0A0F;
@@ -1427,7 +1436,7 @@
           <li>SLA-backed uptime</li>
           <li>Dedicated support</li>
         </ul>
-        <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="price-cta">Get your first automation live in 48 hours</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://cal.com/threxa/threxa-free-audit" class="price-cta">Talk to founder</a>
       </div>
     </div>
 
@@ -1447,7 +1456,7 @@
       <div class="founder-avatar">S</div>
       <div>
         <div class="founder-label">// A note from the founder</div>
-        <div class="founder-text">I've spent years watching exceptional Indian founders build remarkable brands — and then spend half their day doing work that should never require a human. Copy-pasting orders. Chasing reviews. Manually updating Tally at midnight.<br/><br/>I built Threxa because the gap between what's possible with automation and what most Indian D2C brands are actually using is enormous. The tools exist. The integrations exist. What was missing was someone who understood both the technology and the reality of running a brand in India — Shiprocket, Razorpay, Tally, AiSensy — the actual stack.<br/><br/>Every founder I've spoken to has the same story. Different product, same bottleneck. If any part of this resonates, I'd genuinely like to hear about your operation. Book a call. Show me what you're building. Let's find the hours back.</div>
+        <div class="founder-text">If you've made it this far, you're probably thinking: <em>another automation tool.</em><br/><br/>Fair.<br/><br/>But here's the thing — most automation tools are built for global SaaS companies in San Francisco who think Indian commerce is just a translation problem. It isn't.<br/><br/>Your stack is Tally, not Quickbooks. Razorpay, not Stripe. WhatsApp Business, not Intercom. Shiprocket and Delhivery, not FedEx. COD is real. Your customers want to talk in Hindi or Marathi or Tamil, not customer-service English.<br/><br/>Threxa is built for that. By someone who actually uses these tools.<br/><br/>Book a free 15-minute audit and I'll show you what I mean. If it's not useful, you've lost 15 minutes. If it is — you have a built workflow at the end of it, free.<br/><br/>— Sachin</div>
       </div>
     </div>
   </div>

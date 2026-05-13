@@ -382,7 +382,7 @@ const ThrexaLanding = () => {
           <p className="mx-auto mt-7 max-w-md text-sm leading-7 text-muted-foreground">
             Book a free fifteen-minute audit. If it looks at your current workflow, tells you what to automate first, and builds the first one free. No pitch. No contract. Just see if it works.
           </p>
-          <a href="mailto:hello@threxa.io" className="group mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
+          <a href="https://wa.me/917483992418?text=Hi%20Sachin%2C%20I%20want%20to%20book%20a%20free%20audit." className="group mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
             Book the audit <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
         </div>

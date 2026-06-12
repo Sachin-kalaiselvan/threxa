@@ -1,5 +1,9 @@
-import { ArrowRight, Check, MessageCircle, PackageCheck, RefreshCcw, ShoppingCart, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Check, MessageCircle, PackageCheck, RefreshCcw, ShoppingCart, Sparkles, Star, Linkedin, Mail } from "lucide-react";
 import threxaLogo from "@/assets/threxa-logo.png";
+
+const CAL = "https://cal.com/threxa/threxa-free-audit";
+const WA  = "https://wa.me/917483992418?text=Hi%20Sachin%2C%20I%27d%20like%20to%20book%20a%20free%20Threxa%20audit.";
+const EMAIL = "sachin@theingredientlist.co";
 
 const painPoints = [
   {
@@ -19,7 +23,7 @@ const painPoints = [
   {
     number: "03",
     title: "The reviews you need never arrive.",
-    copy: "Eighty percent of D2C purchases happen because of reviews. Yours get collected because no one has the bandwidth to ask. Your best customers stay anonymous.",
+    copy: "Eighty percent of D2C purchases happen because of reviews. Yours never get collected because no one has the bandwidth to ask. Your best customers stay anonymous.",
     visual: "reviews",
     tag: "review request · after ship",
   },
@@ -29,21 +33,21 @@ const workflows = [
   {
     eyebrow: "01 — order to shiprocket",
     title: "Three seconds. Five systems. Zero touch.",
-    copy: "A customer hits checkout. Threxa fires across your stack — Sheets, Tally, Shiprocket, WhatsApp, your team’s group chat — in the time it takes the page to refresh.",
+    copy: "A customer hits checkout. Threxa fires across your stack — Sheets, Tally, Shiprocket, WhatsApp, your team's group chat — in the time it takes the page to refresh.",
     chips: ["Shopify", "Tally", "Shiprocket", "Delivery", "Sheets"],
     visual: "flow",
   },
   {
     eyebrow: "02 — cart recovery",
     title: "Win back the seventy percent that walked away.",
-    copy: "Cart abandoned. Sixty minutes pass. Threxa sends a personalized WhatsApp with a one-time code. Twenty-four hours later, an email follow-up. Recovers 5–8% of revenue you’d otherwise lose.",
+    copy: "Cart abandoned. Sixty minutes pass. Threxa sends a personalized WhatsApp with a one-time code. Twenty-four hours later, an email follow-up. Recovers 5–8% of revenue you'd otherwise lose.",
     chips: ["WhatsApp", "Email", "Recovery", "Shopify"],
     visual: "revenue",
   },
   {
     eyebrow: "03 — reviews & retention",
     title: "Turn one-time buyers into a tribe.",
-    copy: "Order delivered. Three days pass. A review request goes out. Leave one — get a fifteen percent loyalty code. Thirty days later, ‘we miss you’ with bestseller suggestions.",
+    copy: "Order delivered. Three days pass. A review request goes out. Leave one — get a fifteen percent loyalty code. Thirty days later, 'we miss you' with bestseller suggestions.",
     chips: ["Judge.me", "WhatsApp", "Shopify", "Email"],
     visual: "stars",
   },
@@ -150,18 +154,16 @@ const PainVisual = ({ type }: { type: string }) => {
       </div>
     );
   }
-
   if (type === "reviews") {
     return (
       <div className="rounded-lg bg-card p-6 shadow-violet ring-1 ring-line">
-        <div className="mb-4 rounded-md border border-line bg-cream p-4 text-xs text-ink-soft">“Loved the product, fast delivery”</div>
+        <div className="mb-4 rounded-md border border-line bg-cream p-4 text-xs text-ink-soft">"Loved the product, fast delivery"</div>
         {[1, 2, 3].map((item) => (
           <div key={item} className="mb-3 rounded-md border border-dashed border-line px-4 py-3 text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">review never collected</div>
         ))}
       </div>
     );
   }
-
   return (
     <div className="rounded-lg bg-card p-5 shadow-violet ring-1 ring-line">
       {["Shopify · paid", "Google Sheets · tracker", "WhatsApp · copy", "Tally · tax invoice", "Shiprocket · label"].map((item, index) => (
@@ -189,20 +191,18 @@ const WorkflowVisual = ({ type }: { type: string }) => {
       </div>
     );
   }
-
   if (type === "stars") {
     return (
       <div className="rounded-lg bg-panel-gradient p-5 text-secondary-foreground shadow-panel">
         {["Absolutely elite automation. Will buy again.", "Order confirmation came instantly — smoothest.", "Review link made feedback effortless."].map((review) => (
           <div key={review} className="mb-4 rounded-md border border-violet-soft/15 bg-cream-lift/5 p-4">
             <div className="mb-2 flex gap-1 text-warning">★★★★★</div>
-            <p className="text-xs text-secondary-foreground/75">“{review}”</p>
+            <p className="text-xs text-secondary-foreground/75">"{review}"</p>
           </div>
         ))}
       </div>
     );
   }
-
   return (
     <div className="rounded-lg bg-panel-gradient p-7 text-secondary-foreground shadow-panel">
       {["Order placed", "Sheet logged", "WhatsApp sent", "Tally invoice", "Label printed"].map((step, index) => (
@@ -228,7 +228,7 @@ const ThrexaLanding = () => {
             <a className="transition-colors hover:text-primary" href="#workflows">Workflows</a>
             <a className="transition-colors hover:text-primary" href="#pricing">Pricing</a>
           </div>
-          <a href="#final" className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-secondary">
+          <a href={CAL} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-secondary">
             Book a free audit <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </a>
         </nav>
@@ -248,7 +248,7 @@ const ThrexaLanding = () => {
             Threxa builds automation systems for Shopify D2C brands. Order processing, customer messages, cart recovery, reviews — all handled, all running, all the time.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row animate-reveal">
-            <a href="#final" className="group inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
+            <a href={CAL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
               Book a free audit <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a href="#workflows" className="inline-flex items-center justify-center rounded-full border border-line bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
@@ -264,7 +264,7 @@ const ThrexaLanding = () => {
       <section className="border-y border-line bg-card/45 py-28 text-center">
         <div className="mx-auto max-w-3xl px-5">
           <h2 className="font-display text-5xl leading-[0.95] md:text-7xl">
-            An order comes in.<br />Then <span className="font-display-italic text-primary">silence.</span><br />That’s the goal.
+            An order comes in.<br />Then <span className="font-display-italic text-primary">silence.</span><br />That's the goal.
           </h2>
           <p className="mx-auto mt-8 max-w-md text-sm leading-7 text-muted-foreground">
             No team scrambling. No founder copy-pasting at 11 PM. No customer waiting for an update that never comes. Just a quiet store that works while you sleep.
@@ -280,10 +280,9 @@ const ThrexaLanding = () => {
               Most D2C founders are <span className="font-display-italic text-primary">drowning</span> in work that should be invisible.
             </h2>
             <p className="mx-auto mt-7 max-w-md text-sm leading-7 text-muted-foreground">
-              Threxa turns a day on tasks that look like “not thinking creative, nothing strategic” — just human attention to keep the lights on.
+              Threxa eliminates the tasks that eat your day — the ones that look like work but aren't strategy.
             </p>
           </div>
-
           <div className="space-y-16 md:space-y-20">
             {painPoints.map((item, index) => (
               <article key={item.number} className="grid items-center gap-8 md:grid-cols-2 md:gap-16">
@@ -307,10 +306,9 @@ const ThrexaLanding = () => {
           <div className="mb-20 text-center">
             <p className="mb-5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary">// the work</p>
             <h2 className="font-display text-5xl leading-[0.95] md:text-7xl">
-              Three workflows.<br />That’s the <span className="font-display-italic text-primary">whole product.</span>
+              Three workflows.<br />That's the <span className="font-display-italic text-primary">whole product.</span>
             </h2>
           </div>
-
           <div className="divide-y divide-line">
             {workflows.map((workflow, index) => (
               <article key={workflow.eyebrow} className="grid items-center gap-8 py-14 md:grid-cols-2 md:gap-16">
@@ -344,7 +342,7 @@ const ThrexaLanding = () => {
               No per-task fees. No surprise overages. One-time setup, monthly to keep it running, monitored, and patched.
             </p>
           </div>
-
+          <p className="mb-8 text-center text-sm font-semibold text-primary">First workflow always built from a proof-of-concept. Pay only when you see it work.</p>
           <div className="grid gap-4 md:grid-cols-3">
             {plans.map((plan) => (
               <article key={plan.name} className={plan.highlighted ? "relative rounded-lg bg-secondary p-6 text-secondary-foreground shadow-panel ring-1 ring-violet-soft/25" : "rounded-lg bg-card p-6 text-card-foreground shadow-violet ring-1 ring-line"}>
@@ -363,28 +361,33 @@ const ThrexaLanding = () => {
                     </li>
                   ))}
                 </ul>
-                <a href="#final" className={plan.highlighted ? "mt-8 inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-3 text-xs font-bold text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-secondary" : "mt-8 inline-flex w-full items-center justify-center rounded-full border border-line bg-card px-4 py-3 text-xs font-bold text-foreground transition-colors duration-300 hover:border-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background"}>
+                <a href={`https://wa.me/917483992418?text=${encodeURIComponent(`Hi Sachin, I'm interested in the Threxa ${plan.name} plan. Can we discuss?`)}`} target="_blank" rel="noreferrer"
+                  className={plan.highlighted ? "mt-8 inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-3 text-xs font-bold text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-secondary" : "mt-8 inline-flex w-full items-center justify-center rounded-full border border-line bg-card px-4 py-3 text-xs font-bold text-foreground transition-colors duration-300 hover:border-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background"}>
                   {plan.cta}
                 </a>
               </article>
             ))}
           </div>
-          <p className="mt-9 text-center text-xs text-muted-foreground">First workflow always built from a proof-of-concept. Pay only when you see it work.</p>
         </div>
       </section>
 
       <section id="final" className="border-y border-line bg-card/45 py-28 text-center md:py-36">
         <div className="mx-auto max-w-3xl px-5">
-          <p className="mb-5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary">// final word</p>
+          <p className="mb-5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary">// book your free audit</p>
           <h2 className="font-display text-6xl leading-[0.88] md:text-8xl">
             Stop doing<br /><span className="font-display-italic text-primary">data entry.</span>
           </h2>
           <p className="mx-auto mt-7 max-w-md text-sm leading-7 text-muted-foreground">
-            Book a free fifteen-minute audit. If it looks at your current workflow, tells you what to automate first, and builds the first one free. No pitch. No contract. Just see if it works.
+            Book a free fifteen-minute audit. We look at your current workflow, tell you what to automate first, and build the first one free. No pitch. No contract. Just see if it works.
           </p>
-          <a href="https://wa.me/917483992418?text=Hi%20Sachin%2C%20I%20want%20to%20book%20a%20free%20audit." className="group mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
-            Book the audit <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href={CAL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
+              Book the audit <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+            <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
+              WhatsApp Sachin
+            </a>
+          </div>
         </div>
       </section>
 
@@ -393,24 +396,25 @@ const ThrexaLanding = () => {
           <div>
             <LogoMark compact />
             <p className="mt-3 max-w-xs text-xs leading-6 text-muted-foreground">Automation infrastructure for Indian D2C brands. Beyond Limits.</p>
+            <p className="mt-2 text-xs text-muted-foreground">sachin@theingredientlist.co · +91 74839 92418</p>
           </div>
           <div className="grid grid-cols-3 gap-10 text-xs text-muted-foreground">
             <div className="space-y-2">
               <p className="font-semibold uppercase tracking-[0.18em] text-foreground">Product</p>
-              <p>Workflows</p>
-              <p>Pricing</p>
-              <p>Book demo</p>
+              <a href="#workflows" className="block hover:text-foreground transition-colors">Workflows</a>
+              <a href="#pricing" className="block hover:text-foreground transition-colors">Pricing</a>
+              <a href={CAL} target="_blank" rel="noreferrer" className="block hover:text-foreground transition-colors">Book demo</a>
             </div>
             <div className="space-y-2">
               <p className="font-semibold uppercase tracking-[0.18em] text-foreground">Company</p>
-              <p>About</p>
-              <p>LinkedIn</p>
-              <p>Email</p>
+              <a href="https://theingredientlist.co" target="_blank" rel="noreferrer" className="block hover:text-foreground transition-colors">Studio</a>
+              <a href="https://linkedin.com/in/sachinjk11" target="_blank" rel="noreferrer" className="block hover:text-foreground transition-colors">LinkedIn</a>
+              <a href={`mailto:${EMAIL}`} className="block hover:text-foreground transition-colors">Email</a>
             </div>
             <div className="space-y-2">
               <p className="font-semibold uppercase tracking-[0.18em] text-foreground">Legal</p>
-              <p>Privacy</p>
-              <p>Terms</p>
+              <a href="/privacy" className="block hover:text-foreground transition-colors">Privacy</a>
+              <a href="/terms" className="block hover:text-foreground transition-colors">Terms</a>
             </div>
           </div>
         </div>

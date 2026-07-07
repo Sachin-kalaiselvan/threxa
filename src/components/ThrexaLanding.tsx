@@ -51,6 +51,40 @@ const workflows = [
     chips: ["Judge.me", "WhatsApp", "Shopify", "Email"],
     visual: "stars",
   },
+  {
+    eyebrow: "04 — storefront & build",
+    title: "The store itself, built by the same team.",
+    copy: "Your automation is only as good as the store generating the orders. Threxa also designs and builds the storefront — conversion-focused, on modern infrastructure — so the front end and the operations layer come from one accountable team, not two vendors.",
+    chips: ["Shopify", "React", "Conversion design", "One team"],
+    visual: "storefront",
+  },
+];
+
+const trustedBy = [
+  "Your brand here",
+  "Add client name",
+  "Add client name",
+  "Add client name",
+  "Add client name",
+  "Add client name",
+];
+
+const testimonials = [
+  {
+    quote: "Placeholder — add a real client quote here once you have one on record.",
+    name: "Client name",
+    role: "Founder, Brand name",
+  },
+  {
+    quote: "Placeholder — replace with a specific number or outcome the client saw.",
+    name: "Client name",
+    role: "Founder, Brand name",
+  },
+  {
+    quote: "Placeholder — third quote slot, keeps the marquee loop feeling full.",
+    name: "Client name",
+    role: "Founder, Brand name",
+  },
 ];
 
 const plans = [
@@ -203,6 +237,18 @@ const WorkflowVisual = ({ type }: { type: string }) => {
       </div>
     );
   }
+  if (type === "storefront") {
+    return (
+      <div className="rounded-lg bg-panel-gradient p-7 text-secondary-foreground shadow-panel">
+        <p className="text-[0.6rem] uppercase tracking-[0.25em] text-secondary-foreground/38">one team, two layers</p>
+        <div className="mt-5 space-y-3">
+          <div className="rounded-md border border-violet-soft/20 bg-cream-lift/5 px-4 py-3 text-xs text-secondary-foreground/80">Storefront — design + build</div>
+          <div className="rounded-md border border-violet-soft/20 bg-cream-lift/5 px-4 py-3 text-xs text-secondary-foreground/80">Checkout — Shopify, conversion-tuned</div>
+          <div className="rounded-md border border-primary/40 bg-violet/20 px-4 py-3 text-xs text-secondary-foreground">Automation — Threxa, running underneath</div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="rounded-lg bg-panel-gradient p-7 text-secondary-foreground shadow-panel">
       {["Order placed", "Sheet logged", "WhatsApp sent", "Tally invoice", "Label printed"].map((step, index) => (
@@ -214,6 +260,32 @@ const WorkflowVisual = ({ type }: { type: string }) => {
     </div>
   );
 };
+
+const LogoMarquee = () => (
+  <div className="relative mx-auto mt-10 w-full max-w-3xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+    <div className="flex w-max animate-marquee gap-10">
+      {[...trustedBy, ...trustedBy].map((name, index) => (
+        <span key={`${name}-${index}`} className="whitespace-nowrap text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/60">
+          {name}
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+const TestimonialMarquee = () => (
+  <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+    <div className="flex w-max animate-marquee-slow gap-5 py-2">
+      {[...testimonials, ...testimonials].map((item, index) => (
+        <div key={`${item.name}-${index}`} className="w-80 shrink-0 rounded-lg border border-line bg-card p-6 shadow-violet">
+          <p className="text-sm leading-6 text-foreground">"{item.quote}"</p>
+          <p className="mt-4 text-xs font-semibold text-foreground">{item.name}</p>
+          <p className="text-xs text-muted-foreground">{item.role}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const ThrexaLanding = () => {
   return (
@@ -255,6 +327,7 @@ const ThrexaLanding = () => {
               See how it works
             </a>
           </div>
+          <LogoMarquee />
           <div className="mt-20 w-full">
             <SystemPanel />
           </div>
@@ -306,7 +379,7 @@ const ThrexaLanding = () => {
           <div className="mb-20 text-center">
             <p className="mb-5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary">// the work</p>
             <h2 className="font-display text-5xl leading-[0.95] md:text-7xl">
-              Three workflows.<br />That's the <span className="font-display-italic text-primary">whole product.</span>
+              Four systems.<br />One <span className="font-display-italic text-primary">accountable team.</span>
             </h2>
           </div>
           <div className="divide-y divide-line">
@@ -315,7 +388,7 @@ const ThrexaLanding = () => {
                 <div className={index % 2 === 1 ? "md:order-2" : ""}>
                   <p className="mb-4 text-[0.62rem] font-bold uppercase tracking-[0.22em] text-primary">// {workflow.eyebrow}</p>
                   <h3 className="max-w-sm font-display text-4xl leading-[0.95] md:text-5xl">
-                    {workflow.title.includes("Zero") ? <>Three seconds.<br />Five systems.<br /><span className="font-display-italic text-primary">Zero touch.</span></> : workflow.title.includes("walked") ? <>Win back the seventy percent that <span className="font-display-italic text-primary">walked away.</span></> : <>Turn one-time buyers into a <span className="font-display-italic text-primary">tribe.</span></>}
+                    {workflow.title.includes("Zero") ? <>Three seconds.<br />Five systems.<br /><span className="font-display-italic text-primary">Zero touch.</span></> : workflow.title.includes("walked") ? <>Win back the seventy percent that <span className="font-display-italic text-primary">walked away.</span></> : workflow.title.includes("tribe") ? <>Turn one-time buyers into a <span className="font-display-italic text-primary">tribe.</span></> : <>The store itself, built by the <span className="font-display-italic text-primary">same team.</span></>}
                   </h3>
                   <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">{workflow.copy}</p>
                   <div className="mt-6 flex flex-wrap gap-2">
@@ -328,6 +401,21 @@ const ThrexaLanding = () => {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="testimonials" className="bg-card/45 py-20 md:py-28">
+        <div className="mx-auto max-w-5xl px-5 text-center md:px-8">
+          <p className="mb-5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary">// what brands say</p>
+          <h2 className="font-display text-4xl leading-[0.95] md:text-6xl">
+            Real brands. <span className="font-display-italic text-primary">Real results.</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-muted-foreground">
+            Quotes below are placeholders until client testimonials are added.
+          </p>
+        </div>
+        <div className="mt-12">
+          <TestimonialMarquee />
         </div>
       </section>
 

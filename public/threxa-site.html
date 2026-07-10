@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Threxa — Beyond Limits</title>
+<meta name="description" content="Threxa is the integration layer that connects Shopify, Tally, Razorpay, Shiprocket, and WhatsApp into orchestrated workflows for Indian commerce." />
+<meta property="og:title" content="Threxa — Beyond Limits" />
+<meta property="og:description" content="The integration layer for Indian commerce. Built for D2C brands that need their stack to work together." />
+<link rel="icon" type="image/png" href="/threxa-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    background: #FAFAF7;
+    color: #0A0A0F;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+    overflow-x: hidden;
+  }
+  ::selection { background: #0A0A0F; color: #FAFAF7; }
+
+  .display { font-family: 'Fraunces', serif; font-weight: 350; font-variation-settings: "opsz" 144, "SOFT" 30; letter-spacing: -0.035em; line-height: 0.95; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+  .container-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 14px 0;
+    background: rgba(12, 10, 20, 0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-inner { max-width: 1320px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo-mark { display: flex; align-items: center; text-decoration: none; }
+  .logo-card {
+    background: #0A0A0F;
+    border-radius: 14px;
+    padding: 12px 22px 12px 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px -10px rgba(10, 10, 15, 0.25);
+    transition: all 0.25s ease;
+    position: relative; overflow: hidden;
+  }
+  .logo-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(123, 77, 246, 0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .logo-card-img { height: 44px; width: auto; display: block; position: relative; z-index: 1; }
+  .logo-mark:hover .logo-card { transform: translateY(-1px); box-shadow: 0 12px 32px -8px rgba(123, 77, 246, 0.35); }
+  .logo-card-footer { padding: 16px 28px 16px 22px; border-radius: 18px; }
+  .logo-card-footer .logo-card-img { height: 56px; }
+  @media (max-width: 600px) { .logo-card { padding: 10px 16px 10px 14px; } .logo-card-img { height: 36px; } }
+
+  .nav-menu { display: flex; align-items: center; gap: 36px; }
+  .nav-menu a { color: rgba(255,255,255,0.78); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.01em; transition: color 0.2s ease; }
+  .nav-menu a:hover { color: #fff; }
+  .nav-menu a.nav-cta {
+    background: #fff; color: #0A0A0F;
+    padding: 10px 20px; border-radius: 999px;
+    font-weight: 600; margin-left: 8px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .nav-menu a.nav-cta:hover { background: #7B4DF6; color: #fff; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero { padding: 200px 0 120px; position: relative; text-align: center; }
+  .hero h1 { font-size: clamp(56px, 11vw, 156px); margin-bottom: 32px; opacity: 0; animation: fadeUp 1s 0.25s forwards; }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, #7B4DF6 0%, #A47AFF 60%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-sub {
+    max-width: 680px; margin: 0 auto 56px;
+    font-size: clamp(18px, 1.6vw, 22px);
+    color: rgba(10, 10, 15, 0.7);
+    font-weight: 400; line-height: 1.5;
+    opacity: 0; animation: fadeUp 1s 0.4s forwards;
+  }
+  .hero-positioning {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.2vw, 18px);
+    color: #7B4DF6;
+    letter-spacing: -0.005em;
+    margin: -16px auto 24px;
+    opacity: 0; animation: fadeUp 1s 0.32s forwards;
+  }
+  .hero-ctas { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 1s 0.55s forwards; }
+  .btn-primary {
+    background: #0A0A0F; color: #FAFAF7;
+    padding: 17px 32px; border-radius: 999px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s ease; border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: #2A2540; transform: translateY(-2px); box-shadow: 0 12px 30px -10px rgba(10,10,15,0.3); }
+  .btn-primary .arrow { transition: transform 0.3s; }
+  .btn-primary:hover .arrow { transform: translateX(3px); }
+  .btn-secondary {
+    background: transparent; color: #0A0A0F;
+    padding: 17px 32px; border-radius: 999px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    border: 1px solid rgba(10, 10, 15, 0.18);
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s ease;
+  }
+  .btn-secondary:hover { border-color: #0A0A0F; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO SHOWCASE */
+  .hero-showcase { margin-top: 100px; padding: 0 32px; opacity: 0; animation: fadeUp 1.2s 0.7s forwards; }
+  .showcase-frame {
+    max-width: 1280px; margin: 0 auto;
+    background: linear-gradient(180deg, #1A1628 0%, #0F0B1F 100%);
+    border-radius: 32px; padding: 56px;
+    box-shadow: 0 60px 120px -40px rgba(123, 77, 246, 0.15), 0 30px 60px -20px rgba(10, 10, 15, 0.15);
+    position: relative; overflow: hidden;
+  }
+  .showcase-frame::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 0%, rgba(123, 77, 246, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 100%, rgba(164, 122, 255, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .showcase-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; }
+  .showcase-card {
+    background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px; padding: 32px; color: #FAFAF7;
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 280px;
+  }
+  .showcase-card-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #A47AFF; margin-bottom: 14px; }
+  .showcase-card-headline { font-family: 'Fraunces', serif; font-weight: 350; font-size: 38px; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .showcase-card-body { font-size: 14px; color: rgba(250,250,247,0.62); line-height: 1.5; }
+  .showcase-card-row { display: flex; align-items: center; gap: 14px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(250,250,247,0.6); letter-spacing: 0.06em; }
+  .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: #6BFFB0; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(107,255,176,0.4); } 50% { opacity: 0.6; box-shadow: 0 0 0 8px rgba(107,255,176,0); } }
+
+  /* SECTION HEADERS */
+  section { padding: 140px 0; position: relative; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: #7B4DF6; margin-bottom: 20px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: #7B4DF6; }
+  .section-title { font-size: clamp(40px, 5.5vw, 78px); margin-bottom: 28px; max-width: 780px; }
+  .section-title em { font-style: italic; color: #7B4DF6; }
+  .section-lede { font-size: clamp(17px, 1.5vw, 21px); color: rgba(10,10,15,0.62); max-width: 620px; line-height: 1.5; margin-bottom: 64px; }
+
+  /* PROBLEMS */
+  .problems { background: #0A0A0F; color: #FAFAF7; }
+  .problems .eyebrow { color: #A47AFF; }
+  .problems .eyebrow::before { background: #A47AFF; }
+  .problems .section-title { color: #FAFAF7; }
+  .problems .section-title em { color: #A47AFF; }
+  .problems .section-lede { color: rgba(250,250,247,0.6); }
+  .problem-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 24px; }
+  .problem-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px; padding: 36px;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.3s ease;
+  }
+  .problem-card:hover { border-color: rgba(164,122,255,0.3); background: rgba(164,122,255,0.04); transform: translateY(-3px); }
+  .problem-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #A47AFF; margin-bottom: 18px; letter-spacing: 0.1em; }
+  .problem-h { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.015em; }
+  .problem-p { font-size: 15px; color: rgba(250,250,247,0.65); line-height: 1.55; }
+
+  /* CAPABILITIES */
+  .capabilities { background: #FAFAF7; }
+  .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px; }
+  .cap-card {
+    background: #fff;
+    border: 1px solid rgba(10,10,15,0.08);
+    border-radius: 22px; padding: 32px;
+    transition: all 0.3s ease;
+    display: flex; flex-direction: column;
+  }
+  .cap-card:hover { border-color: rgba(123,77,246,0.3); transform: translateY(-3px); box-shadow: 0 20px 50px -20px rgba(123,77,246,0.18); }
+  .cap-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(123,77,246,0.12), rgba(164,122,255,0.06));
+    border: 1px solid rgba(123,77,246,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: #7B4DF6; margin-bottom: 22px;
+  }
+  .cap-h { font-family: 'Fraunces', serif; font-weight: 400; font-size: 24px; line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.015em; color: #0A0A0F; }
+  .cap-p { font-size: 14.5px; color: rgba(10,10,15,0.65); line-height: 1.55; flex: 1; margin-bottom: 18px; }
+  .cap-stack { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(10,10,15,0.5); letter-spacing: 0.04em; padding-top: 16px; border-top: 1px solid rgba(10,10,15,0.06); }
+
+  /* WE ALSO AUTOMATE */
+  .also-auto { margin-top: 64px; padding: 40px; background: #fff; border: 1px solid rgba(10,10,15,0.08); border-radius: 24px; }
+  .also-auto-head { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(10,10,15,0.55); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .also-auto-head::before { content: ''; width: 28px; height: 1px; background: rgba(10,10,15,0.3); }
+  .also-auto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .also-auto-item { padding-top: 18px; border-top: 1px solid rgba(10,10,15,0.08); }
+  .also-auto-name { font-family: 'Fraunces', serif; font-weight: 400; font-size: 18px; color: #0A0A0F; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .also-auto-desc { font-size: 13.5px; color: rgba(10,10,15,0.55); line-height: 1.5; }
+
+  /* WHAT THREXA IS NOT */
+  .not-block {
+    margin-top: 32px;
+    padding: 36px 40px;
+    background: linear-gradient(135deg, rgba(123,77,246,0.05), rgba(164,122,255,0.02));
+    border: 1px solid rgba(123,77,246,0.18);
+    border-radius: 24px;
+    position: relative;
+  }
+  .not-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: #7B4DF6;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .not-head::before { content: ''; width: 28px; height: 1px; background: #7B4DF6; }
+  .not-body {
+    font-family: 'Fraunces', serif;
+    font-weight: 350;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.5;
+    letter-spacing: -0.012em;
+    color: rgba(10,10,15,0.82);
+    max-width: 920px;
+  }
+  .not-body strong {
+    font-weight: 500;
+    color: #0A0A0F;
+    background: linear-gradient(120deg, transparent 0%, transparent 5%, rgba(123,77,246,0.12) 5%, rgba(123,77,246,0.12) 95%, transparent 95%);
+    padding: 2px 4px;
+  }
+
+  /* HOW IT WORKS */
+  .how { background: #FAFAF7; border-top: 1px solid rgba(10,10,15,0.06); }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #fff; border: 1px solid rgba(10,10,15,0.08); border-radius: 24px; overflow: hidden; margin-top: 24px; }
+  .how-step { padding: 44px 36px; border-right: 1px solid rgba(10,10,15,0.08); }
+  .how-step:last-child { border-right: none; }
+  .how-num { width: 36px; height: 36px; background: #0A0A0F; color: #FAFAF7; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; margin-bottom: 24px; }
+  .how-h { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.015em; }
+  .how-p { font-size: 15px; color: rgba(10,10,15,0.62); line-height: 1.55; }
+
+  /* INDIAN STACK STRIP */
+  .stack-strip { padding: 80px 0; background: #0A0A0F; color: #FAFAF7; text-align: center; }
+  .stack-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,250,247,0.5); margin-bottom: 36px; }
+  .stack-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 56px; align-items: center; }
+  .stack-logo { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; color: rgba(250,250,247,0.7); letter-spacing: -0.01em; transition: color 0.2s; }
+  .stack-logo:hover { color: #A47AFF; }
+
+  /* PRICING */
+  .pricing { background: #FAFAF7; }
+  .pricing-toggle-wrap { display: flex; justify-content: center; margin: 32px 0 56px; }
+  .pricing-toggle { display: inline-flex; align-items: center; background: #fff; border: 1px solid rgba(10,10,15,0.1); border-radius: 999px; padding: 5px; box-shadow: 0 2px 8px rgba(10,10,15,0.04); }
+  .toggle-btn { padding: 10px 22px; border-radius: 999px; font-size: 14px; font-weight: 500; background: transparent; border: none; cursor: pointer; color: rgba(10,10,15,0.6); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Sans', sans-serif; }
+  .toggle-btn.active { background: #0A0A0F; color: #FAFAF7; }
+  .toggle-btn .save-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; background: #7B4DF6; color: #fff; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.04em; }
+  .toggle-btn.active .save-badge { background: #A47AFF; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+  .price-card { background: #fff; border: 1px solid rgba(10,10,15,0.08); border-radius: 24px; padding: 36px; display: flex; flex-direction: column; position: relative; transition: all 0.3s ease; }
+  .price-card:hover { border-color: rgba(123,77,246,0.25); transform: translateY(-4px); box-shadow: 0 24px 60px -20px rgba(123,77,246,0.18); }
+  .price-card.featured { background: #0A0A0F; color: #FAFAF7; border-color: #0A0A0F; }
+  .price-card.featured:hover { box-shadow: 0 30px 70px -20px rgba(123,77,246,0.4); }
+  .price-tier { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(10,10,15,0.55); margin-bottom: 16px; }
+  .price-card.featured .price-tier { color: rgba(250,250,247,0.6); }
+  .price-badge { position: absolute; top: 24px; right: 24px; padding: 5px 12px; background: linear-gradient(135deg, #7B4DF6, #A47AFF); color: #fff; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  .price-amount-wrap { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .price-amount { font-family: 'Fraunces', serif; font-size: 56px; font-weight: 350; line-height: 1; letter-spacing: -0.025em; color: #0A0A0F; }
+  .price-card.featured .price-amount { color: #FAFAF7; }
+  .price-amount-suffix { font-size: 16px; color: rgba(10,10,15,0.55); font-weight: 400; font-family: 'DM Sans', sans-serif; }
+  .price-card.featured .price-amount-suffix { color: rgba(250,250,247,0.6); }
+  .price-amount-strike { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 350; color: rgba(10,10,15,0.35); text-decoration: line-through; }
+  .price-card.featured .price-amount-strike { color: rgba(250,250,247,0.4); }
+  .price-setup { font-size: 13px; color: rgba(10,10,15,0.5); margin-bottom: 22px; }
+  .price-card.featured .price-setup { color: rgba(250,250,247,0.55); }
+  .price-tagline { font-size: 14.5px; line-height: 1.55; color: rgba(10,10,15,0.7); padding-bottom: 22px; margin-bottom: 22px; border-bottom: 1px solid rgba(10,10,15,0.08); }
+  .price-card.featured .price-tagline { color: rgba(250,250,247,0.78); border-color: rgba(250,250,247,0.12); }
+  .price-included-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(10,10,15,0.5); margin-bottom: 14px; }
+  .price-card.featured .price-included-label { color: rgba(250,250,247,0.55); }
+  .price-list { list-style: none; margin: 0 0 28px; padding: 0; flex: 1; }
+  .price-list li { font-size: 14.5px; line-height: 1.55; color: rgba(10,10,15,0.78); padding: 8px 0 8px 26px; position: relative; }
+  .price-card.featured .price-list li { color: rgba(250,250,247,0.85); }
+  .price-list li::before { content: ''; position: absolute; left: 0; top: 13px; width: 14px; height: 8px; border-left: 1.5px solid #7B4DF6; border-bottom: 1.5px solid #7B4DF6; transform: rotate(-45deg); }
+  .price-card.featured .price-list li::before { border-color: #A47AFF; }
+  .price-cta { display: block; width: 100%; padding: 14px 20px; background: #0A0A0F; color: #FAFAF7; border-radius: 999px; text-align: center; font-size: 14.5px; font-weight: 500; text-decoration: none; transition: all 0.2s; margin-top: auto; }
+  .price-cta:hover { background: #7B4DF6; }
+  .price-card.featured .price-cta { background: #FAFAF7; color: #0A0A0F; }
+  .price-card.featured .price-cta:hover { background: #7B4DF6; color: #FAFAF7; }
+  .price-note { margin-top: 36px; text-align: center; font-size: 14px; color: rgba(10,10,15,0.55); }
+
+  /* FREE FIRST WORKFLOW */
+  .free-block { padding: 0; background: #FAFAF7; }
+  .free-inner { background: linear-gradient(180deg, #1A1628 0%, #0F0B1F 100%); color: #FAFAF7; border-radius: 32px; padding: 80px 56px; text-align: center; position: relative; overflow: hidden; }
+  .free-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(123,77,246,0.22) 0%, transparent 60%); pointer-events: none; }
+  .free-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+  .free-content .eyebrow { color: #A47AFF; }
+  .free-content .eyebrow::before { background: #A47AFF; }
+  .free-content h2 { font-family: 'Fraunces', serif; font-weight: 350; font-size: clamp(36px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 24px; }
+  .free-content h2 em { font-style: italic; background: linear-gradient(135deg, #A47AFF, #7B4DF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .free-content p { font-size: 17px; line-height: 1.55; color: rgba(250,250,247,0.7); margin-bottom: 36px; max-width: 580px; margin-left: auto; margin-right: auto; }
+  .free-content .btn-primary { background: #FAFAF7; color: #0A0A0F; }
+  .free-content .btn-primary:hover { background: #7B4DF6; color: #FAFAF7; }
+
+  /* FOUNDER NOTE */
+  .founder { background: #FAFAF7; border-top: 1px solid rgba(10,10,15,0.06); }
+  .founder-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: start; }
+  .founder-meta { position: sticky; top: 100px; }
+  .founder-name { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; letter-spacing: -0.015em; margin-bottom: 6px; }
+  .founder-role { font-size: 14px; color: rgba(10,10,15,0.55); margin-bottom: 28px; }
+  .founder-text p { font-size: 18px; line-height: 1.65; color: rgba(10,10,15,0.78); margin-bottom: 22px; }
+  .founder-text p:last-child { margin-bottom: 0; }
+  .founder-text strong { color: #0A0A0F; font-weight: 600; }
+  .founder-sig { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: #0A0A0F; margin-top: 28px; }
+
+  /* FAQ */
+  .faq { background: #FAFAF7; }
+  .faq-list { border-top: 1px solid rgba(10,10,15,0.1); margin-top: 24px; }
+  .faq-item { border-bottom: 1px solid rgba(10,10,15,0.1); }
+  .faq-trigger { width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 28px 0; display: flex; justify-content: space-between; align-items: center; gap: 24px; font-family: 'DM Sans', sans-serif; font-size: 19px; font-weight: 500; color: #0A0A0F; letter-spacing: -0.01em; transition: color 0.2s; }
+  .faq-trigger:hover { color: #7B4DF6; }
+  .faq-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(10,10,15,0.04); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; font-size: 18px; font-weight: 300; color: rgba(10,10,15,0.6); }
+  .faq-item.open .faq-icon { background: #7B4DF6; color: #fff; transform: rotate(45deg); }
+  .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+  .faq-item.open .faq-content { max-height: 480px; padding-bottom: 28px; }
+  .faq-content p { font-size: 16px; line-height: 1.65; color: rgba(10,10,15,0.7); max-width: 760px; }
+
+  /* FINAL CTA */
+  .final { padding: 160px 0; text-align: center; background: #FAFAF7; border-top: 1px solid rgba(10,10,15,0.06); }
+  .final h2 { font-size: clamp(44px, 6vw, 86px); margin-bottom: 28px; max-width: 880px; margin-left: auto; margin-right: auto; }
+  .final h2 em { font-style: italic; color: #7B4DF6; }
+  .final p { font-size: clamp(17px, 1.5vw, 20px); color: rgba(10,10,15,0.62); max-width: 560px; margin: 0 auto 40px; line-height: 1.5; }
+
+  /* FOOTER */
+  footer { background: #0A0A0F; color: rgba(250,250,247,0.7); padding: 80px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 56px; margin-bottom: 56px; }
+  .footer-brand .logo-card-footer { margin-bottom: 20px; }
+  .footer-tagline { font-size: 14.5px; color: rgba(250,250,247,0.55); line-height: 1.55; max-width: 280px; }
+  .footer-col-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,250,247,0.45); margin-bottom: 18px; }
+  .footer-col a { display: block; color: rgba(250,250,247,0.7); text-decoration: none; font-size: 14.5px; padding: 6px 0; transition: color 0.2s; }
+  .footer-col a:hover { color: #A47AFF; }
+  .footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: rgba(250,250,247,0.45); flex-wrap: wrap; gap: 16px; }
+
+  /* CHATBOT */
+  .chatbot-launcher { position: fixed; right: 24px; bottom: 24px; z-index: 900; width: 60px; height: 60px; border-radius: 50%; background: #0A0A0F; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 12px 30px rgba(123,77,246,0.35); transition: transform 0.2s ease; }
+  .chatbot-launcher:hover { transform: translateY(-2px) scale(1.04); }
+  .chatbot-launcher img { width: 42px; height: 42px; object-fit: contain; display: block; }
+  .chatbot-panel { position: fixed; right: 24px; bottom: 96px; z-index: 901; width: 340px; max-width: calc(100vw - 32px); background: #FAFAF7; color: #0A0A0F; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.25); border: 1px solid rgba(10,10,15,0.08); display: none; flex-direction: column; max-height: 70vh; }
+  .chatbot-panel.open { display: flex; }
+  .chatbot-head { background: #0A0A0F; color: #FAFAF7; padding: 16px 18px; display: flex; align-items: center; gap: 12px; }
+  .chatbot-head img { width: 34px; height: 34px; object-fit: contain; }
+  .chatbot-head .ch-title { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -0.005em; }
+  .chatbot-head .ch-status { font-size: 11px; color: #6BFFB0; display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+  .chatbot-head .ch-status::before { content: ''; width: 6px; height: 6px; background: #6BFFB0; border-radius: 50%; }
+  .chatbot-head-text { flex: 1; }
+  .chatbot-close { background: none; border: none; color: rgba(250,250,247,0.6); font-size: 22px; cursor: pointer; padding: 4px 8px; line-height: 1; }
+  .chatbot-close:hover { color: #fff; }
+  .chatbot-body { padding: 20px; font-size: 14.5px; line-height: 1.55; overflow-y: auto; }
+  .chatbot-msg { background: rgba(123,77,246,0.08); border: 1px solid rgba(123,77,246,0.15); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; color: rgba(10,10,15,0.85); }
+  .chatbot-msg strong { color: #0A0A0F; }
+  .chatbot-cta { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px 18px; background: #25D366; color: #fff; border-radius: 12px; text-decoration: none; font-size: 14.5px; font-weight: 600; transition: all 0.2s; margin-top: 8px; }
+  .chatbot-cta:hover { background: #128C7E; transform: translateY(-1px); }
+  .chatbot-foot { padding: 12px 20px 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(10,10,15,0.4); border-top: 1px solid rgba(10,10,15,0.06); text-align: center; }
+
+  @media (max-width: 968px) {
+    .nav-menu a:not(.nav-cta) { display: none; }
+    .hero { padding: 140px 0 80px; }
+    section { padding: 100px 0; }
+    .problem-row, .cap-grid, .pricing-grid, .also-auto-grid, .how-grid, .showcase-grid, .footer-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+    .how-grid { gap: 0 !important; }
+    .how-step { border-right: none; border-bottom: 1px solid rgba(10,10,15,0.08); }
+    .how-step:last-child { border-bottom: none; }
+    .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+    .founder-meta { position: static; }
+    .free-inner { padding: 56px 28px; }
+    .showcase-frame { padding: 32px; border-radius: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo-mark" aria-label="Threxa">
+      <span class="logo-card"><img src="/threxa-logo.png" alt="Threxa" class="logo-card-img" /></span>
+    </a>
+    <div class="nav-menu">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="nav-cta">Book a demo</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1 class="display">Beyond the<br/><em>limits.</em></h1>
+    <div class="hero-positioning">The integration layer for Indian commerce. Not another CRM.</div>
+    <p class="hero-sub">Threxa connects Shopify, Tally, Razorpay, Shiprocket, and WhatsApp into orchestrated workflows — so your team handles customers, not data entry.</p>
+    <div class="hero-ctas">
+      <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book a demo <span class="arrow">→</span></a>
+      <a href="#capabilities" class="btn-secondary">See what we automate</a>
+    </div>
+  </div>
+
+  <div class="hero-showcase">
+    <div class="showcase-frame">
+      <div class="showcase-grid">
+        <div class="showcase-card">
+          <div>
+            <div class="showcase-card-tag">// Order Orchestration</div>
+            <div class="showcase-card-headline">One order. Five systems. Zero touch.</div>
+            <p class="showcase-card-body">A paid Shopify order moves through Tally, Razorpay reconciliation, Shiprocket, WhatsApp, and your team's Slack — synchronized, in seconds.</p>
+          </div>
+          <div class="showcase-card-row">
+            <span class="pulse-dot"></span>
+            <span>SHOPIFY · TALLY · SHIPROCKET · WHATSAPP</span>
+          </div>
+        </div>
+        <div class="showcase-card">
+          <div>
+            <div class="showcase-card-tag">// Built for the Indian stack</div>
+            <div class="showcase-card-headline">Tally. Razorpay. Shiprocket. WhatsApp.</div>
+            <p class="showcase-card-body">Every workflow we deploy is built around the systems Indian commerce actually runs on. Not a generic Zapier template — purpose-built infrastructure.</p>
+          </div>
+          <div class="showcase-card-row">
+            <span class="pulse-dot"></span>
+            <span>5+ NATIVE INDIAN-STACK INTEGRATIONS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="problems">
+  <div class="container">
+    <span class="eyebrow">The problem</span>
+    <h2 class="display section-title">Operations don't scale<br/>by adding <em>people.</em></h2>
+    <p class="section-lede">Every Shopify order in India touches five systems — checkout, accounting, logistics, customer messaging, and reviews. Each handoff is manual. As order volume grows, so does the cost of running it.</p>
+
+    <div class="problem-row">
+      <div class="problem-card">
+        <div class="problem-num">// 01</div>
+        <div class="problem-h">Manual order processing</div>
+        <p class="problem-p">Orders are logged into spreadsheets, copied to Tally, shipped via Shiprocket, and confirmed on WhatsApp — by hand. The work is necessary, repetitive, and impossible to scale beyond a point.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">// 02</div>
+        <div class="problem-h">Revenue lost to silence</div>
+        <p class="problem-p">Carts are abandoned, COD orders go unconfirmed, and post-purchase communication ends at the order confirmation. Every gap is a customer who leaves quietly.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">// 03</div>
+        <div class="problem-h">No system of record</div>
+        <p class="problem-p">Critical operational data sits across Shopify, WhatsApp threads, Tally, and a founder's memory. Decisions get made on instinct rather than what the numbers actually show.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="capabilities" id="capabilities">
+  <div class="container">
+    <span class="eyebrow">What we automate</span>
+    <h2 class="display section-title">Orchestration across<br/>your <em>entire stack.</em></h2>
+    <p class="section-lede">Each capability below is a multi-system orchestration we configure, deploy, and monitor — connecting tools that don't natively talk to each other, with custom logic for your business.</p>
+
+    <div class="cap-grid">
+
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div class="cap-h">Order orchestration</div>
+        <p class="cap-p">One paid order updates five systems: Tally for GST-compliant invoicing, Shiprocket for fulfilment, WhatsApp for the customer, Slack for your team, Sheets for your CFO. Custom routing logic per store.</p>
+        <div class="cap-stack">SHOPIFY · TALLY · SHIPROCKET · WHATSAPP · SLACK</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div class="cap-h">COD verification engine</div>
+        <p class="cap-p">Every cash-on-delivery order is verified through a multi-channel sequence — WhatsApp, automated voice call, then manual escalation if unanswered — before the Shiprocket label is generated. Significantly reduces RTO.</p>
+        <div class="cap-stack">SHOPIFY · WHATSAPP · VOICE API · SHIPROCKET</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        <div class="cap-h">Cart recovery sequencing</div>
+        <p class="cap-p">Abandoned carts trigger a cross-channel recovery sequence — WhatsApp with a personalised discount, then email, then SMS — with logic that adapts based on customer history and AOV. Recovery flows reconcile back to Tally automatically.</p>
+        <div class="cap-stack">SHOPIFY · WHATSAPP · EMAIL · TALLY</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div class="cap-h">Shipping intelligence</div>
+        <p class="cap-p">Shipping data flows from Shiprocket and Delhivery into your customer's WhatsApp, your founder dashboard, and your Tally invoice records — synchronized in real time, with exception handling for stuck shipments.</p>
+        <div class="cap-stack">SHIPROCKET · DELHIVERY · WHATSAPP · DASHBOARD</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="cap-h">Review &amp; loyalty engine</div>
+        <p class="cap-p">Delivery confirmations from Shiprocket trigger review requests on Judge.me, unlock loyalty points in your customer database, and route negative reviews directly to your founder's WhatsApp before they post publicly.</p>
+        <div class="cap-stack">SHIPROCKET · JUDGE.ME · WHATSAPP · CUSTOMER DB</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <div class="cap-h">Inventory &amp; ad sync</div>
+        <p class="cap-p">When a SKU's stock drops below threshold, Threxa automatically pauses Meta and Google ads for that product, alerts your founder dashboard, and triggers a restock workflow with your supplier — without anyone touching a dashboard.</p>
+        <div class="cap-stack">SHOPIFY · META ADS · GOOGLE ADS · WHATSAPP</div>
+      </div>
+
+    </div>
+
+    <div class="also-auto">
+      <div class="also-auto-head">We also automate</div>
+      <div class="also-auto-grid">
+        <div class="also-auto-item">
+          <div class="also-auto-name">Lead capture &amp; routing</div>
+          <div class="also-auto-desc">For agencies, real estate, and coaching businesses</div>
+        </div>
+        <div class="also-auto-item">
+          <div class="also-auto-name">AI customer support</div>
+          <div class="also-auto-desc">First-line response with human-handoff escalation</div>
+        </div>
+        <div class="also-auto-item">
+          <div class="also-auto-name">GST invoicing &amp; reconciliation</div>
+          <div class="also-auto-desc">Automated tax workflows for Indian businesses</div>
+        </div>
+        <div class="also-auto-item">
+          <div class="also-auto-name">Internal operations</div>
+          <div class="also-auto-desc">HR onboarding, document approvals, reporting</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="not-block">
+      <div class="not-head">What Threxa is not</div>
+      <p class="not-body">We are not a Shopify app, a CRM, or a WhatsApp marketing tool. We do not replace Klaviyo, AiSensy, or your accounting software. <strong>Threxa is the integration layer that connects them</strong> — handling the custom logic, error recovery, and Indian-stack edge cases that no off-the-shelf product covers. Most of our clients run AiSensy, Judge.me, and Tally alongside Threxa. We are the orchestration that makes them work as one system.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="container">
+    <span class="eyebrow">How it works</span>
+    <h2 class="display section-title">From audit to live<br/>in <em>five working days.</em></h2>
+    <p class="section-lede">A structured engagement with clear milestones. You see results before you commit.</p>
+
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <div class="how-h">Audit</div>
+        <p class="how-p">A 45-minute call to map your current workflow — every system involved, every manual handoff, and the points where revenue or time is being lost.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <div class="how-h">Build</div>
+        <p class="how-p">Your first workflow is built and tested on a copy of your real data. You receive a recorded walkthrough showing it run end-to-end before any payment is made.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <div class="how-h">Deploy &amp; monitor</div>
+        <p class="how-p">Once approved, the workflow goes live. We monitor it 24/7, alert you to failures, and handle fixes as part of the engagement. No surprise bills.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stack-strip">
+  <div class="container">
+    <div class="stack-label">Native integrations with the Indian commerce stack</div>
+    <div class="stack-logos">
+      <span class="stack-logo">Shopify</span>
+      <span class="stack-logo">Tally Prime</span>
+      <span class="stack-logo">Razorpay</span>
+      <span class="stack-logo">Shiprocket</span>
+      <span class="stack-logo">Delhivery</span>
+      <span class="stack-logo">AiSensy</span>
+      <span class="stack-logo">Judge.me</span>
+      <span class="stack-logo">Gupshup</span>
+    </div>
+  </div>
+</div>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <span class="eyebrow">Pricing</span>
+    <h2 class="display section-title">Transparent pricing.<br/>Scale with <em>confidence.</em></h2>
+    <p class="section-lede">Fixed monthly rates based on order volume. Scale beyond your plan's limit? Pay only for the additional orders. No surprises, no setup fees.</p>
+
+    <div class="pricing-toggle-wrap" style="display: none;">
+      <div class="pricing-toggle" role="tablist">
+        <button class="toggle-btn active" data-period="monthly" onclick="setPeriod('monthly')">Monthly</button>
+        <button class="toggle-btn" data-period="annual" onclick="setPeriod('annual')">Annual <span class="save-badge">Save 20%</span></button>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-tier">Launch</div>
+        <div class="price-amount-wrap">
+          <span class="price-amount" data-monthly="₹8,000" data-annual="₹8,000">₹8,000</span>
+          <span class="price-amount-suffix">/ month</span>
+        </div>
+        <div class="price-setup" data-monthly-setup="Includes 3,000 orders/month · 3-month minimum · Additional orders ₹2 each" data-annual-setup="Includes 3,000 orders/month · 3-month minimum · Additional orders ₹2 each">Includes 3,000 orders/month · 3-month minimum · Additional orders ₹2 each</div>
+        <p class="price-tagline">A single automated workflow built and managed end-to-end. Suited for stores processing up to 3,000 orders per month.</p>
+
+        <div class="price-included-label">What's included</div>
+        <ul class="price-list">
+          <li>One workflow of your choice — order processing, COD verification, or shipping updates</li>
+          <li>Configuration across Shopify, WhatsApp Business, and one Indian-stack integration</li>
+          <li>Recorded training session for your team</li>
+          <li>24/7 automated monitoring with failure alerts</li>
+          <li>Email and WhatsApp support, four-hour response on business days</li>
+          <li>Weekly performance summary</li>
+          <li>Full workflow documentation and handover</li>
+        </ul>
+
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Start with Launch</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">Most picked</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-amount-wrap">
+          <span class="price-amount" data-monthly="₹16,000" data-annual="₹16,000">₹16,000</span>
+          <span class="price-amount-suffix">/ month</span>
+        </div>
+        <div class="price-setup" data-monthly-setup="Includes 15,000 orders/month · 3-month minimum · Additional orders ₹1.50 each" data-annual-setup="Includes 15,000 orders/month · 3-month minimum · Additional orders ₹1.50 each">Includes 15,000 orders/month · 3-month minimum · Additional orders ₹1.50 each</div>
+        <p class="price-tagline">The full operations stack — order orchestration, COD verification, cart recovery, and shipping intelligence. Suited for stores doing 5,000–20,000 orders per month.</p>
+
+        <div class="price-included-label">Everything in Launch, plus</div>
+        <ul class="price-list">
+          <li>Three core workflows configured and connected</li>
+          <li>Tally Prime and Shiprocket / Delhivery integrations included</li>
+          <li>Cart recovery sequencing across WhatsApp, email, and SMS</li>
+          <li>Live operations dashboard with revenue impact metrics</li>
+          <li>Real-time failure alerts to your phone</li>
+          <li>Priority support — two-hour response on business days</li>
+          <li>Monthly performance review and optimization recommendations</li>
+        </ul>
+
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Start with Growth</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount-wrap">
+          <span class="price-amount" data-monthly="₹45,000" data-annual="₹45,000">₹45,000</span>
+          <span class="price-amount-suffix">/ month</span>
+        </div>
+        <div class="price-setup" data-monthly-setup="Includes 60,000 orders/month · 3-month minimum · Additional orders ₹1 each" data-annual-setup="Includes 60,000 orders/month · 3-month minimum · Additional orders ₹1 each">Includes 60,000 orders/month · 3-month minimum · Additional orders ₹1 each</div>
+        <p class="price-tagline">Custom workflows, multi-store support, and dedicated build capacity. Suited for established brands operating multiple stores or reaching scale.</p>
+
+        <div class="price-included-label">Everything in Growth, plus</div>
+        <ul class="price-list">
+          <li>Unlimited workflows during the engagement</li>
+          <li>Multi-store support — up to three Shopify or WooCommerce stores</li>
+          <li>Custom integrations with niche or proprietary systems</li>
+          <li>Dedicated build queue — workflows shipped within 72 hours</li>
+          <li>SLA-backed uptime commitment (99.5% availability)</li>
+          <li>Quarterly business review with strategic recommendations</li>
+          <li>Dedicated account manager and priority support</li>
+        </ul>
+
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Start with Pro</a>
+      </div>
+
+    </div>
+
+    <p class="price-note">All plans include 24/7 monitoring, failure alerts, and monthly reviews. Exceed your plan's order limit? Additional orders billed at the stated rate — no surprises.</p>
+  </div>
+</section>
+
+<section class="free-block">
+  <div class="container">
+    <div class="free-inner">
+      <div class="free-content">
+        <span class="eyebrow">Risk reversal</span>
+        <h2>The first workflow is <em>built free.</em></h2>
+        <p>Send us your store details and the workflow you want automated. We'll build it on a copy of your real data and walk you through it on a recorded call — at our cost. You only begin paying once you've seen it run on a real order. No contract, no obligation.</p>
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book your free audit <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="founder">
+  <div class="container">
+    <div class="founder-grid">
+      <div class="founder-meta">
+        <span class="eyebrow" style="margin-bottom: 28px;">A note from the founder</span>
+        <div class="founder-name">Sachin JK</div>
+        <div class="founder-role">Founder, Threxa</div>
+      </div>
+      <div class="founder-text">
+        <p>I'm Sachin. I built Threxa after spending the better part of two years watching D2C founders run their businesses through brute force — copy-pasting orders into Tally at midnight, manually messaging customers on WhatsApp, calling buyers to confirm cash-on-delivery before each shipment.</p>
+        <p>The tools to automate this work have existed for years. None of them were built for the Indian commerce stack — Tally, not QuickBooks. Razorpay, not Stripe. WhatsApp Business, not email-first. Shiprocket and Delhivery, not FedEx.</p>
+        <p>So we built the layer that connects them. <strong>Threxa is run as a small, focused team. We work with a limited number of brands at a time so every store gets proper attention.</strong> If your operation has reached the point where adding more people is the only answer to growth, we should talk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container-narrow">
+    <span class="eyebrow">Frequently asked</span>
+    <h2 class="display section-title">Common questions,<br/><em>answered.</em></h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Do you only work with Shopify, or also WooCommerce and Dukaan? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Shopify is our primary focus, where we have the deepest integration coverage. We also support WooCommerce and Dukaan — let us know your platform during the audit call and we'll confirm what's possible.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">What if my Shopify store is on the Basic plan? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Threxa works on every Shopify plan, including Basic. Webhook-based automation does not require Shopify Plus. The only feature limited to higher Shopify tiers is Shopify Flow itself — which Threxa replaces with a more capable, cross-system orchestration layer.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">How long does setup take? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>For Launch and Growth, the first workflow is live within five working days of signing the engagement. Pro engagements vary based on the complexity of custom integrations. The free first-workflow build is typically completed in two to three working days.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Can I cancel any time? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>All plans require a 3-month minimum commitment. This ensures we have adequate time to build, implement, and optimize your workflows before any changes. After the initial 3-month period, you can choose to continue, modify your plan, or discontinue the service.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">What happens if a workflow breaks? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Workflows are monitored 24/7. If a failure occurs — for example, an expired API token or an integration outage — both you and our team are alerted automatically. Repairs are part of every plan; we do not charge separately for fixes.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Where is my data stored, and is it secure? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Workflow execution logs are stored on infrastructure hosted in Indian data centres. We do not store your customer data beyond what is required to run a workflow. Credentials and API tokens are encrypted at rest. Full data handling details are shared during the audit call.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Are the invoices generated GST-compliant? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Yes. Tally invoices generated through our integration follow Indian GST e-invoicing standards. We support IRN generation and can integrate with your existing CA's reconciliation process.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Can I see the workflow before I commit? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Yes. The first workflow is always built free as proof of concept. You see it run on your real order data, on a recorded walkthrough, before you pay anything. If it doesn't perform as promised, you walk away.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">What's the difference between Threxa and AiSensy or Wati? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>AiSensy and Wati are WhatsApp-only platforms. Threxa is the integration layer that connects WhatsApp to your full operations stack — Shopify, Tally, Razorpay, Shiprocket — and handles the configuration for you. We frequently work alongside AiSensy as the WhatsApp delivery layer within our orchestrations.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Do you offer custom workflows beyond what's listed? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Yes. The Pro tier includes custom workflow capacity. We've built workflows for influencer outreach, supplier reordering, marketplace inventory sync, and AI-driven customer support. If you can describe the process, we can usually build it.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="container">
+    <h2 class="display">Ready to see Threxa<br/>run on <em>your store?</em></h2>
+    <p>Book a 30-minute audit. We'll map your current workflow, identify the highest-impact automation, and build the first one free.</p>
+    <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book your free audit <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="#" class="logo-mark" aria-label="Threxa">
+          <span class="logo-card logo-card-footer"><img src="/threxa-logo.png" alt="Threxa" class="logo-card-img" /></span>
+        </a>
+        <p class="footer-tagline">Workflow infrastructure for Indian commerce. Built in Bengaluru.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Product</div>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener">Book a demo</a>
+        <a href="mailto:sachin@theingredientlist.co">Contact</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Reach us</div>
+        <a href="mailto:sachin@theingredientlist.co">sachin@theingredientlist.co</a>
+        <a href="#" style="cursor: default;">Bengaluru, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Threxa™ · All rights reserved</span>
+      <span>Built for Indian commerce</span>
+    </div>
+  </div>
+</footer>
+
+<button class="chatbot-launcher" onclick="toggleChat()" aria-label="Chat with us">
+  <img src="/threxa-icon.png" alt="" />
+</button>
+
+<div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="Threxa assistant">
+  <div class="chatbot-head">
+    <img src="/threxa-icon.png" alt="" />
+    <div class="chatbot-head-text">
+      <div class="ch-title">Threxa Assistant</div>
+      <div class="ch-status">Sachin · Usually replies within an hour</div>
+    </div>
+    <button class="chatbot-close" onclick="toggleChat()" aria-label="Close">×</button>
+  </div>
+  <div class="chatbot-body">
+    <div class="chatbot-msg">
+      <strong>Hey, I'm Sachin 👋</strong><br/>
+      Tell me about your store — order volume, current stack, the part of operations that's slowing you down — and I'll show you exactly what we'd automate first.
+    </div>
+    <div class="chatbot-msg">
+      Tap below to continue this on WhatsApp. I reply personally, not a bot.
+    </div>
+    <a href="https://wa.me/917483992418?text=Hi%20Sachin%2C%20I%20visited%20Threxa.%20I%27d%20like%20to%20discuss%20automating%20my%20store." target="_blank" rel="noopener" class="chatbot-cta">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Continue on WhatsApp
+    </a>
+  </div>
+  <div class="chatbot-foot">Support team</div>
+</div>
+
+<script>
+  function toggleFAQ(btn) { btn.parentElement.classList.toggle('open'); }
+  function toggleChat() { document.getElementById('chatbotPanel').classList.toggle('open'); }
+  function setPeriod(period) {
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.period === period));
+    document.querySelectorAll('.price-amount').forEach(el => {
+      el.textContent = period === 'monthly' ? el.dataset.monthly : el.dataset.annual;
+    });
+    document.querySelectorAll('.price-amount-strike').forEach(el => {
+      const v = period === 'monthly' ? el.dataset.strikeMonthly : el.dataset.strikeAnnual;
+      el.textContent = v || '';
+      el.style.display = v ? 'inline' : 'none';
+    });
+    document.querySelectorAll('.price-setup').forEach(el => {
+      el.textContent = period === 'monthly' ? el.dataset.monthlySetup : el.dataset.annualSetup;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', () => setPeriod('monthly'));
+</script>
+
+</body>
+</html>

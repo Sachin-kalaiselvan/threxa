@@ -8,39 +8,39 @@ const EMAIL = "sachin@theingredientlist.co";
 const painPoints = [
   {
     number: "01",
-    title: "Every order is a fifteen-minute tax.",
-    copy: "Log in to Shopify. Copy it to Tally. Generate the Shiprocket label. Send the WhatsApp confirmation. Notify the team. Repeat fifty times today.",
+    title: "40+ hours a month, gone to data entry.",
+    copy: "Shopify → accounting → shipping → WhatsApp, by hand, every order. Threxa does it in seconds, free.",
     visual: "orders",
-    tag: "label · tax · daily",
+    tag: "40 hrs/mo saved",
   },
   {
     number: "02",
-    title: "Seven of every ten carts walk away forever.",
-    copy: "The customer added the product. They picked the size. They saw the shipping cost. Then a phone call interrupted them. No one ever followed up. The cart cooled into nothing.",
+    title: "70% of carts walk away. Forever.",
+    copy: "No follow-up message, no recovery. That's revenue you already paid to earn — lost for free.",
     visual: "cart",
-    tag: "missed revenue · follow-up",
+    tag: "5–8% revenue recovered",
   },
   {
     number: "03",
-    title: "The reviews you need never arrive.",
-    copy: "Eighty percent of D2C purchases happen because of reviews. Yours never get collected because no one has the bandwidth to ask. Your best customers stay anonymous.",
+    title: "80% of sales depend on reviews you never collect.",
+    copy: "No one has time to ask. Threxa asks for you, automatically, after every delivery.",
     visual: "reviews",
-    tag: "review request · after ship",
+    tag: "0 extra effort",
   },
 ];
 
 const workflows = [
   {
-    eyebrow: "01 — order to shiprocket",
+    eyebrow: "01 — order to fulfillment",
     title: "Three seconds. Five systems. Zero touch.",
-    copy: "A customer hits checkout. Threxa fires across your stack — Sheets, Tally, Shiprocket, WhatsApp, your team's group chat — in the time it takes the page to refresh.",
-    chips: ["Shopify", "Tally", "Shiprocket", "Delivery", "Sheets"],
+    copy: "A customer hits checkout. Threxa fires across your stack — spreadsheets, accounting, shipping, WhatsApp or email, your team's group chat — in the time it takes the page to refresh.",
+    chips: ["Shopify", "Accounting", "Shipping", "Delivery", "Sheets"],
     visual: "flow",
   },
   {
     eyebrow: "02 — cart recovery",
     title: "Win back the seventy percent that walked away.",
-    copy: "Cart abandoned. Sixty minutes pass. Threxa sends a personalized WhatsApp with a one-time code. Twenty-four hours later, an email follow-up. Recovers 5–8% of revenue you'd otherwise lose.",
+    copy: "Cart abandoned. Sixty minutes pass. Threxa sends a personalized WhatsApp or email with a one-time code. Twenty-four hours later, a follow-up. Recovers 5–8% of revenue you'd otherwise lose.",
     chips: ["WhatsApp", "Email", "Recovery", "Shopify"],
     visual: "revenue",
   },
@@ -93,7 +93,7 @@ const plans = [
     price: "₹15,000",
     note: "/mo",
     description: "One workflow. The cleanest start.",
-    features: ["1 automation workflow", "WhatsApp + email support", "Execution monitoring", "Monthly performance email", "Up to 30 orders/day"],
+    features: ["1 automation workflow", "Chat + email support", "Execution monitoring", "Monthly performance email", "Up to 30 orders/day"],
     cta: "Start with Starter",
     highlighted: false,
   },
@@ -102,7 +102,7 @@ const plans = [
     price: "₹35,000",
     note: "/mo",
     description: "Three workflows. Where most brands land.",
-    features: ["3 automation workflows", "WhatsApp control panel", "Tally + Shiprocket integrations", "Realtime failure alerts", "Git dashboard", "Priority support", "Up to 100 orders/day"],
+    features: ["3 automation workflows", "WhatsApp/Slack control panel", "Accounting + shipping integrations", "Realtime failure alerts", "Live dashboard", "Priority support", "Up to 100 orders/day"],
     cta: "Pick Growth",
     highlighted: true,
   },
@@ -111,7 +111,7 @@ const plans = [
     price: "₹75,000",
     note: "/mo",
     description: "Custom automation. The full engine.",
-    features: ["Unlimited workflows", "Multi-store support", "Custom Indian integrations", "Monthly strategy call", "Dedicated build queue", "SLA-backed uptime", "500+ orders/day"],
+    features: ["Unlimited workflows", "Multi-store support", "Custom regional integrations", "Monthly strategy call", "Dedicated build queue", "SLA-backed uptime", "500+ orders/day"],
     cta: "Talk to founder",
     highlighted: false,
   },
@@ -141,7 +141,7 @@ const SystemPanel = () => (
         <p className="mb-8 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-violet-soft/75">// live workflow</p>
         <h2 className="max-w-xs font-display text-3xl leading-none text-secondary-foreground md:text-4xl">Your store. Running itself.</h2>
         <p className="mt-4 text-xs leading-relaxed text-secondary-foreground/62">
-          An order arrives, WhatsApp is sent, Shiprocket documentation is built, the team is alerted, the review is queued, abandoned carts are watched.
+          An order arrives, WhatsApp is sent, shipping labels are generated, the team is alerted, the review is queued, abandoned carts are watched.
         </p>
         <div className="mt-10 grid grid-cols-3 border-t border-violet-soft/15 pt-4 text-secondary-foreground">
           <div>
@@ -163,7 +163,7 @@ const SystemPanel = () => (
           <span>flow — 001 · live</span>
           <span>3s</span>
         </div>
-        {["Shopify · Order received", "Google Sheets · Logged", "WhatsApp · Sent", "Tally · Invoice"].map((item, index) => (
+        {["Shopify · Order received", "Google Sheets · Logged", "WhatsApp · Sent", "Accounting · Invoice"].map((item, index) => (
           <div key={item} className="mb-3 flex items-center gap-3 rounded-md border border-violet-soft/20 bg-cream-lift/5 px-3 py-3 text-xs text-secondary-foreground/78 transition-transform duration-300 hover:-translate-y-0.5">
             <span className="flex h-5 w-5 items-center justify-center rounded-sm bg-primary text-[0.62rem] font-bold text-primary-foreground">{index + 1}</span>
             <span>{item}</span>
@@ -200,7 +200,7 @@ const PainVisual = ({ type }: { type: string }) => {
   }
   return (
     <div className="rounded-lg bg-card p-5 shadow-violet ring-1 ring-line">
-      {["Shopify · paid", "Google Sheets · tracker", "WhatsApp · copy", "Tally · tax invoice", "Shiprocket · label"].map((item, index) => (
+      {["Shopify · paid", "Google Sheets · tracker", "WhatsApp · copy", "Accounting · tax invoice", "Shipping · label"].map((item, index) => (
         <div key={item} className="mb-3 flex items-center gap-3 rounded-md border border-line bg-cream-lift px-4 py-3 text-xs text-foreground">
           <span className="h-3 w-3 rounded-sm bg-success" />
           <span>{item}</span>
@@ -216,7 +216,7 @@ const WorkflowVisual = ({ type }: { type: string }) => {
     return (
       <div className="flex h-56 flex-col items-center justify-center rounded-lg bg-panel-gradient text-secondary-foreground shadow-panel">
         <p className="text-[0.6rem] uppercase tracking-[0.25em] text-secondary-foreground/38">recovered cart revenue</p>
-        <p className="mt-4 font-display text-5xl italic text-secondary-foreground">₹17,231</p>
+        <p className="mt-4 font-display text-5xl italic text-secondary-foreground">$207</p>
         <div className="mt-6 flex h-8 items-end gap-1">
           {[18, 24, 15, 31, 38, 29, 44].map((height, index) => (
             <span key={index} className="w-1.5 rounded-full bg-primary" style={{ height }} />
@@ -251,7 +251,7 @@ const WorkflowVisual = ({ type }: { type: string }) => {
   }
   return (
     <div className="rounded-lg bg-panel-gradient p-7 text-secondary-foreground shadow-panel">
-      {["Order placed", "Sheet logged", "WhatsApp sent", "Tally invoice", "Label printed"].map((step, index) => (
+      {["Order placed", "Sheet logged", "WhatsApp sent", "Accounting invoice", "Label printed"].map((step, index) => (
         <div key={step} className="flex items-center gap-4 pb-4 last:pb-0">
           <span className="flex h-8 w-8 items-center justify-center rounded-full border border-violet-soft/35 bg-violet/20 text-xs text-secondary-foreground">{index + 1}</span>
           <span className="text-sm text-secondary-foreground/80">{step}</span>
@@ -312,13 +312,18 @@ const ThrexaLanding = () => {
           <div className="mb-9 flex w-full justify-center rounded-lg bg-secondary px-6 py-5 shadow-panel ring-1 ring-violet-soft/15 animate-reveal sm:w-auto">
             <LogoMark />
           </div>
-          <p className="mb-6 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary animate-reveal">// workflow automation for Indian D2C</p>
+          <p className="mb-6 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary animate-reveal">// workflow automation for D2C brands</p>
           <h1 className="max-w-3xl font-display text-6xl font-medium leading-[0.88] text-balance md:text-8xl lg:text-9xl animate-reveal">
             Beyond <span className="font-display-italic text-primary">limits.</span>
           </h1>
-          <p className="mt-7 max-w-xl text-sm leading-7 text-muted-foreground md:text-base animate-reveal">
-            Threxa builds automation systems for Shopify D2C brands. Order processing, customer messages, cart recovery, reviews — all handled, all running, all the time.
+          <p className="mt-7 max-w-lg text-sm leading-7 text-muted-foreground md:text-base animate-reveal">
+            Order processing takes most D2C teams 15 hours a week. Threxa gets it under 1 — automatically.
           </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 animate-reveal">
+            <span className="rounded-full border border-line bg-card px-4 py-2 text-xs font-semibold text-foreground">15 hrs/week → &lt;1 hr/week</span>
+            <span className="rounded-full border border-line bg-card px-4 py-2 text-xs font-semibold text-foreground">Starts at ₹15,000/mo (~$180)</span>
+            <span className="rounded-full border border-line bg-card px-4 py-2 text-xs font-semibold text-foreground">First workflow free to test</span>
+          </div>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row animate-reveal">
             <a href={CAL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
               Book a free audit <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -340,7 +345,7 @@ const ThrexaLanding = () => {
             An order comes in.<br />Then <span className="font-display-italic text-primary">silence.</span><br />That's the goal.
           </h2>
           <p className="mx-auto mt-8 max-w-md text-sm leading-7 text-muted-foreground">
-            No team scrambling. No founder copy-pasting at 11 PM. No customer waiting for an update that never comes. Just a quiet store that works while you sleep.
+            No scrambling. No copy-pasting at 11 PM. Just a store that runs itself.
           </p>
         </div>
       </section>
@@ -350,10 +355,10 @@ const ThrexaLanding = () => {
           <div className="mb-20 text-center">
             <p className="mb-5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-primary">// the reality</p>
             <h2 className="mx-auto max-w-2xl font-display text-5xl leading-[0.92] md:text-7xl">
-              Most D2C founders are <span className="font-display-italic text-primary">drowning</span> in work that should be invisible.
+              Three costs you're <span className="font-display-italic text-primary">paying right now.</span>
             </h2>
             <p className="mx-auto mt-7 max-w-md text-sm leading-7 text-muted-foreground">
-              Threxa eliminates the tasks that eat your day — the ones that look like work but aren't strategy.
+              Not in money you notice. In hours and orders you never see back.
             </p>
           </div>
           <div className="space-y-16 md:space-y-20">
@@ -427,10 +432,10 @@ const ThrexaLanding = () => {
               Pay for the work.<br />Pay for the <span className="font-display-italic text-primary">uptime.</span><br />Nothing in between.
             </h2>
             <p className="mx-auto mt-7 max-w-md text-sm leading-7 text-muted-foreground">
-              No per-task fees. No surprise overages. One-time setup, monthly to keep it running, monitored, and patched.
+              No per-task fees. No overages. Flat monthly, cancel anytime.
             </p>
           </div>
-          <p className="mb-8 text-center text-sm font-semibold text-primary">First workflow always built from a proof-of-concept. Pay only when you see it work.</p>
+          <p className="mb-8 text-center text-sm font-semibold text-primary">First workflow built free. Pay only after you see it work.</p>
           <div className="grid gap-4 md:grid-cols-3">
             {plans.map((plan) => (
               <article key={plan.name} className={plan.highlighted ? "relative rounded-lg bg-secondary p-6 text-secondary-foreground shadow-panel ring-1 ring-violet-soft/25" : "rounded-lg bg-card p-6 text-card-foreground shadow-violet ring-1 ring-line"}>
@@ -456,6 +461,7 @@ const ThrexaLanding = () => {
               </article>
             ))}
           </div>
+          <p className="mt-8 text-center text-xs text-muted-foreground">Prices shown in INR. International clients billed in USD/EUR at the equivalent rate — ask on your audit call.</p>
         </div>
       </section>
 
@@ -466,7 +472,7 @@ const ThrexaLanding = () => {
             Stop doing<br /><span className="font-display-italic text-primary">data entry.</span>
           </h2>
           <p className="mx-auto mt-7 max-w-md text-sm leading-7 text-muted-foreground">
-            Book a free fifteen-minute audit. We look at your current workflow, tell you what to automate first, and build the first one free. No pitch. No contract. Just see if it works.
+            15-minute call. We show you what to automate first and build it free. No pitch, no contract.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href={CAL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground shadow-panel transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4 focus:ring-offset-background">
@@ -483,7 +489,7 @@ const ThrexaLanding = () => {
         <div className="mx-auto flex max-w-5xl flex-col gap-8 px-5 md:flex-row md:items-end md:justify-between md:px-8">
           <div>
             <LogoMark compact />
-            <p className="mt-3 max-w-xs text-xs leading-6 text-muted-foreground">Automation infrastructure for Indian D2C brands. Beyond Limits.</p>
+            <p className="mt-3 max-w-xs text-xs leading-6 text-muted-foreground">Automation infrastructure for D2C brands, worldwide. Beyond Limits.</p>
             <p className="mt-2 text-xs text-muted-foreground">sachin@theingredientlist.co · +91 74839 92418</p>
           </div>
           <div className="grid grid-cols-3 gap-10 text-xs text-muted-foreground">

@@ -1,13 +1,34 @@
 import { useState, useEffect } from "react";
 import {
-  ArrowRight, Check, Clock, Zap, Shield, Users, TrendingUp, Phone, Mail,
-  MapPin, Linkedin, Menu, X, ShoppingCart, Send, Loader, ExternalLink,
-  Sparkles, BookOpen, BarChart3, Target, AlertCircle, Copy,
+  Check, Zap, Shield, Users, Phone, Mail,
+  MapPin, Linkedin, Menu, X, Send, ExternalLink,
+  Sparkles, BarChart3, Target, AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import tilLogo from "@/assets/til-logo.png";
 import thexaLogo from "@/assets/threxa-logo.png";
+
+// ─── CURRENCY + LIVE RATES ───
+type Currency = "INR" | "USD" | "EUR" | "GBP";
+
+const CURRENCIES: { code: Currency; symbol: string; locale: string }[] = [
+  { code: "INR", symbol: "₹", locale: "en-IN" },
+  { code: "USD", symbol: "$", locale: "en-US" },
+  { code: "EUR", symbol: "€", locale: "de-DE" },
+  { code: "GBP", symbol: "£", locale: "en-GB" },
+];
+
+// Fallback rates (1 INR = X foreign currency). Used if API is down.
+const FALLBACK_RATES: Record<Currency, number> = {
+  INR: 1,
+  USD: 1 / 96,
+  EUR: 1 / 110,
+  GBP: 1 / 129,
+};
+
+// Cal.com link — used everywhere as the real CTA
+const CAL_LINK = "https://cal.com/threxa/threxa-free-audit";
+const WHATSAPP_LINK = "https://wa.me/917483992418";
 
 // Animation styles
 const AnimationStyles = () => (
@@ -16,27 +37,12 @@ const AnimationStyles = () => (
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes slideInRight {
-      from { opacity: 0; transform: translateX(40px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    @keyframes shimmer {
-      0% { background-position: -1000px 0; }
-      100% { background-position: 1000px 0; }
-    }
     .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
     .fade-in-up.d1 { animation-delay: 0.1s; }
     .fade-in-up.d2 { animation-delay: 0.2s; }
     .fade-in-up.d3 { animation-delay: 0.3s; }
     .fade-in-up.d4 { animation-delay: 0.4s; }
-    .slide-in-right { animation: slideInRight 0.8s ease-out forwards; opacity: 0; }
-    .pulse-animation { animation: pulse 2s infinite; }
-    .shimmer-bg { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); background-size: 1000px 100%; animation: shimmer 3s infinite; }
-    
+
     @media (max-width: 768px) {
       .hero-heading { font-size: 1.875rem !important; line-height: 1.2 !important; }
       .hero-paragraph { font-size: 1rem !important; }
@@ -48,8 +54,90 @@ const AnimationStyles = () => (
   `}</style>
 );
 
+// ─── CURRENCY CONTEXT (simple hook, no Context API needed) ───
+const useLiveRates = () => {
+  const [rates, setRates] = useState<Record<Currency, number>>(FALLBACK_RATES);
+  const [ratesSource, setRatesSource] = useState<"live" | "fallback">("fallback");
+
+  useEffect(() => {
+    // Try localStorage cache first (6hr TTL)
+    const cached = localStorage.getItem("threxa_rates");
+    if (cached) {
+      try {
+        const { rates: cachedRates, timestamp } = JSON.parse(cached);
+        const sixHours = 6 * 60 * 60 * 1000;
+        if (Date.now() - timestamp < sixHours) {
+          setRates(cachedRates);
+          setRatesSource("live");
+          return;
+        }
+      } catch {}
+    }
+
+    // Fetch live rates from fawazahmed0/currency-api (free, no key)
+    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/inr.json")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.inr) {
+          const newRates: Record<Currency, number> = {
+            INR: 1,
+            USD: data.inr.usd ?? FALLBACK_RATES.USD,
+            EUR: data.inr.eur ?? FALLBACK_RATES.EUR,
+            GBP: data.inr.gbp ?? FALLBACK_RATES.GBP,
+          };
+          setRates(newRates);
+          setRatesSource("live");
+          localStorage.setItem(
+            "threxa_rates",
+            JSON.stringify({ rates: newRates, timestamp: Date.now() })
+          );
+        }
+      })
+      .catch(() => {
+        // Silently fall back to hardcoded rates
+      });
+  }, []);
+
+  return { rates, ratesSource };
+};
+
+const formatPrice = (inrAmount: number, currency: Currency, rates: Record<Currency, number>): string => {
+  const converted = inrAmount * rates[currency];
+  const rounded = Math.round(converted);
+  const localeInfo = CURRENCIES.find((c) => c.code === currency);
+  try {
+    return new Intl.NumberFormat(localeInfo?.locale ?? "en-US", {
+      style: "currency",
+      currency: currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(rounded);
+  } catch {
+    return `${localeInfo?.symbol ?? ""}${rounded.toLocaleString()}`;
+  }
+};
+
+// Detect currency from browser locale
+const detectCurrency = (): Currency => {
+  if (typeof navigator === "undefined") return "INR";
+  const stored = localStorage.getItem("threxa_currency") as Currency | null;
+  if (stored && CURRENCIES.find((c) => c.code === stored)) return stored;
+  const locale = navigator.language.toUpperCase();
+  if (locale.includes("IN")) return "INR";
+  if (locale.includes("US")) return "USD";
+  if (locale.includes("GB") || locale.includes("UK")) return "GBP";
+  if (["DE", "FR", "ES", "IT", "PT", "NL", "BE", "AT", "IE"].some((c) => locale.includes(c))) return "EUR";
+  return "INR"; // Default: your primary market
+};
+
 // ─── NAVBAR ───
-function Navbar() {
+function Navbar({
+  currency,
+  setCurrency,
+}: {
+  currency: Currency;
+  setCurrency: (c: Currency) => void;
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -60,14 +148,29 @@ function Navbar() {
           <span className="text-white font-bold text-sm md:text-lg">Threxa</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           <a href="#features" className="text-slate-300 hover:text-white transition text-sm">Features</a>
           <a href="#pricing" className="text-slate-300 hover:text-white transition text-sm">Pricing</a>
           <a href="#faq" className="text-slate-300 hover:text-white transition text-sm">FAQ</a>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm">
-            <ShoppingCart size={16} className="mr-2" />
-            Shopify App Store
-          </Button>
+          <select
+            value={currency}
+            onChange={(e) => {
+              const next = e.target.value as Currency;
+              setCurrency(next);
+              localStorage.setItem("threxa_currency", next);
+            }}
+            className="bg-slate-800 border border-slate-700 rounded-md px-2 py-1 text-xs text-slate-300 hover:text-white cursor-pointer focus:outline-none focus:border-blue-500"
+            aria-label="Currency"
+          >
+            {CURRENCIES.map((c) => (
+              <option key={c.code} value={c.code}>{c.symbol} {c.code}</option>
+            ))}
+          </select>
+          <a href={CAL_LINK} target="_blank" rel="noopener noreferrer">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm">
+              Book Free Audit
+            </Button>
+          </a>
         </div>
 
         <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -80,10 +183,25 @@ function Navbar() {
               <a href="#features" className="text-slate-300 hover:text-white text-sm">Features</a>
               <a href="#pricing" className="text-slate-300 hover:text-white text-sm">Pricing</a>
               <a href="#faq" className="text-slate-300 hover:text-white text-sm">FAQ</a>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-sm">
-                <ShoppingCart size={16} className="mr-2" />
-                Shopify App Store
-              </Button>
+              <select
+                value={currency}
+                onChange={(e) => {
+                  const next = e.target.value as Currency;
+                  setCurrency(next);
+                  localStorage.setItem("threxa_currency", next);
+                }}
+                className="bg-slate-700 border border-slate-600 rounded-md px-2 py-2 text-sm text-slate-300"
+                aria-label="Currency"
+              >
+                {CURRENCIES.map((c) => (
+                  <option key={c.code} value={c.code}>{c.symbol} {c.code}</option>
+                ))}
+              </select>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-sm">
+                  Book Free Audit
+                </Button>
+              </a>
             </div>
           </div>
         )}
@@ -109,44 +227,43 @@ function Hero() {
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <div className="mb-6 md:mb-8">
           <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-full px-3 md:px-4 py-2 mb-6 md:mb-8 fade-in-up">
-            <Sparkles size={14} md:size={16} className="text-blue-400" />
-            <span className="text-xs md:text-sm font-medium text-blue-300">Shopify App — Official Ecosystem</span>
+            <Sparkles size={14} className="text-blue-400" />
+            <span className="text-xs md:text-sm font-medium text-blue-300">Built for Indian D2C Brands</span>
           </div>
         </div>
 
         <h1 className="hero-heading text-3xl md:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight">
           <span className="fade-in-up block">Tally + WhatsApp + Returns +</span>
-          <span className="fade-in-up block">Inventory in One App</span>
+          <span className="fade-in-up block">Inventory in One Workflow</span>
         </h1>
 
         <p className="hero-paragraph text-base md:text-xl text-slate-300 max-w-3xl mx-auto mb-6 md:mb-8 fade-in-up">
-          Indian D2C merchants save <span className="font-bold text-blue-300">8+ hours per week</span> automating order reconciliation, COD verification, returns, and inventory sync. No manual reconciliations. No device-linking risks. No surprise charges.
+          Save hours every week automating order reconciliation, COD verification, returns, and inventory sync. Official WhatsApp Business API. No device-linking. No surprise charges.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-8 md:mb-12 fade-in-up">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 text-sm md:text-base">
-            <ShoppingCart size={16} md:size={18} className="mr-2" />
-            Install on App Store
-          </Button>
-          <Button size="lg" variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-800 px-6 md:px-8 text-sm md:text-base">
-            Watch Demo <ExternalLink size={16} md:size={18} className="ml-2" />
-          </Button>
+          <a href={CAL_LINK} target="_blank" rel="noopener noreferrer">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 text-sm md:text-base w-full sm:w-auto">
+              Book Free Audit
+            </Button>
+          </a>
+          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+            <Button size="lg" variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-800 px-6 md:px-8 text-sm md:text-base w-full sm:w-auto">
+              WhatsApp Us <ExternalLink size={16} className="ml-2" />
+            </Button>
+          </a>
         </div>
 
-        <div className="stats-grid grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-8 md:mt-16 fade-in-up">
+        <div className="stats-grid grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mt-8 md:mt-16 fade-in-up max-w-3xl mx-auto">
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">8 hrs</div>
-            <div className="text-xs md:text-sm text-slate-400">Saved/week</div>
+            <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">4</div>
+            <div className="text-xs md:text-sm text-slate-400">Automations</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">0</div>
-            <div className="text-xs md:text-sm text-slate-400">Errors</div>
+            <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Zero</div>
+            <div className="text-xs md:text-sm text-slate-400">Device-linking</div>
           </div>
-          <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">₹8-45k</div>
-            <div className="text-xs md:text-sm text-slate-400">Monthly INR</div>
-          </div>
-          <div className="text-center">
+          <div className="text-center col-span-2 md:col-span-1">
             <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Real-time</div>
             <div className="text-xs md:text-sm text-slate-400">Sync</div>
           </div>
@@ -176,7 +293,7 @@ function Features() {
     {
       id: 2,
       title: "WhatsApp COD Verification",
-      description: "Official WhatsApp Business Cloud API — never device-linking. Keep numbers safe.",
+      description: "Official WhatsApp Business Cloud API — no device-linking. Your numbers stay safe.",
       icon: Send,
       benefits: [
         "Official Meta Cloud API",
@@ -221,7 +338,7 @@ function Features() {
     <section id="features" className="py-12 md:py-20 bg-slate-900 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Four Automations, One App</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Four Automations, One Workflow</h2>
           <p className="text-base md:text-lg text-slate-400">Every problem Indian D2C merchants face, solved</p>
         </div>
 
@@ -235,7 +352,7 @@ function Features() {
               >
                 <div className="flex items-center gap-3 md:gap-4 mb-4">
                   <div className="p-2 md:p-3 bg-slate-800/50 rounded-lg">
-                    <Icon size={20} md:size={24} className="text-white" />
+                    <Icon size={20} className="text-white" />
                   </div>
                   <h3 className="text-lg md:text-xl font-bold text-white">{feature.title}</h3>
                 </div>
@@ -245,7 +362,7 @@ function Features() {
                 <ul className="space-y-2 md:space-y-3">
                   {feature.benefits.map((benefit, i) => (
                     <li key={i} className="flex items-start gap-2 md:gap-3 text-slate-300">
-                      <Check size={16} md:size={18} className="text-green-400 flex-shrink-0 mt-0.5" />
+                      <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
                       <span className="text-xs md:text-sm">{benefit}</span>
                     </li>
                   ))}
@@ -259,15 +376,15 @@ function Features() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 md:p-6">
             <div className="flex items-center gap-2 md:gap-3 mb-3">
-              <Shield size={18} md:size={20} className="text-blue-400" />
+              <Shield size={18} className="text-blue-400" />
               <h4 className="font-semibold text-white text-sm md:text-base">Safety First</h4>
             </div>
-            <p className="text-xs md:text-sm text-slate-400">Never device-linking for WhatsApp. Your numbers never get permanently banned.</p>
+            <p className="text-xs md:text-sm text-slate-400">No device-linking for WhatsApp. Your numbers won't get permanently banned.</p>
           </div>
 
           <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 md:p-6">
             <div className="flex items-center gap-2 md:gap-3 mb-3">
-              <BarChart3 size={18} md:size={20} className="text-green-400" />
+              <BarChart3 size={18} className="text-green-400" />
               <h4 className="font-semibold text-white text-sm md:text-base">Full Transparency</h4>
             </div>
             <p className="text-xs md:text-sm text-slate-400">Complete audit log of every action. Silent failures are impossible.</p>
@@ -275,10 +392,10 @@ function Features() {
 
           <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 md:p-6">
             <div className="flex items-center gap-2 md:gap-3 mb-3">
-              <Users size={18} md:size={20} className="text-purple-400" />
-              <h4 className="font-semibold text-white text-sm md:text-base">Same-Day Support</h4>
+              <Users size={18} className="text-purple-400" />
+              <h4 className="font-semibold text-white text-sm md:text-base">Founder-Led Support</h4>
             </div>
-            <p className="text-xs md:text-sm text-slate-400">Founder-led support. Reply within the same business day (IST).</p>
+            <p className="text-xs md:text-sm text-slate-400">Talk directly to the founder. 24-hour response, IST business hours.</p>
           </div>
         </div>
       </div>
@@ -287,134 +404,157 @@ function Features() {
 }
 
 // ─── PRICING SECTION ───
-function Pricing() {
+function Pricing({
+  currency,
+  rates,
+  ratesSource,
+}: {
+  currency: Currency;
+  rates: Record<Currency, number>;
+  ratesSource: "live" | "fallback";
+}) {
+  const isIndian = currency === "INR";
+
+  // New pricing tiers (base INR)
+  const tiers = [
+    {
+      id: "starter",
+      name: "Starter",
+      priceINR: 15000,
+      tagline: "For small D2C brands (1-2 automations)",
+      cta: "Book Free Audit",
+      featured: false,
+      features: [
+        "Any 2 of the 4 automations",
+        "Up to 2,000 orders/month",
+        "Full audit log + email support",
+        "Founder-led onboarding",
+      ],
+      missing: ["Priority support"],
+    },
+    {
+      id: "growth",
+      name: "Growth",
+      priceINR: 40000,
+      tagline: "For growing D2C brands (all 4 automations)",
+      cta: "Book Free Audit",
+      featured: true,
+      features: [
+        "All 4 automations included",
+        "Unlimited orders",
+        "Official WhatsApp Business API",
+        "Priority support (12hr response)",
+        "Monthly ops review call",
+      ],
+    },
+    {
+      id: "scale",
+      name: "Scale",
+      priceINR: 80000,
+      tagline: "For established brands with custom workflows",
+      cta: "Talk to Founder",
+      featured: false,
+      features: [
+        "Everything in Growth",
+        "Custom automations & webhooks",
+        "Dedicated Slack channel",
+        "Quarterly strategy calls",
+        "Priority feature requests",
+      ],
+    },
+  ];
+
   return (
     <section id="pricing" className="py-12 md:py-20 bg-gradient-to-br from-slate-900 to-slate-800 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Simple INR Pricing</h2>
-          <p className="text-base md:text-lg text-slate-400">Flat monthly price. No per-order fees. No surprises.</p>
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Simple, transparent pricing</h2>
+          <p className="text-base md:text-lg text-slate-400">Monthly retainer. No per-order fees. Cancel anytime.</p>
+          {!isIndian && (
+            <p className="text-xs text-slate-500 mt-3">
+              Showing prices in {currency} · {ratesSource === "live" ? "Live rates" : "Approximate rates"}
+            </p>
+          )}
         </div>
 
         <div className="pricing-grid grid md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
-          {/* Launch */}
-          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-5 md:p-8 hover:border-slate-600 transition">
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">Launch</h3>
-            <p className="text-xs md:text-sm text-slate-400 mb-5 md:mb-6">For 1-2 automations</p>
-            <div className="mb-6 md:mb-8">
-              <span className="text-3xl md:text-4xl font-bold text-white">₹8,000</span>
-              <p className="text-xs text-slate-400 mt-1 md:mt-2">/month, setup free</p>
+          {tiers.map((tier) => (
+            <div
+              key={tier.id}
+              className={
+                tier.featured
+                  ? "bg-gradient-to-br from-blue-600/20 to-blue-700/10 border border-blue-500 rounded-lg p-5 md:p-8 relative md:-translate-y-4 shadow-xl shadow-blue-500/10"
+                  : "bg-slate-800/50 border border-slate-700 rounded-lg p-5 md:p-8 hover:border-slate-600 transition"
+              }
+            >
+              {tier.featured && (
+                <div className="absolute -top-3 md:-top-4 left-5 md:left-8 bg-blue-600 text-white px-2 md:px-4 py-0.5 md:py-1 rounded-full text-xs font-semibold">
+                  POPULAR
+                </div>
+              )}
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">{tier.name}</h3>
+              <p className={`text-xs md:text-sm mb-5 md:mb-6 ${tier.featured ? "text-blue-300" : "text-slate-400"}`}>
+                {tier.tagline}
+              </p>
+
+              <div className="mb-6 md:mb-8">
+                <span className="text-3xl md:text-4xl font-bold text-white">
+                  {formatPrice(tier.priceINR, currency, rates)}
+                </span>
+                <p className={`text-xs mt-1 md:mt-2 ${tier.featured ? "text-slate-300" : "text-slate-400"}`}>
+                  /month
+                </p>
+                {!isIndian && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    ≈ {formatPrice(tier.priceINR, "INR", rates)} INR
+                  </p>
+                )}
+              </div>
+
+              <ul className="space-y-2 md:space-y-3 mb-6 md:mb-8">
+                {tier.features.map((feat, i) => (
+                  <li key={i} className={`flex items-start gap-2 text-xs md:text-sm ${tier.featured ? "text-white" : "text-slate-300"}`}>
+                    <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+                {tier.missing?.map((feat, i) => (
+                  <li key={i} className="flex items-start gap-2 text-slate-500 text-xs md:text-sm">
+                    <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="block">
+                <Button
+                  className={
+                    tier.featured
+                      ? "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm md:text-base"
+                      : "w-full bg-slate-700 hover:bg-slate-600 text-sm md:text-base"
+                  }
+                >
+                  {tier.cta}
+                </Button>
+              </a>
             </div>
-
-            <ul className="space-y-2 md:space-y-3 mb-6 md:mb-8">
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>1 automation</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Up to 1,000 orders/mo</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Audit log + support</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-500 text-xs md:text-sm">
-                <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
-                <span>Returns not included</span>
-              </li>
-            </ul>
-
-            <Button className="w-full bg-slate-700 hover:bg-slate-600 text-sm md:text-base">
-              Get Started
-            </Button>
-          </div>
-
-          {/* Growth - Featured */}
-          <div className="bg-gradient-to-br from-blue-600/20 to-blue-700/10 border border-blue-500 rounded-lg p-5 md:p-8 relative md:-translate-y-4 shadow-xl shadow-blue-500/10">
-            <div className="absolute -top-3 md:-top-4 left-5 md:left-8 bg-blue-600 text-white px-2 md:px-4 py-0.5 md:py-1 rounded-full text-xs font-semibold">
-              POPULAR
-            </div>
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">Growth</h3>
-            <p className="text-xs md:text-sm text-blue-300 mb-5 md:mb-6">For all 4 automations</p>
-            <div className="mb-6 md:mb-8">
-              <span className="text-3xl md:text-4xl font-bold text-white">₹16,000</span>
-              <p className="text-xs text-slate-300 mt-1 md:mt-2">/month, unlimited</p>
-            </div>
-
-            <ul className="space-y-2 md:space-y-3 mb-6 md:mb-8">
-              <li className="flex items-start gap-2 text-white text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>All 4 automations</span>
-              </li>
-              <li className="flex items-start gap-2 text-white text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Unlimited orders</span>
-              </li>
-              <li className="flex items-start gap-2 text-white text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Official WhatsApp API</span>
-              </li>
-              <li className="flex items-start gap-2 text-white text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Priority support</span>
-              </li>
-              <li className="flex items-start gap-2 text-white text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Full audit logs</span>
-              </li>
-            </ul>
-
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm md:text-base">
-              Install Now
-            </Button>
-          </div>
-
-          {/* Pro */}
-          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-5 md:p-8 hover:border-slate-600 transition">
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">Pro</h3>
-            <p className="text-xs md:text-sm text-slate-400 mb-5 md:mb-6">Custom, high-volume</p>
-            <div className="mb-6 md:mb-8">
-              <span className="text-3xl md:text-4xl font-bold text-white">₹45,000</span>
-              <p className="text-xs text-slate-400 mt-1 md:mt-2">/month + custom</p>
-            </div>
-
-            <ul className="space-y-2 md:space-y-3 mb-6 md:mb-8">
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Everything in Growth</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Unlimited scaling</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Custom webhooks</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Slack channel</span>
-              </li>
-              <li className="flex items-start gap-2 text-slate-300 text-xs md:text-sm">
-                <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Custom features</span>
-              </li>
-            </ul>
-
-            <Button className="w-full bg-slate-700 hover:bg-slate-600 text-sm md:text-base">
-              Contact Sales
-            </Button>
-          </div>
+          ))}
         </div>
 
-        <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 md:p-6 text-center">
-          <p className="text-xs md:text-sm text-slate-300 mb-3 md:mb-4">
-            💰 First month is <span className="font-bold text-green-400">setup + onboarding free</span>. Pay from month 2.
+        <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 md:p-6 text-center space-y-2">
+          <p className="text-xs md:text-sm text-slate-300">
+            💰 First 14 days free. Setup and onboarding included.
           </p>
           <p className="text-xs text-slate-400">
-            Billing through Shopify. No separate invoices.
+            {isIndian
+              ? "Prices exclude 18% GST for Indian customers."
+              : "Prices exclude applicable local taxes (VAT / GST / sales tax). Tax calculated at checkout based on billing address."}
           </p>
+          {!isIndian && (
+            <p className="text-xs text-slate-500">
+              International prices are approximate. Actual billing may vary based on the exchange rate at time of transaction.
+            </p>
+          )}
         </div>
       </div>
     </section>
@@ -428,33 +568,33 @@ function FAQ() {
   const faqs = [
     {
       id: 1,
-      q: "Is this official Shopify?",
-      a: "Yes. Threxa is an official Shopify ecosystem app. It goes through Shopify's security review and is distributed through the Shopify App Store.",
+      q: "How is this different from device-linking WhatsApp automation?",
+      a: "Threxa uses the official WhatsApp Business Cloud API through a Meta-approved BSP. We never device-link, which means your numbers won't get permanently banned. Device-linking violates WhatsApp's ToS and Meta enforces bans aggressively.",
     },
     {
       id: 2,
-      q: "Will WhatsApp ban my number?",
-      a: "No. Threxa uses the official WhatsApp Business Cloud API through a Meta-approved BSP. We never device-link. Your number is always safe.",
+      q: "What if something breaks?",
+      a: "You get a WhatsApp + email alert immediately when any automation fails. Every action is logged, so you can see exactly what happened. Support responses within 24hrs on Starter, 12hrs on Growth.",
     },
     {
       id: 3,
-      q: "What if Threxa stops working?",
-      a: "You get a WhatsApp + email alert immediately, same business day. Every action is logged so you can see exactly what happened.",
+      q: "Do I need to install anything?",
+      a: "For Tally, yes — a lightweight bridge on your accounts machine. For WhatsApp, returns, and inventory: all cloud-based, nothing to install.",
     },
     {
       id: 4,
-      q: "Do I need to install anything?",
-      a: "For Tally, yes — a lightweight bridge on your accounts machine. For WhatsApp, returns, inventory: all cloud-based, nothing to install.",
+      q: "Can I cancel anytime?",
+      a: "Yes. Monthly retainer, cancel anytime with 30 days notice. No annual lock-in.",
     },
     {
       id: 5,
-      q: "Can I cancel anytime?",
-      a: "Yes. Uninstall from Shopify admin. You stop being charged the next billing cycle. No contracts.",
+      q: "How is my data handled?",
+      a: "All data is encrypted at rest and in transit. On cancellation, your data is deleted within 48 hours. Full audit logs available on request. We follow GDPR-aligned data handling principles.",
     },
     {
       id: 6,
-      q: "What about GDPR / data export?",
-      a: "Full GDPR compliance. On uninstall, all data is deleted within 48 hours. You can export audit logs anytime.",
+      q: "Do you work with international brands?",
+      a: "Right now Threxa is optimized for Indian D2C brands using Tally, Shiprocket, Delhivery, and India-specific COD flows. If you're outside India and interested, get in touch — we're evaluating international expansion.",
     },
   ];
 
@@ -498,18 +638,21 @@ function CTA() {
   return (
     <section className="py-12 md:py-20 bg-gradient-to-r from-blue-600 to-purple-600 px-4 md:px-6">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 md:mb-6">Install Threxa Today</h2>
-        <p className="text-sm md:text-lg text-blue-100 mb-6 md:mb-8">First month setup is free. Start automating from month 2.</p>
+        <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 md:mb-6">Ready to automate your ops?</h2>
+        <p className="text-sm md:text-lg text-blue-100 mb-6 md:mb-8">Book a free 30-minute audit. We'll walk through your current workflow and show you what's automatable.</p>
         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-          <Button size="lg" className="bg-white hover:bg-slate-100 text-blue-600 font-semibold px-6 md:px-8 text-sm md:text-base">
-            <ShoppingCart size={16} md:size={18} className="mr-2" />
-            Shopify App Store
-          </Button>
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-blue-700 px-6 md:px-8 text-sm md:text-base">
-            Schedule Demo
-          </Button>
+          <a href={CAL_LINK} target="_blank" rel="noopener noreferrer">
+            <Button size="lg" className="bg-white hover:bg-slate-100 text-blue-600 font-semibold px-6 md:px-8 text-sm md:text-base w-full sm:w-auto">
+              Book Free Audit
+            </Button>
+          </a>
+          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-blue-700 px-6 md:px-8 text-sm md:text-base w-full sm:w-auto">
+              WhatsApp Us
+            </Button>
+          </a>
         </div>
-        <p className="text-xs md:text-sm text-blue-100 mt-4 md:mt-6">Questions? +91 7483 992 418 (WhatsApp)</p>
+        <p className="text-xs md:text-sm text-blue-100 mt-4 md:mt-6">Or call +91 74839 92418</p>
       </div>
     </section>
   );
@@ -520,7 +663,7 @@ function Footer() {
   return (
     <footer className="bg-slate-900 border-t border-slate-800 py-8 md:py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-12 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-8 md:mb-12">
           <div>
             <img src={thexaLogo} alt="Threxa" className="h-6 md:h-8 mb-3 md:mb-4" />
             <p className="text-slate-400 text-xs md:text-sm">D2C automation for Shopify brands in India.</p>
@@ -537,28 +680,18 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-white mb-3 md:mb-4 text-xs md:text-sm">Resources</h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li><a href="#" className="hover:text-white transition">Documentation</a></li>
-              <li><a href="#" className="hover:text-white transition">Status Page</a></li>
-              <li><a href="#" className="hover:text-white transition">Security</a></li>
-              <li><a href="#" className="hover:text-white transition">Privacy</a></li>
-            </ul>
-          </div>
-
-          <div>
             <h4 className="font-semibold text-white mb-3 md:mb-4 text-xs md:text-sm">Contact</h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li className="flex items-center gap-2">
-                <Phone size={14} md:size={16} />
-                <a href="tel:+917483992418" className="hover:text-white transition">+91 7483 992 418</a>
+                <Phone size={14} />
+                <a href="tel:+917483992418" className="hover:text-white transition">+91 74839 92418</a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail size={14} md:size={16} />
-                <a href="mailto:sachin@theingredientlist.co" className="hover:text-white transition">Email</a>
+                <Mail size={14} />
+                <a href="mailto:theingredientlist.co@gmail.com" className="hover:text-white transition">theingredientlist.co@gmail.com</a>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin size={14} md:size={16} />
+                <MapPin size={14} />
                 <span>Bengaluru, India</span>
               </li>
             </ul>
@@ -570,8 +703,14 @@ function Footer() {
             © 2026 Threxa by The Ingredient List. All rights reserved.
           </div>
           <div className="flex gap-4">
-            <a href="#" className="text-slate-400 hover:text-white transition">
-              <Linkedin size={16} md:size={18} />
+            <a
+              href="https://www.linkedin.com/company/threxa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-white transition"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={18} />
             </a>
           </div>
         </div>
@@ -582,13 +721,20 @@ function Footer() {
 
 // ─── MAIN COMPONENT ───
 export default function Index() {
+  const [currency, setCurrency] = useState<Currency>("INR");
+  const { rates, ratesSource } = useLiveRates();
+
+  useEffect(() => {
+    setCurrency(detectCurrency());
+  }, []);
+
   return (
     <div className="bg-slate-900 min-h-screen">
       <AnimationStyles />
-      <Navbar />
+      <Navbar currency={currency} setCurrency={setCurrency} />
       <Hero />
       <Features />
-      <Pricing />
+      <Pricing currency={currency} rates={rates} ratesSource={ratesSource} />
       <FAQ />
       <CTA />
       <Footer />

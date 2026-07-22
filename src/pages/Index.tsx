@@ -393,9 +393,9 @@ function Features() {
           <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4 md:p-6">
             <div className="flex items-center gap-2 md:gap-3 mb-3">
               <Users size={18} className="text-purple-400" />
-              <h4 className="font-semibold text-white text-sm md:text-base">Founder-Led Support</h4>
+              <h4 className="font-semibold text-white text-sm md:text-base">Dedicated Support</h4>
             </div>
-            <p className="text-xs md:text-sm text-slate-400">Talk directly to the founder. 24-hour response, IST business hours.</p>
+            <p className="text-xs md:text-sm text-slate-400">Direct access to our team. 24-hour response, IST business hours.</p>
           </div>
         </div>
       </div>
@@ -428,7 +428,7 @@ function Pricing({
         "Any 2 of the 4 automations",
         "Up to 2,000 orders/month",
         "Full audit log + email support",
-        "Founder-led onboarding",
+        "Guided onboarding included",
       ],
       missing: ["Priority support"],
     },
@@ -452,7 +452,7 @@ function Pricing({
       name: "Scale",
       priceINR: 80000,
       tagline: "For established brands with custom workflows",
-      cta: "Talk to Founder",
+      cta: "Contact Sales",
       featured: false,
       features: [
         "Everything in Growth",
@@ -666,7 +666,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-8 md:mb-12">
           <div>
             <img src={thexaLogo} alt="Threxa" className="h-6 md:h-8 mb-3 md:mb-4" />
-            <p className="text-slate-400 text-xs md:text-sm">D2C automation for Shopify brands in India.</p>
+            <p className="text-slate-400 text-xs md:text-sm">Operations automation for Indian D2C brands. Works with Shopify, Tally, WhatsApp & Shiprocket.</p>
           </div>
 
           <div>

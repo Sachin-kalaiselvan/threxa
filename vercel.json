@@ -1,36 +1,5 @@
 {
-  "routes": [
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/og-image.png",
-      "dest": "/og-image.png"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/threxa-logo.png",
-      "dest": "/threxa-logo.png"
-    },
-    {
-      "src": "/threxa-icon.png",
-      "dest": "/threxa-icon.png"
-    },
-    {
-      "src": "/",
-      "dest": "/threxa-site.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

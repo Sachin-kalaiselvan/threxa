@@ -150,6 +150,7 @@ function Navbar({
 
         <div className="hidden md:flex items-center gap-6">
           <a href="#features" className="text-slate-300 hover:text-white transition text-sm">Features</a>
+          <a href="#enterprise" className="text-slate-300 hover:text-white transition text-sm">Enterprise</a>
           <a href="#pricing" className="text-slate-300 hover:text-white transition text-sm">Pricing</a>
           <a href="#faq" className="text-slate-300 hover:text-white transition text-sm">FAQ</a>
           <select
@@ -181,6 +182,7 @@ function Navbar({
           <div className="absolute top-14 left-0 right-0 bg-slate-800 border-b border-slate-700 p-4 md:hidden">
             <div className="flex flex-col gap-4">
               <a href="#features" className="text-slate-300 hover:text-white text-sm">Features</a>
+              <a href="#enterprise" className="text-slate-300 hover:text-white text-sm">Enterprise</a>
               <a href="#pricing" className="text-slate-300 hover:text-white text-sm">Pricing</a>
               <a href="#faq" className="text-slate-300 hover:text-white text-sm">FAQ</a>
               <select
@@ -228,7 +230,7 @@ function Hero() {
         <div className="mb-6 md:mb-8">
           <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-full px-3 md:px-4 py-2 mb-6 md:mb-8 fade-in-up">
             <Sparkles size={14} className="text-blue-400" />
-            <span className="text-xs md:text-sm font-medium text-blue-300">Built for Indian D2C Brands</span>
+            <span className="text-xs md:text-sm font-medium text-blue-300">D2C Automation. Enterprise Operations.</span>
           </div>
         </div>
 
@@ -253,6 +255,10 @@ function Hero() {
             </Button>
           </a>
         </div>
+
+        <a href="#enterprise" className="fade-in-up inline-block text-xs md:text-sm text-purple-300 hover:text-purple-200 transition mb-8 md:mb-12">
+          Building something bigger than a Shopify store? See how we built a full ERP →
+        </a>
 
         <div className="stats-grid grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mt-8 md:mt-16 fade-in-up max-w-3xl mx-auto">
           <div className="text-center">
@@ -396,6 +402,89 @@ function Features() {
               <h4 className="font-semibold text-white text-sm md:text-base">Dedicated Support</h4>
             </div>
             <p className="text-xs md:text-sm text-slate-400">Direct access to our team. 24-hour response, IST business hours.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── ENTERPRISE OPERATIONS SECTION ───
+function EnterpriseOps() {
+  const modules = ["Production", "Inventory", "Dispatch", "Finance", "HR", "Analytics"];
+
+  const points = [
+    {
+      icon: Target,
+      title: "Not a plug-in — a full system",
+      body: "Production tracking, inventory, dispatch, finance, HR, and AI-assisted analytics, all in one dashboard, built from the ground up.",
+    },
+    {
+      icon: Users,
+      title: "One accountable team",
+      body: "The same team behind your D2C automations designs and ships enterprise-grade ERPs, start to finish. No handoffs, no second vendor.",
+    },
+    {
+      icon: BarChart3,
+      title: "Any domain, any geography",
+      body: "Manufacturing, logistics, services — if it runs on spreadsheets and WhatsApp forwards today, we can turn it into a real system. Not Shopify-only. Not India-only.",
+    },
+  ];
+
+  return (
+    <section id="enterprise" className="py-12 md:py-20 bg-gradient-to-br from-slate-800 to-slate-900 border-y border-slate-800 px-4 md:px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12 md:mb-16">
+          <div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-3 md:px-4 py-2 mb-6">
+            <Sparkles size={14} className="text-purple-400" />
+            <span className="text-xs md:text-sm font-medium text-purple-300">Beyond Shopify. Beyond India.</span>
+          </div>
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">
+            When automation isn't enough, we build the operating system.
+          </h2>
+          <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto">
+            Some businesses don't need workflows bolted onto Shopify — they need a system that runs the whole operation. We designed and built a complete ERP for a corrugated box manufacturer, solo, from the ground up.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-5 md:p-6">
+            <div className="flex items-center justify-between text-xs text-slate-500 uppercase tracking-wide mb-4">
+              <span>Threxa SPS ERP · live</span>
+              <span>12 modules</span>
+            </div>
+            {modules.map((mod) => (
+              <div key={mod} className="flex items-center gap-3 rounded-md border border-slate-700 bg-slate-900/50 px-4 py-3 mb-2.5 text-sm text-slate-300">
+                <span className="h-2 w-2 rounded-full bg-green-400" />
+                <span>{mod}</span>
+                <span className="ml-auto text-xs text-slate-500 uppercase tracking-wide">online</span>
+              </div>
+            ))}
+            <div className="mt-4 rounded-md border border-purple-500/30 bg-purple-500/10 p-3 text-center text-xs uppercase tracking-wide text-purple-300">
+              Built solo. Runs a real factory floor.
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {points.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="flex gap-4">
+                  <div className="p-2.5 bg-slate-800 rounded-lg h-fit flex-shrink-0">
+                    <Icon size={18} className="text-purple-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white text-sm md:text-base mb-1">{item.title}</h4>
+                    <p className="text-xs md:text-sm text-slate-400">{item.body}</p>
+                  </div>
+                </div>
+              );
+            })}
+            <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="inline-block pt-2">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold">
+                Book a build call
+              </Button>
+            </a>
           </div>
         </div>
       </div>
@@ -556,6 +645,51 @@ function Pricing({
             </p>
           )}
         </div>
+
+        <div className="mt-8 md:mt-12 bg-gradient-to-br from-purple-600/10 to-purple-700/5 border border-purple-500/30 rounded-lg p-6 md:p-10">
+          <div className="grid md:grid-cols-[1.1fr_1fr] gap-8 items-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-purple-300 mb-3">Custom builds</p>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
+                Building an ERP or ops system? Every business runs differently.
+              </h3>
+              <p className="text-sm text-slate-300 mb-5">
+                Production lines, inventory logic, team size, approval chains — no two operations are alike, so we don't force yours into a fixed package. Pricing is scoped to your modules and team on a build call.
+              </p>
+              <ul className="space-y-2.5">
+                {[
+                  "Custom modules — production, inventory, finance, HR, dispatch",
+                  "Built and owned by one accountable team, start to finish",
+                  "Deployed on your own infrastructure",
+                  "Scales from a single site to multi-plant operations",
+                ].map((feat) => (
+                  <li key={feat} className="flex items-start gap-2 text-xs md:text-sm text-slate-300">
+                    <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-slate-900/50 border border-slate-700 rounded-lg p-6">
+              <p className="text-xs uppercase tracking-wide text-slate-400 mb-2">Starting at</p>
+              <p className="text-4xl font-bold text-white mb-1">
+                {formatPrice(25000, currency, rates)}
+                <span className="text-base font-normal text-slate-400">/mo</span>
+              </p>
+              {!isIndian && (
+                <p className="text-xs text-slate-500 mb-1">≈ {formatPrice(25000, "INR", rates)} INR</p>
+              )}
+              <p className="text-xs text-slate-500 mb-6">
+                Final quote scoped after a build call — no fixed one-time fee.
+              </p>
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className="block">
+                <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold">
+                  Book a build call
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -593,8 +727,13 @@ function FAQ() {
     },
     {
       id: 6,
-      q: "Do you work with international brands?",
-      a: "Right now Threxa is optimized for Indian D2C brands using Tally, Shiprocket, Delhivery, and India-specific COD flows. If you're outside India and interested, get in touch — we're evaluating international expansion.",
+      q: "Do you work with international brands, or only D2C?",
+      a: "Our Tally/WhatsApp/Shiprocket stack is tuned for Indian D2C brands, but that's one product, not the whole business. We also design and build custom operations systems and ERPs for manufacturers and operations-heavy companies in any country. If you're outside India, or outside D2C entirely, tell us your stack and we'll scope it.",
+    },
+    {
+      id: 7,
+      q: "Do you only automate Shopify stores?",
+      a: "No. Automation is where we started, but it's not the ceiling. We designed and built a complete ERP from scratch for a corrugated box manufacturer — production tracking, inventory, dispatch, finance, HR, and AI-assisted analytics, all in one dashboard. If your operation still runs on spreadsheets and WhatsApp forwards, we can turn it into a real system, regardless of industry.",
     },
   ];
 
@@ -666,7 +805,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-8 md:mb-12">
           <div>
             <img src={thexaLogo} alt="Threxa" className="h-6 md:h-8 mb-3 md:mb-4" />
-            <p className="text-slate-400 text-xs md:text-sm">Operations automation for Indian D2C brands. Works with Shopify, Tally, WhatsApp & Shiprocket.</p>
+            <p className="text-slate-400 text-xs md:text-sm">Automation & operations systems — for D2C brands and manufacturers, worldwide.</p>
           </div>
 
           <div>
@@ -734,6 +873,7 @@ export default function Index() {
       <Navbar currency={currency} setCurrency={setCurrency} />
       <Hero />
       <Features />
+      <EnterpriseOps />
       <Pricing currency={currency} rates={rates} ratesSource={ratesSource} />
       <FAQ />
       <CTA />

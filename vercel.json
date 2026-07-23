@@ -1,15 +1,7 @@
 {
   "routes": [
-    {
-      "src": "/",
-      "dest": "/threxa-site.html"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/", "dest": "/threxa-site.html" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

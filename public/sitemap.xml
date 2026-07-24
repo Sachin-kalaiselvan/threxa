@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://threxa.theingredientlist.co/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <video:video>
+      <video:thumbnail_loc>https://threxa.theingredientlist.co/threxa-demo-poster.jpg</video:thumbnail_loc>
+      <video:title>Threxa SPS ERP — order trace</video:title>
+      <video:description>A work order is searched in a manufacturing ERP and every production stage resolves in sequence, showing machine, operator and time.</video:description>
+      <video:content_loc>https://threxa.theingredientlist.co/threxa-demo.mp4</video:content_loc>
+      <video:duration>34</video:duration>
+      <video:publication_date>2026-07-24</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
   </url>
 </urlset>

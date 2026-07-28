@@ -702,38 +702,63 @@ function FAQ() {
   const faqs = [
     {
       id: 1,
-      q: "How is this different from device-linking WhatsApp automation?",
-      a: "Threxa uses the official WhatsApp Business Cloud API through a Meta-approved BSP. We never device-link, which means your numbers won't get permanently banned. Device-linking violates WhatsApp's ToS and Meta enforces bans aggressively.",
+      q: "What does Threxa actually do?",
+      a: "Two things. We automate the repetitive parts of an ops stack you already run — Shopify, Tally, WhatsApp, Razorpay, Shiprocket. And when spreadsheets and WhatsApp groups stop holding an operation together, we build the system that replaces them. Same discipline, different scale.",
     },
     {
       id: 2,
-      q: "What if something breaks?",
-      a: "You get a WhatsApp + email alert immediately when any automation fails. Every action is logged, so you can see exactly what happened. Support responses within 24hrs on Starter, 12hrs on Growth.",
+      q: "We're a manufacturer, not an online brand. Is this for us?",
+      a: "Yes. We designed and built a complete ERP from scratch for a corrugated box manufacturer — job cards, production tracking, inventory, dispatch, invoicing, attendance, payroll and cash book in one dashboard. If your plant runs on registers, Excel and WhatsApp forwards, that's exactly the problem we solve.",
     },
     {
       id: 3,
-      q: "Do I need to install anything?",
-      a: "For Tally, yes — a lightweight bridge on your accounts machine. For WhatsApp, returns, and inventory: all cloud-based, nothing to install.",
+      q: "Why not just buy an off-the-shelf ERP?",
+      a: "If a packaged ERP fits your process, buy it — it'll be cheaper. Most plant owners we talk to have already tried one and abandoned it, because the software expected them to change how they work. We build around your existing process — your job card format, your rate structure, your dispatch flow — so adoption doesn't require retraining the whole floor.",
     },
     {
       id: 4,
-      q: "Can I cancel anytime?",
-      a: "Yes. Monthly retainer, cancel anytime with 30 days notice. No annual lock-in.",
+      q: "How long before we see something working?",
+      a: "First module live in 2-3 weeks. A full system typically rolls out over 8-12 weeks, module by module, so your team absorbs it in stages instead of switching over everything on a Monday morning. Automation-only engagements go live faster — usually within five working days.",
     },
     {
       id: 5,
-      q: "How is my data handled?",
-      a: "All data is encrypted at rest and in transit. On cancellation, your data is deleted within 48 hours. Full audit logs available on request. We follow GDPR-aligned data handling principles.",
+      q: "Our supervisors aren't technical. Will they actually use it?",
+      a: "It's built for that. Large touch targets for shop-floor tablets, no jargon, and the daily actions are two taps deep. Training is a single session per role. If a screen needs explaining, we treat that as our design failure, not your team's.",
     },
     {
       id: 6,
-      q: "Do you work with international brands, or only D2C?",
-      a: "Our Tally/WhatsApp/Shiprocket stack is tuned for Indian D2C brands, but that's one product, not the whole business. We also design and build custom operations systems and ERPs for manufacturers and operations-heavy companies in any country. If you're outside India, or outside D2C entirely, tell us your stack and we'll scope it.",
+      q: "Who owns the system if we stop working together?",
+      a: "You do. The code, the database and the data are yours. We can deploy on infrastructure registered in your name from day one, and you get a full export whenever you ask. There's no scenario where your operations are held hostage by us.",
     },
     {
       id: 7,
-      q: "Do you only automate Shopify stores?",
-      a: "No. Automation is where we started, but it's not the ceiling. We designed and built a complete ERP from scratch for a corrugated box manufacturer — production tracking, inventory, dispatch, finance, HR, and AI-assisted analytics, all in one dashboard. If your operation still runs on spreadsheets and WhatsApp forwards, we can turn it into a real system, regardless of industry.",
+      q: "What does it cost?",
+      a: "Automation retainers start at the Starter tier above. Custom operations systems and ERPs run on a build-and-maintain arrangement from Rs 25,000/month, or a fixed project quote with milestone payments if you prefer that. Scope determines the number, and you get it in writing before any work starts.",
+    },
+    {
+      id: 8,
+      q: "Is there a lock-in?",
+      a: "Three-month minimum on retainers, because building and stabilising workflows takes that long to be worth anyone's money. After that it's month to month with 30 days notice.",
+    },
+    {
+      id: 9,
+      q: "Where is our data stored, and is it secure?",
+      a: "Indian data centres. Credentials and API tokens are encrypted at rest, and we hold only what a workflow needs to run. For ERP builds we can deploy entirely on your own cloud account if you'd rather nothing sits with us. On cancellation, your data is deleted within 48 hours or handed over, your call.",
+    },
+    {
+      id: 10,
+      q: "Are the invoices GST-compliant?",
+      a: "Yes. Invoices follow Indian GST standards including IRN generation for e-invoicing, and we can wire in e-way bill generation for dispatch. We work alongside your existing CA's reconciliation process rather than replacing it.",
+    },
+    {
+      id: 11,
+      q: "What happens if something breaks?",
+      a: "You and we get alerted automatically, usually before you notice. Every action is logged, so we can tell you exactly what failed and when. Fixes are included in every plan — we don't bill separately for repairs.",
+    },
+    {
+      id: 12,
+      q: "Can we see it working before we commit?",
+      a: "Yes. We'll walk you through the live ERP we built for a working box plant, and for automation work you get a recorded run against a copy of your own order data before anything goes live.",
     },
   ];
 
@@ -742,7 +767,7 @@ function FAQ() {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">FAQ</h2>
-          <p className="text-base md:text-lg text-slate-400">Common questions from D2C merchants</p>
+          <p className="text-base md:text-lg text-slate-400">Straight answers for D2C founders and plant owners</p>
         </div>
 
         <div className="faq-grid space-y-3 md:space-y-4">

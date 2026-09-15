@@ -456,6 +456,49 @@
     .chatbot-launcher { right: 16px; bottom: 16px; }
     .chatbot-panel { right: 16px; bottom: 88px; }
   }
+/* ── Additions v3 — only what the new content genuinely needs ────── */
+
+.demo-video{
+  width:100%; display:block; border-radius:18px; background:#0A0A0F;
+}
+
+/* comparison table — same card language as the rest of the page */
+.compare-wrap{
+  margin-top:28px; overflow-x:auto; background:#fff;
+  border:1px solid rgba(10,10,15,.08); border-radius:24px; padding:8px;
+}
+.compare-table{width:100%; border-collapse:collapse; min-width:780px; font-size:15px;}
+.compare-table th,.compare-table td{padding:15px 18px; text-align:left;}
+.compare-table tbody tr{border-top:1px solid rgba(10,10,15,.07);}
+.compare-table thead th{
+  font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:rgba(10,10,15,.45); padding-bottom:14px;
+}
+.compare-table tbody td:first-child{font-weight:500; color:#0A0A0F;}
+.compare-table td:not(:first-child){color:rgba(10,10,15,.55);}
+.compare-table th.col-us{color:#7B4DF6;}
+.compare-table td.col-us{
+  background:rgba(123,77,246,.05); color:#0A0A0F; font-weight:500;
+}
+.compare-table tbody tr:first-child td.col-us{border-radius:12px 12px 0 0;}
+.compare-table tbody tr:last-child td.col-us{border-radius:0 0 12px 12px;}
+
+.compare-note{
+  margin-top:20px; font-size:15px; line-height:1.6;
+  color:rgba(10,10,15,.5); max-width:780px;
+}
+
+@media(max-width:900px){
+  .compare-wrap{border-radius:18px;}
+  .compare-table{font-size:14px;}
+}
+
+.hero-source{
+  margin:34px auto 0; max-width:560px; text-align:center;
+  font-size:13.5px; line-height:1.65; color:rgba(10,10,15,.42);
+}
+
 </style>
   <script type="application/ld+json">
 {
@@ -674,41 +717,21 @@
 
 <section class="hero">
   <div class="container">
-    <h1 class="display">Beyond the<br/><em>limits.</em></h1>
-    <div class="hero-positioning">The integration layer for operations-heavy businesses. Not another CRM.</div>
-    <p class="hero-sub">Threxa connects Shopify, Tally, Razorpay, Shiprocket, and WhatsApp into orchestrated workflows — so your team handles customers, not data entry.</p>
+    <h1 class="display">Most factories lose 14%<br/>to <em>wastage.</em></h1>
+    <div class="hero-positioning">And find out at the end of the year, from the balance sheet.</div>
+    <p class="hero-sub">Threxa is an ERP for businesses that run on inventory. Material, job cards, wastage, dispatch, invoicing and payroll — measured the day it happens, on one login.</p>
     <div class="hero-ctas">
       <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book a demo <span class="arrow">→</span></a>
-      <a href="#capabilities" class="btn-secondary">See what we automate</a>
+      <a href="#demo" class="btn-secondary">Watch the 45-second demo</a>
     </div>
+    <p class="hero-source">14–15% is the figure the trade press reports for the average Indian corrugation plant. Most owners we meet have never measured their own.</p>
   </div>
 
-  <div class="hero-showcase">
+  <div class="hero-showcase" id="demo">
     <div class="showcase-frame">
-      <div class="showcase-grid">
-        <div class="showcase-card">
-          <div>
-            <div class="showcase-card-tag">// Order Orchestration</div>
-            <div class="showcase-card-headline">One order. Five systems. Zero touch.</div>
-            <p class="showcase-card-body">A paid Shopify order moves through Tally, Razorpay reconciliation, Shiprocket, WhatsApp, and your team's Slack — synchronized, in seconds.</p>
-          </div>
-          <div class="showcase-card-row">
-            <span class="pulse-dot"></span>
-            <span>SHOPIFY · TALLY · SHIPROCKET · WHATSAPP</span>
-          </div>
-        </div>
-        <div class="showcase-card">
-          <div>
-            <div class="showcase-card-tag">// Built for the stack you already run</div>
-            <div class="showcase-card-headline">Tally. Razorpay. Shiprocket. WhatsApp.</div>
-            <p class="showcase-card-body">Every workflow we deploy is built around the systems your business actually runs on. Not a generic Zapier template — purpose-built infrastructure.</p>
-          </div>
-          <div class="showcase-card-row">
-            <span class="pulse-dot"></span>
-            <span>5+ NATIVE INDIAN-STACK INTEGRATIONS</span>
-          </div>
-        </div>
-      </div>
+      <video controls preload="metadata" playsinline class="demo-video">
+        <source src="/threxa-erp-demo.mp4" type="video/mp4"/>
+      </video>
     </div>
   </div>
 </section>
@@ -716,24 +739,24 @@
 <section class="problems">
   <div class="container">
     <span class="eyebrow">The problem</span>
-    <h2 class="display section-title">Operations don't scale<br/>by adding <em>people.</em></h2>
-    <p class="section-lede">A single order typically touches five separate systems — checkout, accounting, logistics, customer messaging, and reviews. Each handoff is manual. As order volume grows, so does the cost of running it.</p>
+    <h2 class="display section-title">Your accounts are current.<br/>Your floor <em>isn't.</em></h2>
+    <p class="section-lede">Accounting software closes your books. It cannot tell you which machine is idle, how much material went to scrap on a particular job, or whether today's dispatch actually left the gate. That information lives in registers, in WhatsApp groups, and in the supervisor's head.</p>
 
     <div class="problem-row">
       <div class="problem-card">
         <div class="problem-num">// 01</div>
-        <div class="problem-h">Manual order processing</div>
-        <p class="problem-p">Orders are logged into spreadsheets, copied to Tally, shipped via Shiprocket, and confirmed on WhatsApp — by hand. The work is necessary, repetitive, and impossible to scale beyond a point.</p>
+        <div class="problem-h">Wastage found too late</div>
+        <p class="problem-p">Material issued against material consumed gets reconciled at stock-take, months after the job ran. By then nobody remembers which machine, which operator or which order caused it, and the loss is absorbed into cost without ever being questioned.</p>
       </div>
       <div class="problem-card">
         <div class="problem-num">// 02</div>
-        <div class="problem-h">Revenue lost to silence</div>
-        <p class="problem-p">Carts are abandoned, COD orders go unconfirmed, and post-purchase communication ends at the order confirmation. Every gap is a customer who leaves quietly.</p>
+        <div class="problem-h">A floor you can't see</div>
+        <p class="problem-p">Which machine is running, which is idle, which order is behind — answering that means walking the floor or calling a supervisor. By the time a delay reaches the office, the customer has usually noticed it first.</p>
       </div>
       <div class="problem-card">
         <div class="problem-num">// 03</div>
-        <div class="problem-h">No system of record</div>
-        <p class="problem-p">Critical operational data sits across Shopify, WhatsApp threads, Tally, and someone's memory. Decisions get made on instinct rather than what the numbers actually show.</p>
+        <div class="problem-h">Numbers that disagree</div>
+        <p class="problem-p">Production register, stock register, dispatch book and accounts each tell a slightly different story. Month-end becomes an argument about which one is correct instead of a decision about what to do next.</p>
       </div>
     </div>
   </div>
@@ -741,284 +764,207 @@
 
 <section class="capabilities" id="capabilities">
   <div class="container">
-    <span class="eyebrow">What we automate</span>
-    <h2 class="display section-title">Orchestration across<br/>your <em>entire stack.</em></h2>
-    <p class="section-lede">Each capability below is a multi-system orchestration we configure, deploy, and monitor — connecting tools that don't natively talk to each other, with custom logic for your business.</p>
+    <span class="eyebrow">What it covers</span>
+    <h2 class="display section-title">Enquiry to payment,<br/>on <em>one login.</em></h2>
+    <p class="section-lede">Nineteen modules arranged the way work moves through a plant. Sales and billing are in every plan; production, inventory, people and integrations are added as the operation needs them.</p>
 
     <div class="cap-grid">
 
       <div class="cap-card">
-        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-        <div class="cap-h">Order orchestration</div>
-        <p class="cap-p">One paid order updates five systems: Tally for GST-compliant invoicing, Shiprocket for fulfilment, WhatsApp for the customer, Slack for your team, Sheets for your CFO. Custom routing logic per store.</p>
-        <div class="cap-stack">SHOPIFY · TALLY · SHIPROCKET · WHATSAPP · SLACK</div>
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div>
+        <div class="cap-h">Sales &amp; billing</div>
+        <p class="cap-p">Customer master, quotations priced from material grade and dimensions, sales orders, GST invoices with CGST/SGST/IGST, and delivery challans as PDF. The quotation becomes the order becomes the invoice without anything being typed twice.</p>
+        <div class="cap-stack">QUOTATIONS · ORDERS · GST INVOICES · CHALLANS</div>
       </div>
 
       <div class="cap-card">
-        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-        <div class="cap-h">COD verification engine</div>
-        <p class="cap-p">Every cash-on-delivery order is verified through a multi-channel sequence — WhatsApp, automated voice call, then manual escalation if unanswered — before the Shiprocket label is generated. Significantly reduces RTO.</p>
-        <div class="cap-stack">SHOPIFY · WHATSAPP · VOICE API · SHIPROCKET</div>
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></div>
+        <div class="cap-h">Production</div>
+        <p class="cap-p">Work orders and job cards issued against machines and operators, live progress on every job, and scheduling across multiple machines so the floor is planned rather than argued about each morning.</p>
+        <div class="cap-stack">JOB CARDS · MACHINE TRACKING · SCHEDULING</div>
       </div>
 
       <div class="cap-card">
-        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
-        <div class="cap-h">Cart recovery sequencing</div>
-        <p class="cap-p">Abandoned carts trigger a cross-channel recovery sequence — WhatsApp with a personalised discount, then email, then SMS — with logic that adapts based on customer history and AOV. Recovery flows reconcile back to Tally automatically.</p>
-        <div class="cap-stack">SHOPIFY · WHATSAPP · EMAIL · TALLY</div>
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg></div>
+        <div class="cap-h">Inventory &amp; wastage</div>
+        <p class="cap-p">Stock by weight, length or piece, with reorder alerts that warn before a line stops rather than after. Material issued is measured against material consumed on every job, so wastage is a daily number instead of a year-end surprise.</p>
+        <div class="cap-stack">STOCK · REORDER ALERTS · WASTAGE · SUPPLIER TERMS</div>
       </div>
 
       <div class="cap-card">
-        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-        <div class="cap-h">Shipping intelligence</div>
-        <p class="cap-p">Shipping data flows from Shiprocket and Delhivery into your customer's WhatsApp, your ops dashboard, and your Tally invoice records — synchronized in real time, with exception handling for stuck shipments.</p>
-        <div class="cap-stack">SHIPROCKET · DELHIVERY · WHATSAPP · DASHBOARD</div>
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7"/><rect x="3" y="3" width="7" height="7" rx="1"/></svg></div>
+        <div class="cap-h">Dispatch</div>
+        <p class="cap-p">Challans, e-way bills and invoices generated from the same dispatch record, so the three documents cannot disagree with one another. Drivers confirm delivery from the mobile app with a photograph.</p>
+        <div class="cap-stack">CHALLANS · E-WAY BILL · DELIVERY PROOF</div>
       </div>
 
       <div class="cap-card">
-        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-        <div class="cap-h">Review &amp; loyalty engine</div>
-        <p class="cap-p">Delivery confirmations from Shiprocket trigger review requests on Judge.me, unlock loyalty points in your customer database, and route negative reviews directly to your team's WhatsApp before they post publicly.</p>
-        <div class="cap-stack">SHIPROCKET · JUDGE.ME · WHATSAPP · CUSTOMER DB</div>
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <div class="cap-h">People &amp; money</div>
+        <p class="cap-p">Employee records, shift attendance captured on the floor, payroll calculated from that attendance, and a cash book showing what came in and what went out today. No second register and no separate HR software.</p>
+        <div class="cap-stack">ATTENDANCE · PAYROLL · CASH BOOK</div>
       </div>
 
       <div class="cap-card">
-        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-        <div class="cap-h">Inventory &amp; ad sync</div>
-        <p class="cap-p">When a SKU's stock drops below threshold, Threxa automatically pauses Meta and Google ads for that product, alerts your ops dashboard, and triggers a restock workflow with your supplier — without anyone touching a dashboard.</p>
-        <div class="cap-stack">SHOPIFY · META ADS · GOOGLE ADS · WHATSAPP</div>
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+        <div class="cap-h">On the owner's phone</div>
+        <p class="cap-p">Separate mobile views for the owner, the supervisor and the driver — each showing only what that person needs. Operator screens run in Kannada, Hindi and Tamil, because an ERP is adopted on the shop floor or nowhere.</p>
+        <div class="cap-stack">OWNER · SUPERVISOR · DRIVER · 4 LANGUAGES</div>
       </div>
 
-    </div>
-
-    <div class="also-auto">
-      <div class="also-auto-head">Custom workflows — Available on request</div>
-      <div class="also-auto-grid">
-        <div class="also-auto-item">
-          <div class="also-auto-name">Lead capture &amp; routing</div>
-          <div class="also-auto-desc">For agencies, real estate, and coaching businesses</div>
-        </div>
-        <div class="also-auto-item">
-          <div class="also-auto-name">AI customer support</div>
-          <div class="also-auto-desc">First-line response with human-handoff escalation</div>
-        </div>
-        <div class="also-auto-item">
-          <div class="also-auto-name">GST invoicing &amp; reconciliation</div>
-          <div class="also-auto-desc">Automated tax and compliance workflows</div>
-        </div>
-        <div class="also-auto-item">
-          <div class="also-auto-name">Internal operations</div>
-          <div class="also-auto-desc">HR onboarding, document approvals, reporting</div>
-        </div>
-      </div>
-      <p style="margin-top:24px;padding:20px;background:rgba(123,77,246,0.05);border-left:2px solid #7B4DF6;border-radius:4px;font-size:14px;line-height:1.6;color:rgba(10,10,15,0.7);max-width:720px;"><strong style="color:#0A0A0F;font-weight:600;">Not included in standard packages.</strong> Scope and pricing are confirmed on the audit call.</p>
-    </div>
-
-    <div class="not-block">
-      <div class="not-head">What Threxa is not</div>
-      <p class="not-body">We are not a Shopify app, a CRM, or a WhatsApp marketing tool. We do not replace Klaviyo, AiSensy, or your accounting software. <strong>Threxa is the integration layer that connects them</strong> — handling the custom logic, error recovery, and real-world edge cases that no off-the-shelf product covers. Threxa is designed to run alongside tools like AiSensy, Judge.me, and Tally. We are the orchestration that makes them work as one system.</p>
     </div>
   </div>
 </section>
 
 <section class="capabilities" id="systems" style="border-top:1px solid rgba(10,10,15,0.06);">
   <div class="container">
-    <span class="eyebrow">Operations systems</span>
-    <h2 class="display section-title">When automation isn't enough,<br/>we build the <em>operating system.</em></h2>
-    <p class="section-lede">Some operations don't need workflows bolted onto an existing tool — they need a system of their own. We designed and built a complete ERP for a corrugated box manufacturer: production, inventory, dispatch, finance, HR and analytics, in one dashboard.</p>
+    <span class="eyebrow">Where Threxa sits</span>
+    <h2 class="display section-title">Accounting software can't run a<br/>floor. Enterprise ERP <em>costs too much.</em></h2>
+    <p class="section-lede">Most operations we meet are choosing between three imperfect options. Threxa exists because none of them fit a business doing ₹2 to ₹50 crore.</p>
 
-    <figure class="demo-figure">
-      <figcaption class="demo-slate">Threxa SPS ERP — order trace</figcaption>
-      <div class="demo-shell">
-        <video autoplay muted loop playsinline preload="metadata"
-               poster="/threxa-demo-poster.jpg"
-               aria-label="A work order is searched and every production stage resolves in sequence">
-          <source src="/threxa-demo.webm" type="video/webm">
-          <source src="/threxa-demo.mp4" type="video/mp4">
-          <img src="/threxa-demo-poster.jpg" alt="Threxa ERP showing a work order traced through corrugation, printing, punching and pasting">
-        </video>
-      </div>
-      <p class="demo-cap">A customer asks where his order has reached. One work order number returns every stage,
-      the machine, the operator and the time — <strong>pasting still running at 4,560 of 7,600.</strong></p>
-    </figure>
-
-    <div class="cap-grid">
-      <div class="cap-card">
-        <div class="cap-h">Not a plug-in — a full system</div>
-        <p class="cap-p">Production tracking, inventory, dispatch, finance, HR and analytics, built from the ground up rather than assembled from plugins. Twelve modules, one dashboard, one login.</p>
-        <div class="cap-stack">PRODUCTION · INVENTORY · DISPATCH · FINANCE · HR · ANALYTICS</div>
-      </div>
-      <div class="cap-card">
-        <div class="cap-h">Built around your floor, not a demo</div>
-        <p class="cap-p">Most rollouts fail because a generic system asks operators to work in a sequence that isn't theirs. Three extra clicks on a step done two hundred times a day, and within a month nobody is entering data. We build to the sequence your floor already runs.</p>
-        <div class="cap-stack">PROCESS MAPPING · SHOP-FLOOR UX · PHASED ROLLOUT</div>
-      </div>
-      <div class="cap-card">
-        <div class="cap-h">Any domain, any geography</div>
-        <p class="cap-p">Manufacturing, logistics, distribution, services. If an operation runs on spreadsheets and message forwards today, it can be turned into a real system. Not e-commerce only, not India only.</p>
-        <div class="cap-stack">MANUFACTURING · LOGISTICS · DISTRIBUTION · SERVICES</div>
-      </div>
-      <div class="cap-card">
-        <div class="cap-h">One accountable build</div>
-        <p class="cap-p">The same people who design the system ship it and support it. No handoff to an implementation partner, no second vendor to chase when something breaks in week six.</p>
-        <div class="cap-stack">DESIGN · BUILD · DEPLOY · SUPPORT</div>
-      </div>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Registers &amp; WhatsApp</th>
+            <th>Accounting software</th>
+            <th>Enterprise ERP</th>
+            <th class="col-us">Threxa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Job cards &amp; work orders</td><td>On paper</td><td>Not covered</td><td>Yes</td><td class="col-us">Yes</td></tr>
+          <tr><td>Wastage measured per job</td><td>At stock-take</td><td>Not covered</td><td>With customisation</td><td class="col-us">As it happens</td></tr>
+          <tr><td>Live machine status</td><td>Walk the floor</td><td>Not covered</td><td>Yes</td><td class="col-us">Yes</td></tr>
+          <tr><td>GST invoices &amp; e-way bills</td><td>Manual</td><td>Yes</td><td>Yes</td><td class="col-us">Yes</td></tr>
+          <tr><td>Attendance &amp; payroll</td><td>Separate register</td><td>Add-on</td><td>Extra module</td><td class="col-us">Included from Factory</td></tr>
+          <tr><td>Operator screens in Kannada, Hindi, Tamil</td><td>—</td><td>No</td><td>No</td><td class="col-us">Yes</td></tr>
+          <tr><td>Owner's view on a phone</td><td>Phone calls</td><td>No</td><td>Extra licence</td><td class="col-us">Every plan</td></tr>
+          <tr><td>Built around your existing process</td><td>—</td><td>No</td><td>At consulting rates</td><td class="col-us">Included in setup</td></tr>
+        </tbody>
+      </table>
     </div>
-
-    <div class="not-block">
-      <div class="not-head">How these builds are priced</div>
-      <p class="not-body">No two operations run the same sequence, so these are scoped rather than sold from a price list. <strong>Implementation from ₹1,00,000, then from ₹15,000 per month</strong> for hosting, support and ongoing changes.</p>
-      <p style="margin-top:24px;"><a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book a build call <span class="arrow">→</span></a></p>
-    </div>
+    <p class="compare-note">Threxa does not replace your accounting software. It runs the floor and the operations side, and hands the figures over clean.</p>
   </div>
 </section>
 
 <section class="how" id="how">
   <div class="container">
-    <span class="eyebrow">How it works</span>
-    <h2 class="display section-title">From audit to live<br/>in <em>five working days.</em></h2>
-    <p class="section-lede">A structured engagement with clear milestones. You see results before you commit.</p>
+    <span class="eyebrow">How it starts</span>
+    <h2 class="display section-title">Configured to your process,<br/>not <em>the other way round.</em></h2>
+    <p class="section-lede">The setup fee covers a visit to your premises, configuration to your machines and process, loading of your existing data, and training on site. Payment is 60% on signing and 40% at go-live; monthly billing begins at go-live, not at signing.</p>
 
     <div class="how-grid">
       <div class="how-step">
         <div class="how-num">01</div>
-        <div class="how-h">Audit</div>
-        <p class="how-p">A 45-minute call to map your current workflow — every system involved, every manual handoff, and the points where revenue or time is being lost.</p>
+        <div class="how-h">We study your line</div>
+        <p class="how-p">A visit to your premises to see how a job actually moves from order to dispatch, what your supervisors already record, and which of your formats the system has to match. Not a questionnaire.</p>
       </div>
       <div class="how-step">
         <div class="how-num">02</div>
-        <div class="how-h">Build</div>
-        <p class="how-p">Your first workflow is built and tested on a copy of your real data. You receive a recorded walkthrough showing it run end-to-end before go-live.</p>
+        <div class="how-h">We configure and load</div>
+        <p class="how-p">Your machines, process, product master and box or item styles configured to match. Existing customers, products, stock and opening balances read out of Tally or Excel and loaded — included in the setup fee, not billed separately.</p>
       </div>
       <div class="how-step">
         <div class="how-num">03</div>
-        <div class="how-h">Deploy &amp; monitor</div>
-        <p class="how-p">Once approved, the workflow goes live. We monitor it 24/7, alert you to failures, and handle fixes as part of the engagement. No surprise bills.</p>
+        <div class="how-h">We train on site, then stay</div>
+        <p class="how-p">Office staff and supervisors trained at your premises, in the language they work in. Go-live support continues until your first month closes cleanly, with two rounds of configuration changes during implementation and one more within thirty days of go-live.</p>
       </div>
     </div>
   </div>
 </section>
-
-<div class="stack-strip">
-  <div class="container">
-    <div class="stack-label">Native integrations with the tools you already use</div>
-    <div class="stack-logos">
-      <span class="stack-logo">Shopify</span>
-      <span class="stack-logo">Tally Prime</span>
-      <span class="stack-logo">Razorpay</span>
-      <span class="stack-logo">Shiprocket</span>
-      <span class="stack-logo">Delhivery</span>
-      <span class="stack-logo">AiSensy</span>
-      <span class="stack-logo">Judge.me</span>
-      <span class="stack-logo">Gupshup</span>
-    </div>
-  </div>
-</div>
 
 <section class="pricing" id="pricing">
   <div class="container">
     <span class="eyebrow">Pricing</span>
-    <h2 class="display section-title">Transparent pricing.<br/>Scale with <em>confidence.</em></h2>
-    <p class="section-lede">Fixed monthly rates based on how many workflows you need and how much support sits behind them. No setup fee on automation plans. Custom operations systems are priced separately — see Systems above. </p>
-
-    <div class="pricing-toggle-wrap" style="display: none;">
-      <div class="pricing-toggle" role="tablist">
-        <button class="toggle-btn active" data-period="monthly" onclick="setPeriod('monthly')">Monthly</button>
-        <button class="toggle-btn" data-period="annual" onclick="setPeriod('annual')">Annual <span class="save-badge">Save 20%</span></button>
-      </div>
-    </div>
+    <h2 class="display section-title">Priced by the size of the<br/>operation, not <em>per seat.</em></h2>
+    <p class="section-lede">Three plans, each with a one-time setup and implementation fee. All amounts exclude GST at 18%. Ten months paid in advance provides twelve months of service.</p>
 
     <div class="pricing-grid">
 
       <div class="price-card">
-        <div class="price-tier">Launch</div>
+        <div class="price-tier">Shop Floor</div>
         <div class="price-amount-wrap">
-          <span class="price-amount" data-monthly="₹15,000" data-annual="₹15,000">₹15,000</span>
+          <span class="price-amount">₹12,000</span>
           <span class="price-amount-suffix">/ month</span>
         </div>
-        <div class="price-setup" data-monthly-setup="One workflow · No lock-in" data-annual-setup="One workflow · No lock-in">One workflow · No lock-in</div>
-        <p class="price-tagline">A single automated workflow built and managed end-to-end. Suited for operations automating their first process.</p>
+        <div class="price-setup">₹60,000 one-time setup &amp; implementation</div>
+        <p class="price-tagline">Sales and billing for a smaller unit — 5 to 20 workers, up to 5 desktop users. The quotation, order and invoice chain, properly recorded.</p>
 
         <div class="price-included-label">What's included</div>
         <ul class="price-list">
-          <li>One workflow of your choice — order processing, payment or delivery confirmation, dispatch updates, or stock reconciliation</li>
-          <li>Configuration across your order system, WhatsApp Business, and one accounting or logistics integration</li>
-          <li>Recorded training session for your team</li>
-          <li>24/7 automated monitoring with failure alerts</li>
-          <li>Email and WhatsApp support on working days</li>
-          <li>Weekly performance summary</li>
-          <li>Full workflow documentation and handover</li>
+          <li>Customer master and product master</li>
+          <li>Quotations calculated from material grade and dimensions</li>
+          <li>Sales orders, GST invoices with CGST / SGST / IGST</li>
+          <li>Delivery challans generated as PDF</li>
+          <li>Owner dashboard on mobile</li>
+          <li>Operator screens in Kannada, Hindi and Tamil</li>
+          <li>On-site implementation and WhatsApp support</li>
         </ul>
 
-        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Start with Launch</a>
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Request a quotation</a>
       </div>
 
       <div class="price-card featured">
-        <div class="price-badge">Recommended</div>
-        <div class="price-tier">Growth</div>
+        <div class="price-badge">Most selected</div>
+        <div class="price-tier">Factory</div>
         <div class="price-amount-wrap">
-          <span class="price-amount" data-monthly="₹40,000" data-annual="₹40,000">₹40,000</span>
+          <span class="price-amount">₹28,000</span>
           <span class="price-amount-suffix">/ month</span>
         </div>
-        <div class="price-setup" data-monthly-setup="Three core workflows · No lock-in" data-annual-setup="Three core workflows · No lock-in">Three core workflows · No lock-in</div>
-        <p class="price-tagline">The full operations layer — order orchestration, confirmation flows, follow-up sequencing, and dispatch intelligence. Suited for operations connecting several processes across sales, accounts, and dispatch.</p>
+        <div class="price-setup">₹1,00,000 one-time setup &amp; implementation</div>
+        <p class="price-tagline">The full floor — 15 to 50 workers, unlimited desktop users. Production, inventory, people and money in one system.</p>
 
-        <div class="price-included-label">Everything in Launch, plus</div>
+        <div class="price-included-label">Everything in Shop Floor, plus</div>
         <ul class="price-list">
-          <li>Three core workflows configured and connected</li>
-          <li>Accounting and logistics integrations included — Tally Prime, Shiprocket, Delhivery or equivalents</li>
-          <li>Customer and vendor follow-up sequencing across WhatsApp, email, and SMS</li>
-          <li>Live operations dashboard with impact metrics</li>
-          <li>Real-time failure alerts to your phone</li>
-          <li>Priority support — same-day response on working days, ahead of Launch queue</li>
-          <li>Monthly performance review and optimization recommendations</li>
+          <li>Work orders, job cards and machine-wise tracking</li>
+          <li>Stock by weight or grade with reorder level alerts</li>
+          <li>Supplier credit terms</li>
+          <li>Employee records, attendance and payroll</li>
+          <li>Cash book</li>
+          <li>Supervisor job cards and driver dispatch app with delivery photo</li>
+          <li>Unlimited desktop users</li>
         </ul>
 
-        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Start with Growth</a>
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Request a quotation</a>
       </div>
 
       <div class="price-card">
-        <div class="price-tier">Pro</div>
+        <div class="price-tier">Plant</div>
         <div class="price-amount-wrap">
-          <span class="price-amount" data-monthly="₹80,000" data-annual="₹80,000">₹80,000</span>
+          <span class="price-amount">₹55,000</span>
           <span class="price-amount-suffix">/ month</span>
         </div>
-        <div class="price-setup" data-monthly-setup="Expanded workflow scope · No lock-in" data-annual-setup="Expanded workflow scope · No lock-in">Expanded workflow scope · No lock-in</div>
-        <p class="price-tagline">Broader workflow scope, multi-site support, and dedicated build capacity. Suited for established operations running multiple locations, units, or storefronts.</p>
+        <div class="price-setup">₹2,00,000 one-time setup &amp; implementation</div>
+        <p class="price-tagline">For 40 or more workers, multiple machines and a plant that needs its systems reconciled daily rather than monthly.</p>
 
-        <div class="price-included-label">Everything in Growth, plus</div>
+        <div class="price-included-label">Everything in Factory, plus</div>
         <ul class="price-list">
-          <li>Workflow scope agreed at kickoff and expanded as your operation changes</li>
-          <li>Multi-site support — up to three storefronts, branches, or production units</li>
-          <li>Custom integrations with niche or proprietary systems</li>
-          <li>Priority build queue — your workflows go to the front of the line</li>
-          <li>Automated uptime monitoring with alerting on every workflow</li>
-          <li>Quarterly business review with strategic recommendations</li>
-          <li>Priority support with direct escalation</li>
+          <li>Multi-machine scheduling</li>
+          <li>Tally live sync, both directions</li>
+          <li>E-way bill generated from dispatch</li>
+          <li>Custom report formats</li>
+          <li>Written service agreement</li>
+          <li>Quarterly on-site visit</li>
         </ul>
 
-        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Start with Pro</a>
+        <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="price-cta">Request a quotation</a>
       </div>
 
     </div>
 
-    <p class="price-note">All plans include automated monitoring and failure alerts. Reporting cadence varies by plan. Plans are scoped by workflow count and complexity, not transaction volume. If your run volume changes materially we revisit it together — no surprise bills.</p>
+    <p class="compare-note">Modules are also available individually from ₹2,500 a month where a full plan is more than required. Additional training days, second locations, historical data cleanup and factory-specific custom work are quoted separately in writing before any work begins.</p>
   </div>
 </section>
 
 <section class="founder" id="about">
-  <div class="container">
-    <div class="founder-grid">
-      <div class="founder-meta">
-        <span class="eyebrow" style="margin-bottom: 28px;">Why Threxa exists</span>
-        <div class="founder-name">Built for the stack you already run</div>
-      </div>
-      <div class="founder-text">
-        <p>Threxa was built after watching D2C teams run their businesses through brute force — copy-pasting orders into Tally at midnight, manually messaging customers on WhatsApp, calling buyers to confirm cash-on-delivery before each shipment.</p>
-        <p>The tools to automate this work have existed for years. None of them were built for the stacks these businesses actually run — Tally, not QuickBooks. Razorpay, not Stripe. WhatsApp Business, not email-first. Shiprocket and Delhivery, not FedEx.</p>
-        <p>So we built the layer that connects them. <strong>We take on a limited number of engagements at a time so each one gets proper attention.</strong> If your operation has reached the point where adding more people is the only answer to growth, we should talk.</p>
-      </div>
-    </div>
+  <div class="container-narrow">
+    <span class="eyebrow">Why it's built this way</span>
+    <h2 class="display section-title">Built on a shop floor,<br/>not in an <em>office.</em></h2>
+    <p class="section-lede">Threxa was built first for corrugated box manufacturing — an industry where a single percent of trim loss is the whole margin. That meant modelling reel stock by GSM and BF, job cards that follow corrugation through printing, die cutting and pasting, and quotations calculated from board grade and box dimensions.</p>
+    <p class="section-lede">Most of that depth is invisible to a plastics or garment unit. What is not invisible is the consequence: a system designed by someone who stood on a factory floor asks for the numbers a business actually has, in the order the work actually happens. That is the difference between software a supervisor uses and software a supervisor works around.</p>
+    <p class="section-lede">It runs in a browser. No server, no database licence, no IT staff.</p>
   </div>
 </section>
 
@@ -1029,52 +975,36 @@
 
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">What does Threxa actually do? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Two things. We automate the repetitive parts of an operations stack you already run — Shopify, Tally, WhatsApp, Razorpay, Shiprocket. And when spreadsheets and WhatsApp groups stop holding an operation together, we design and build the system that replaces them. Same discipline, different scale.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Do we have to stop using Tally? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>No. Threxa runs the floor and the operations side while your accountant carries on in Tally. Reading your existing customers, products and balances out of Tally or Excel at go-live is included in the setup fee. On the Plant plan a two-way live sync keeps both systems reconciled daily, which is a separate and optional facility.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">We're a manufacturer, not an online brand. Is this for us? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Yes. We designed and built a complete ERP from scratch for a corrugated box manufacturer — job cards, production tracking, inventory, dispatch, invoicing, attendance, payroll and cash book in a single dashboard. If your plant runs on registers, Excel sheets and WhatsApp forwards, that is exactly the problem we solve.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Our supervisors are not computer people. <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>The shop-floor screens run in Kannada, Hindi and Tamil, on a phone, and are built around a job card rather than a form. Training happens at your premises, in the language your people work in, and is part of the setup fee rather than an extra. Further languages are available on request.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Why not just buy an off-the-shelf ERP? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>If a packaged ERP fits your process, buy it — it will be cheaper. Most plant owners we speak to have already tried one and abandoned it, because the software expected them to change how they work. We build around your existing process — your job card format, your rate structure, your dispatch flow — so adoption does not require retraining the whole floor.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">We tried an ERP before and it failed. <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Most do, and nearly always for the same reason — the software was sold to the office and never adopted on the floor, because it expected the business to change how it works. The setup fee exists precisely to avoid that: a visit to study your line, configuration to your process and formats, and training of the people who will actually touch it.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">How long before we see something working? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Automation engagements go live fast: on Launch and Growth the first workflow is running within five working days of signing. For a full operations system, the first module is live in two to three weeks and the complete rollout typically runs eight to twelve weeks, module by module, so your team absorbs it in stages instead of switching everything over on a Monday morning.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">What does the setup fee actually cover? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>A visit to your premises to study how the line runs; configuration to your process, machines and product styles; loading of your existing customer, product, stock and opening-balance data; training of office staff and supervisors on site; and go-live support until your first month closes cleanly. Payment is 60% on signing and 40% at go-live. Monthly billing starts at go-live, not at signing.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Our supervisors are not technical. Will they actually use it? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>It is built for that. Large touch targets for shop-floor tablets, no jargon, and the daily actions are two taps deep. Training is a single session per role. If a screen needs explaining, we treat that as our design failure, not your team's.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Can we take only the modules we need? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Yes. Begin with Shop Floor and add individual modules — production and job cards, reel or stock inventory, attendance and payroll, cash book, the supervisor or driver applications. Two or three modules is generally the point at which the Factory plan becomes the lower cost, and we will tell you when you have reached it.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Who owns the system if we stop working together? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>You do. The code, the database and the data are yours. We can deploy on infrastructure registered in your name from day one, and you get a full export whenever you ask. There is no scenario where your operations are held hostage by us.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">What happens to our data if we leave? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>It is exportable to Excel at any time, including on exit. Notice is one month on either side. The setup fee is non-refundable once work has begun.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">What does it cost? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Automation retainers run from ₹15,000 to ₹80,000 a month depending on tier, as listed above. The SPS ERP for corrugated box manufacturers is sold in three plans — Shop Floor at ₹12,000 a month, Factory at ₹28,000 and Plant at ₹55,000, with a one-time setup and implementation fee of ₹60,000, ₹1,00,000 and ₹2,00,000 respectively. Modules can also be taken individually. All prices exclude GST. You get the number in writing before any work starts.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">Will you build something specific to our factory? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Where a request would be useful to other units in your industry, it is built into the product at no charge. Work specific to your factory alone is quoted at a day rate with a three-day minimum, agreed in writing before anything begins.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Is there a lock-in? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>No. One month's notice on either side, and that applies from day one. The setup or implementation fee is non-refundable once work has begun, which is the only commitment there is. Your data stays yours and is exportable to Excel at any time, including on exit.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Where is our data stored, and is it secure? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>On infrastructure hosted in Indian data centres. Credentials and API tokens are encrypted at rest, and we hold only what a workflow needs to run. For operations systems and ERP builds we can deploy entirely on your own cloud account, so nothing sits with us at all.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Are the invoices GST-compliant? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Yes. Invoices generated through our integrations follow Indian GST e-invoicing standards, including IRN generation, and we can wire in e-way bill generation for dispatch. We work alongside your existing CA's reconciliation process rather than replacing it.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">What happens if a workflow breaks? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Workflows are monitored around the clock. If a failure occurs — an expired API token, an integration outage — both you and our team are alerted automatically, usually before you notice. Every action is logged, so we can tell you exactly what failed and when. Repairs are part of every plan; we do not charge separately for fixes.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-trigger" onclick="toggleFAQ(this)">Can we see it working before we commit? <span class="faq-icon">+</span></button>
-        <div class="faq-content"><p>Yes. We will walk you through the live ERP we built for a working box plant, and for automation work you get a recorded run of the workflow against a copy of your own order data before anything goes live.</p></div>
+        <button class="faq-trigger" onclick="toggleFAQ(this)">How many people are behind this? <span class="faq-icon">+</span></button>
+        <div class="faq-content"><p>Small, deliberately. You deal directly with the person who built the system rather than a support queue. If that is a concern it is a fair one — ask for a reference call before you commit to anything.</p></div>
       </div>
     </div>
   </div>
@@ -1082,11 +1012,15 @@
 
 <section class="final">
   <div class="container">
-    <h2 class="display">Ready to see Threxa<br/>run on <em>your operation?</em></h2>
-    <p>Book a 30-minute audit. We'll map how your operation runs today and show you the highest-impact place to start.</p>
-    <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book your free audit <span class="arrow">→</span></a>
+    <h2 class="display">See it on <em>your own numbers.</em></h2>
+    <p class="section-lede">A visit to your premises, your jobs, your material rates. You receive a written quotation with the figures fixed before any work begins.</p>
+    <div class="hero-ctas">
+      <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book a demo <span class="arrow">→</span></a>
+      <a href="https://wa.me/917483992418" target="_blank" rel="noopener" class="btn-secondary">WhatsApp +91 74839 92418</a>
+    </div>
   </div>
 </section>
+
 
 <footer>
   <div class="container">

@@ -1,0 +1,18 @@
+# Threxa
+
+> Threxa ERP is an ERP for corrugated box manufacturers and other factories that run on inventory. Built and supported in Bengaluru, India, by Threxa, a unit of The Ingredient List.
+
+Threxa ERP covers reel and paper stock by GSM and BF, work orders and job cards that follow each job through corrugation, printing, die cutting and pasting, machine-wise production tracking, wastage recorded at every stage, quotations calculated from board grade and box dimensions, GST invoices, delivery challans and e-way bills, a driver dispatch app with delivery photos, attendance, payroll and cash book. Shop-floor screens run on a phone in Kannada, Hindi and Tamil. It works alongside Tally; the Plant plan adds two-way Tally sync.
+
+Pricing (excluding 18% GST): Shop Floor ₹12,000/month + ₹60,000 setup; Factory ₹28,000/month + ₹1,00,000 setup; Plant ₹55,000/month + ₹2,00,000 setup. Individual modules from ₹2,500/month. Setup includes an on-site visit, configuration, data loading and on-site training.
+
+## Links
+
+- [Website](https://threxa.theingredientlist.co/): product overview, pricing and FAQ
+- [45-second demo video](https://threxa.theingredientlist.co/threxa-erp-demo.mp4)
+- [Book a demo](https://cal.com/threxa/threxa-free-audit)
+
+## Contact
+
+- Sachin JK, founder: sachin@theingredientlist.co, +91 74839 92418 (WhatsApp)
+- Bengaluru, Karnataka, India

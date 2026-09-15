@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Threxa — Operations Automation &amp; Custom ERP for Indian Businesses</title>
-<meta name="description" content="Threxa builds workflow automation and custom operations systems — connecting Shopify, Tally, Razorpay, Shiprocket and WhatsApp, and building full ERPs where automation is not enough." />
+<meta name="description" content="Threxa is an ERP for businesses that run on inventory — job cards, material and wastage tracking, dispatch with GST e-invoices and e-way bills, attendance and payroll, on one login. Built in Bengaluru." />
 <meta property="og:title" content="Threxa — Operations Automation &amp; Custom ERP" />
 <meta property="og:description" content="Automation and custom operations systems for businesses whose tools do not talk to each other." />
 <meta property="og:url" content="https://threxa.theingredientlist.co/" />
@@ -15,7 +15,7 @@
   <meta property="og:locale" content="en_IN" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Threxa — operations systems for manufacturers and D2C brands" />
+  <meta property="og:image:alt" content="Threxa — the ERP for businesses that run on inventory" />
   <meta name="twitter:title" content="Threxa — Operations Automation &amp; Custom ERP" />
   <meta name="twitter:description" content="Automation and custom operations systems for businesses whose tools do not talk to each other." />
   <meta name="twitter:image" content="https://threxa.theingredientlist.co/og-image.png" />
@@ -499,6 +499,38 @@
   font-size:13.5px; line-height:1.65; color:rgba(10,10,15,.42);
 }
 
+/* ── 45-second demo modal ────────────────────────────────────────── */
+.demo-modal{
+  position:fixed; inset:0; z-index:200; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(10,10,15,.86); backdrop-filter:blur(6px);
+  padding:24px;
+}
+.demo-modal.open{display:flex; animation:demoFade .25s ease;}
+@keyframes demoFade{from{opacity:0}to{opacity:1}}
+.demo-modal-inner{
+  position:relative; width:min(480px, 92vw);
+}
+.demo-modal-inner video{
+  width:100%; display:block; border-radius:20px;
+  box-shadow:0 40px 90px -20px rgba(0,0,0,.6);
+}
+.demo-modal-close{
+  position:absolute; top:-16px; right:-16px; width:40px; height:40px;
+  border-radius:50%; border:none; cursor:pointer;
+  background:#FAFAF7; color:#0A0A0F; font-size:22px; line-height:1;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+@media (max-width:640px){
+  .demo-modal-close{top:-14px; right:2px;}
+}
+
+
+  /* scroll reveal — single consistent motion, applied by JS */
+  .rv{opacity:0; transform:translateY(14px);
+      transition:opacity .6s cubic-bezier(.2,.6,.2,1), transform .6s cubic-bezier(.2,.6,.2,1);}
+  .rv.in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion: reduce){ .rv{opacity:1; transform:none; transition:none;} }
 </style>
   <script type="application/ld+json">
 {
@@ -587,6 +619,18 @@
       "contentUrl": "https://threxa.theingredientlist.co/threxa-demo.mp4",
       "uploadDate": "2026-07-24",
       "duration": "PT34S",
+      "publisher": {
+        "@id": "https://threxa.theingredientlist.co/#org"
+      }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Threxa ERP — 45 second demo",
+      "description": "Four questions a plant owner cannot answer at the end of a shift, each answered by the Threxa ERP screen that answers it.",
+      "thumbnailUrl": "https://threxa.theingredientlist.co/threxa-demo-poster.jpg",
+      "contentUrl": "https://threxa.theingredientlist.co/threxa-erp-demo.mp4",
+      "uploadDate": "2026-09-15",
+      "duration": "PT47S",
       "publisher": {
         "@id": "https://threxa.theingredientlist.co/#org"
       }
@@ -722,17 +766,26 @@
     <p class="hero-sub">Threxa is an ERP for businesses that run on inventory. Material, job cards, wastage, dispatch, invoicing and payroll — measured the day it happens, on one login.</p>
     <div class="hero-ctas">
       <a href="https://cal.com/threxa/threxa-free-audit" target="_blank" rel="noopener" class="btn-primary">Book a demo <span class="arrow">→</span></a>
-      <a href="#demo" class="btn-secondary">Watch the 45-second demo</a>
+      <button type="button" class="btn-secondary" onclick="openDemo()">Watch the 45-second demo</button>
     </div>
     <p class="hero-source">14–15% is the figure the trade press reports for the average Indian corrugation plant. Most owners we meet have never measured their own.</p>
   </div>
 
-  <div class="hero-showcase" id="demo">
-    <div class="showcase-frame">
-      <video controls preload="metadata" playsinline class="demo-video">
-        <source src="/threxa-erp-demo.mp4" type="video/mp4"/>
-      </video>
-    </div>
+  <div class="hero-showcase">
+    <figure class="demo-figure" style="margin:0 auto;">
+      <figcaption class="demo-slate">Threxa ERP — order trace</figcaption>
+      <div class="demo-shell">
+        <video autoplay muted loop playsinline preload="metadata"
+               poster="/threxa-demo-poster.jpg"
+               aria-label="A work order is searched and every production stage resolves in sequence">
+          <source src="/threxa-demo.webm" type="video/webm">
+          <source src="/threxa-demo.mp4" type="video/mp4">
+          <img src="/threxa-demo-poster.jpg" alt="Threxa ERP showing a work order traced through corrugation, printing, punching and pasting">
+        </video>
+      </div>
+      <p class="demo-cap">A customer asks where his order has reached. One work order number returns every stage,
+      the machine, the operator and the time — <strong>pasting still running at 4,560 of 7,600.</strong></p>
+    </figure>
   </div>
 </section>
 
@@ -1021,6 +1074,16 @@
   </div>
 </section>
 
+<!-- ── 45-second demo modal ─────────────────────────────────────── -->
+<div class="demo-modal" id="demoModal" role="dialog" aria-modal="true" aria-label="Threxa 45 second demo" onclick="if(event.target===this)closeDemo()">
+  <div class="demo-modal-inner">
+    <button class="demo-modal-close" onclick="closeDemo()" aria-label="Close demo">×</button>
+    <video id="demoVideo" controls playsinline preload="none" poster="/threxa-erp-demo-poster.jpg">
+      <source src="/threxa-erp-demo.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
 
 <footer>
   <div class="container">
@@ -1088,6 +1151,40 @@
 
 <script>
   function toggleFAQ(btn) { btn.parentElement.classList.toggle('open'); }
+  function openDemo() {
+    const m = document.getElementById('demoModal');
+    const v = document.getElementById('demoVideo');
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    v.currentTime = 0; v.play();
+  }
+  function closeDemo() {
+    const m = document.getElementById('demoModal');
+    const v = document.getElementById('demoVideo');
+    v.pause();
+    m.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDemo(); });
+
+  // scroll reveal: one motion, staggered inside each group, runs once
+  document.addEventListener('DOMContentLoaded', () => {
+    const targets = document.querySelectorAll(
+      '.section-title, .section-lede, .problem-card, .cap-card, .how-step, ' +
+      '.price-card, .compare-wrap, .faq-item, .demo-figure, .final .display');
+    targets.forEach(el => el.classList.add('rv'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        const sibs = el.parentElement ? [...el.parentElement.children].filter(c => c.classList.contains('rv')) : [el];
+        el.style.transitionDelay = (Math.max(0, sibs.indexOf(el)) * 70) + 'ms';
+        el.classList.add('in');
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    targets.forEach(el => io.observe(el));
+  });
   function toggleChat() { document.getElementById('chatbotPanel').classList.toggle('open'); }
   function setPeriod(period) {
     document.querySelectorAll('.toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.period === period));
